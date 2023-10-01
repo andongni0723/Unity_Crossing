@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9067876892641797973}
   - component: {fileID: 3505970658651411935}
   - component: {fileID: 6072320011265473202}
-  - component: {fileID: 4358986832067273680}
   m_Layer: 0
   m_Name: Wall VFX
   m_TagString: Untagged
@@ -99,18 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endPosition: {x: 0, y: 0, z: 0}
-  time: 1
---- !u!114 &4358986832067273680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6080736225690294302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3a95480480594eb6a1660747fd066ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  VFXPrefab: {fileID: 0}
-  VFXEndPosition: {x: 0, y: 0, z: 0}
+  time: 0.3

@@ -230,7 +230,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -295,7 +295,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
-  VFXEndPosition: {x: -1, y: 0, z: 0}
+  VFXEndPosition: {x: -0.7, y: 0, z: 0}
+  shakeIntensity: 0.5
+  shakeDuration: 0.05
 --- !u!1 &378765915
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,6 +437,8 @@ MonoBehaviour:
   FireVFXPrefab: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   firePoint: {fileID: 1110923908}
   fireVFXPoint: {fileID: 1950904227}
+  shakeIntensity: 0.2
+  shakeDuration: 0.05
 --- !u!1 &393718919
 GameObject:
   m_ObjectHideFlags: 0
@@ -5497,7 +5501,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5520,7 +5524,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
-  VFXEndPosition: {x: 0, y: 1, z: 0}
+  VFXEndPosition: {x: 0, y: 0.5, z: 0}
+  shakeIntensity: 0.5
+  shakeDuration: 0.05
 --- !u!1 &771920459
 GameObject:
   m_ObjectHideFlags: 0
@@ -6470,7 +6476,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6493,7 +6499,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
-  VFXEndPosition: {x: 1, y: 0, z: 0}
+  VFXEndPosition: {x: 0.7, y: 0, z: 0}
+  shakeIntensity: 0.5
+  shakeDuration: 0.05
 --- !u!1 &1918959048
 GameObject:
   m_ObjectHideFlags: 0
@@ -6643,7 +6651,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6666,7 +6674,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
-  VFXEndPosition: {x: 0, y: -1, z: 0}
+  VFXEndPosition: {x: 0, y: -0.5, z: 0}
+  shakeIntensity: 0.5
+  shakeDuration: 0.05
 --- !u!1 &1950904226
 GameObject:
   m_ObjectHideFlags: 0
