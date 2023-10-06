@@ -19,5 +19,6 @@ public class PlayerFire : MonoBehaviour
         Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Instantiate(FireVFXPrefab, fireVFXPoint.position, firePoint.rotation);
         CameraManager.Instance.CameraShake(shakeIntensity, shakeDuration);
+        AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.fireSound);
     }
 }

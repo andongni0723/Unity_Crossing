@@ -31,16 +31,32 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         _collisionCount++;
-        if(_collisionCount >= 2)
+        Debug.Log(other.gameObject.name);
+
+        if (other.gameObject.TryGetComponent(typeof(BaseHealth), out var health))
+        {
+            // Check Collision item can hurt or not
+            (health as BaseHealth).TakeDamage(damage);
+            
+            AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitSound);
             Destroy(gameObject);
+        }
+        else if (_collisionCount >= 2)
+        {
+            // Rebound more time
+            AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitSound);
+            Destroy(gameObject);
+        }
+        else
+        {
+            // Rebound
+            Vector2 inVec = transform.position - _point;
+            _point = transform.position;
+            Vector2 outVec = Vector2.Reflect(inVec, other.contacts[0].normal);
+            rb.velocity = outVec.normalized * speed;
         
-        // Rebound
-        Vector2 inVec = transform.position - _point;
-        _point = transform.position;
-        Vector2 outVec = Vector2.Reflect(inVec, other.contacts[0].normal);
-        rb.velocity = outVec.normalized * speed;
-        
-        
+            AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound); 
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
