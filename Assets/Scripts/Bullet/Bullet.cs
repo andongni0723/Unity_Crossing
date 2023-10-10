@@ -38,6 +38,10 @@ public class Bullet : MonoBehaviour
             // Check Collision item can hurt or not
             (health as BaseHealth).TakeDamage(damage);
             
+            // Check if bullet is hit enemy when bullet is rebound
+            if(_collisionCount == 2)
+                GameManager.Instance.AddScore(1);
+            
             AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitSound);
             Destroy(gameObject);
         }

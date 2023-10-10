@@ -8,12 +8,14 @@ public class CameraManager : Singleton<CameraManager>
 {
     private new CinemachineVirtualCamera camera;
     private CinemachineBasicMultiChannelPerlin noise;
+    
 
     protected override void Awake()
     {
         base.Awake();
         camera = GetComponent<CinemachineVirtualCamera>();
         noise = camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        
     }
 
     public void CameraShake(float intensity, float time)

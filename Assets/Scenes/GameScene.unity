@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &57567206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 57567208}
+  - component: {fileID: 57567207}
+  m_Layer: 0
+  m_Name: \\\\WallTimer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &57567207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57567206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02e7653fb9c7411791856ba93a5c25d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallTimer: 0
+  wallTimerMax: 0.5
+--- !u!4 &57567208
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57567206}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &62176581
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,9 +341,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
+  PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: -0.7, y: 0, z: 0}
   shakeIntensity: 0.5
   shakeDuration: 0.05
+  playerXCrossing: 1
+  playerYCrossing: 0
 --- !u!1 &111878832
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,9 +547,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe056efacf644955a12106dcae7b82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 3
   defense: 0
   currentHealth: 0
+  healthText: {fileID: 804186410}
 --- !u!1 &393718919
 GameObject:
   m_ObjectHideFlags: 0
@@ -5586,9 +5636,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
+  PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: 0, y: 0.5, z: 0}
   shakeIntensity: 0.5
   shakeDuration: 0.05
+  playerXCrossing: 0
+  playerYCrossing: 1
 --- !u!1 &699211776
 GameObject:
   m_ObjectHideFlags: 0
@@ -5614,7 +5667,7 @@ Transform:
   m_GameObject: {fileID: 699211776}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.35, y: 5.74, z: -0.027916841}
+  m_LocalPosition: {x: 9.43, y: -6.61, z: -0.027916841}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6261,8 +6314,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5793317099701448458, guid: 0abf9776629154209a50332e20c7ea03, type: 3}
-  minSpawnRange: {x: -10, y: -6}
-  maxSpawnRange: {x: 10, y: 6}
+  waitNextSpawnTime: 1.5
+  waitNextWaveTime: 3
+  SpawnPositionsList:
+  - name: Up
+    minSpawnRange: {x: -10, y: 6}
+    maxSpawnRange: {x: 10, y: 6}
+  - name: Down
+    minSpawnRange: {x: -10, y: -6}
+    maxSpawnRange: {x: -10, y: -6}
+  - name: Left
+    minSpawnRange: {x: 10, y: -6}
+    maxSpawnRange: {x: 10, y: 6}
+  - name: Right
+    minSpawnRange: {x: -10, y: -6}
+    maxSpawnRange: {x: -10, y: 6}
 --- !u!4 &1533809512
 Transform:
   m_ObjectHideFlags: 0
@@ -6649,9 +6715,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
+  PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: 0.7, y: 0, z: 0}
   shakeIntensity: 0.5
   shakeDuration: 0.05
+  playerXCrossing: 1
+  playerYCrossing: 0
 --- !u!1 &1918959048
 GameObject:
   m_ObjectHideFlags: 0
@@ -6824,9 +6893,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
+  PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: 0, y: -0.5, z: 0}
   shakeIntensity: 0.5
   shakeDuration: 0.05
+  playerXCrossing: 0
+  playerYCrossing: 1
 --- !u!1 &1950904226
 GameObject:
   m_ObjectHideFlags: 0
@@ -7013,6 +7085,7 @@ SceneRoots:
   - {fileID: 1733476118}
   - {fileID: 111878833}
   - {fileID: 1533809512}
+  - {fileID: 57567208}
   - {fileID: 378765919}
   - {fileID: 1044842808}
   - {fileID: 771920462}

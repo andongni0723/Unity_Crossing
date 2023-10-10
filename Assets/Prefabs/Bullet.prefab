@@ -5075,4 +5075,4 @@ MonoBehaviour:
   _collisionCount: 0
   DestroyVFXPrefab: {fileID: 3808002460710254342, guid: b3c4bfcc829264b2682e2720adab1c6b, type: 3}
   speed: 10
-  damage: 100
+  damage: 1
