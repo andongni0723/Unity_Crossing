@@ -52,7 +52,7 @@ public class EnemyController : MonoBehaviour
 
     #endregion
     
-    public void Update()
+    public void LateUpdate()
     {
         if(_target == null) return;
         

@@ -10,4 +10,18 @@ public class EventHandler : MonoBehaviour
     {
         PlayerCrossing?.Invoke(pastPosition);
     }
+
+    public static event Action PlayerHurt;
+
+    public static void CallPlayerHurt()
+    {
+        PlayerHurt?.Invoke();
+    }
+
+    public static event Action PlayerDead;
+
+    public static void CallPlayerDead()
+    {
+        PlayerDead?.Invoke();
+    }
 }

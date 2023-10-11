@@ -17,10 +17,13 @@ public class PlayerHealth : BaseHealth
         {
             healthText.text += ".";   
         }
+        
+        EventHandler.CallPlayerHurt();
     }
     
     protected override void Die()
     {
         Debug.Log("Player Die");
+        EventHandler.CallPlayerDead();
     }
 }

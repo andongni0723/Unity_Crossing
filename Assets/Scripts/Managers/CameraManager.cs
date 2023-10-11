@@ -25,7 +25,7 @@ public class CameraManager : Singleton<CameraManager>
         //noise
         StartCoroutine(TimeToCloseShake(time));
     }
-
+    
     private IEnumerator TimeToCloseShake(float time)
     {
         yield return new WaitForSeconds(time);

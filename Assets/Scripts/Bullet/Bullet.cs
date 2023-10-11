@@ -62,8 +62,4 @@ public class Bullet : MonoBehaviour
             AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound); 
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-    }
 }
