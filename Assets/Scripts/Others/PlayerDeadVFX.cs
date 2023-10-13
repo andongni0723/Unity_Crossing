@@ -42,11 +42,14 @@ public class PlayerDeadVFX : MonoBehaviour
     {
         AudioManager.Instance.BGMFade(0, VFXDuration);
         
+        // time scale 0.2 -> 1
         Time.timeScale = 0.2f;
+        DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1, VFXDuration);
+        
+        // Dead Camera VFX
         Sequence deadSequence = DOTween.Sequence();
         deadSequence.Append(DOTween.To(() => lensDistortion.intensity.value, x => lensDistortion.intensity.value = x, -1, VFXDuration / 2));
         deadSequence.Append(DOTween.To(() => lensDistortion.scale.value, x => lensDistortion.scale.value = (float)x, 0.01, VFXDuration / 2).SetEase(Ease.OutSine));
         deadSequence.Join(DeadCanvasGroup.DOFade(1, VFXDuration / 2));
-        //deadSequence.OnComplete(() => Time.timeScale = 0);
     }
 }

@@ -25,6 +25,7 @@ public class Bullet : MonoBehaviour
 
     private void OnDestroy()
     {
+        AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitSound);
         Instantiate(DestroyVFXPrefab, transform.position, Quaternion.identity);
     }
 
@@ -42,13 +43,11 @@ public class Bullet : MonoBehaviour
             if(_collisionCount == 2)
                 GameManager.Instance.AddScore(1);
             
-            AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitSound);
             Destroy(gameObject);
         }
         else if (_collisionCount >= 2)
         {
             // Rebound more time
-            AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitSound);
             Destroy(gameObject);
         }
         else
@@ -61,5 +60,10 @@ public class Bullet : MonoBehaviour
         
             AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound); 
         }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Destroy(gameObject); 
     }
 }

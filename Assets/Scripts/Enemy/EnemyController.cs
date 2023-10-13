@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour
     private Vector3 _targetBeforeCrossingPosition;
     
     private bool _isThinking = false;
+    private bool _isControllerEnabled = true;
 
     private void Awake()
     {
@@ -37,24 +38,31 @@ public class EnemyController : MonoBehaviour
     private void OnEnable()
     {
         EventHandler.PlayerCrossing += OnPlayerCrossing; // change state to Thinking
+        EventHandler.PlayerDead += OnPlayerDead;
     }
     
     private void OnDisable()
     {
         EventHandler.PlayerCrossing -= OnPlayerCrossing;
+        EventHandler.PlayerDead -= OnPlayerDead;
     }
-    
+
     private void OnPlayerCrossing(Vector3 pastPosition)
     {
         _targetBeforeCrossingPosition = pastPosition;
         StartCoroutine(ToThinkingState());
     }
 
+    private void OnPlayerDead()
+    {
+        _isControllerEnabled = false;
+    }
+
     #endregion
     
     public void LateUpdate()
     {
-        if(_target == null) return;
+        if(_target == null || !_isControllerEnabled) return;
         
         DataUpdate();
         ExecuteStateAction();
