@@ -32,7 +32,6 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         _collisionCount++;
-        Debug.Log(other.gameObject.name);
 
         if (other.gameObject.TryGetComponent(typeof(BaseHealth), out var health))
         {
