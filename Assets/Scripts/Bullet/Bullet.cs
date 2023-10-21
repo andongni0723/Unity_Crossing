@@ -63,6 +63,10 @@ public class Bullet : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Destroy(gameObject); 
+        if (other.gameObject.TryGetComponent(typeof(BaseHealth), out var health))
+        {
+            if ((health as BaseHealth).canDestroyBullet)
+                Destroy(gameObject);
+        }
     }
 }

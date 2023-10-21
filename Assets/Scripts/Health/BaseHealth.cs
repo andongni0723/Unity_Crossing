@@ -8,6 +8,7 @@ public class BaseHealth : MonoBehaviour
     public float maxHealth = 100;
     [Range(0, 1)] public float defense = 0;
     public float currentHealth;
+    public bool canDestroyBullet = true;
 
     private void Awake()
     {

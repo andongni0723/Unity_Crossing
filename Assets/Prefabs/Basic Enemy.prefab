@@ -5234,6 +5234,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   attackRange: 1.5
+  thinkingTime: 1
+  _currentState: 0
+  _attackTimerMax: 1
 --- !u!114 &1555280619924547052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5249,6 +5252,8 @@ MonoBehaviour:
   maxHealth: 1
   defense: 0
   currentHealth: 0
+  canDestroyBullet: 1
+  dieAddScore: 1
 --- !u!1 &7142617872611544272
 GameObject:
   m_ObjectHideFlags: 0

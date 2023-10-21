@@ -15,6 +15,9 @@ public class EnemyLaserWeapon : MonoBehaviour
     
     public GameObject laserObject;
 
+    public string timerName = "hurtTimer";
+    public Timer hurtTimer;
+
 
     [Header("Settings")] 
     public float accumulateTime = 3;
@@ -42,6 +45,8 @@ public class EnemyLaserWeapon : MonoBehaviour
         
         var shootingDownVFXMain = shootingDownVFX.main;
         shootingDownVFXMain.duration = fireTime;
+        
+        hurtTimer.TimerSettingCheck(timerName);
     }
     
     public void Shoot()
@@ -55,12 +60,14 @@ public class EnemyLaserWeapon : MonoBehaviour
         isPlay = true;
         accumulateVFX.Play();
         warmingVFX.Play();
+        AudioManager.Instance.PlayLaserSoundAudio(AudioManager.Instance.laserAccumulateSound);
         yield return new WaitForSeconds(accumulateTime);
         
         LaserShoot();
         fireVFX.Play();
         shootingUpVFX.Play();
         shootingDownVFX.Play();
+        AudioManager.Instance.PlayLaserSoundAudio(AudioManager.Instance.laserSound);
         yield return new WaitForSeconds(fireTime);
         
         isPlay = false;
@@ -81,14 +88,25 @@ public class EnemyLaserWeapon : MonoBehaviour
         Sequence laserSequence = DOTween.Sequence();
         
         // tween the laser scale y
-        laserSequence.Append(laserObject.transform.DOScaleY(minLaserScaleY, laserScaleDuration).SetEase(Ease.InOutSine));
         laserSequence.Append(laserObject.transform.DOScaleY(maxLaserScaleY, laserScaleDuration).SetEase(Ease.InOutSine));
+        laserSequence.Append(laserObject.transform.DOScaleY(minLaserScaleY, laserScaleDuration).SetEase(Ease.InOutSine));
+        laserSequence.AppendInterval(0.5f);
         laserSequence.OnComplete(() =>
         {
             if(isPlay)
                 ShootAnimation();
             else
-                laserObject.SetActive(false);
+                laserObject.transform.DOScaleY(0, laserScaleDuration).OnComplete(() => 
+                    laserObject.SetActive(false));
         });
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && hurtTimer.TimerCheck())
+        {
+            other.GetComponent<BaseHealth>().TakeDamage(1);
+            hurtTimer.TimerStart();
+        }
     }
 }

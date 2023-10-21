@@ -8,12 +8,16 @@ public class AudioManager : Singleton<AudioManager>
     [Header("Components")] 
     public AudioSource bgmAudioSource;
     public AudioSource soundAudioSource;
+    public AudioSource laserSoundAudioSource;
 
-    [Header("Settings")] public AudioClip openingBGM;
+    [Header("Settings")] 
+    public AudioClip openingBGM;
     public AudioClip gameBGM;
     public AudioClip fireSound;
     public AudioClip hitWallSound;
     public AudioClip hitSound;
+    public AudioClip laserAccumulateSound;
+    public AudioClip laserSound;
 
 
     public void PlaySoundAudio(AudioClip audioClip)
@@ -21,6 +25,13 @@ public class AudioManager : Singleton<AudioManager>
         soundAudioSource.clip = audioClip;
         soundAudioSource.volume = 1;
         soundAudioSource.Play();
+    }
+    
+    public void PlayLaserSoundAudio(AudioClip audioClip)
+    {
+        laserSoundAudioSource.clip = audioClip;
+        laserSoundAudioSource.volume = 1;
+        laserSoundAudioSource.Play();
     }
     
     public void PlayBGM(AudioClip audioClip)

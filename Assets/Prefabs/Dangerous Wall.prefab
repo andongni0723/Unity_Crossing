@@ -5132,3 +5132,5 @@ MonoBehaviour:
   maxHealth: 100
   defense: 1
   currentHealth: 0
+  canDestroyBullet: 1
+  dieAddScore: 0
