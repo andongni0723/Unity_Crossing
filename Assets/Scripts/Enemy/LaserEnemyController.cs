@@ -1,15 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserEnemyController : EnemyController
 {
-    //[Header("Laser Component")]
+    //[Header("Components")]
     private EnemyLaserWeapon _laserWeapon => GetComponent<EnemyLaserWeapon>();
     
     [Header("Settings")]
     public float attackRotateSpeed = 1;
-
 
     protected override void MoveAction()
     {

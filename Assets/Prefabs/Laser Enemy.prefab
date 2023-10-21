@@ -9804,6 +9804,7 @@ MonoBehaviour:
   defense: 1
   currentHealth: 0
   canDestroyBullet: 0
+  destroyVFX: {fileID: 0}
   dieAddScore: 0
 --- !u!1 &2862160280166301407
 GameObject:
@@ -29966,6 +29967,7 @@ MonoBehaviour:
   defense: 0
   currentHealth: 0
   canDestroyBullet: 1
+  destroyVFX: {fileID: 894037829428864505, guid: 035940719b9fd4b049e62ed074cef6b7, type: 3}
   dieAddScore: 3
 --- !u!114 &8076526233532247674
 MonoBehaviour:

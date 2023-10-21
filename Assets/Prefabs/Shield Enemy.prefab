@@ -156,6 +156,8 @@ MonoBehaviour:
   speed: 2
   attackRange: 2
   thinkingTime: 2
+  _currentState: 0
+  _attackTimerMax: 1
 --- !u!114 &8996783423659354181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +173,8 @@ MonoBehaviour:
   maxHealth: 1
   defense: 0
   currentHealth: 0
+  canDestroyBullet: 1
+  destroyVFX: {fileID: 894037829428864505, guid: 035940719b9fd4b049e62ed074cef6b7, type: 3}
   dieAddScore: 2
 --- !u!1 &3021277363022555251
 GameObject:
@@ -346,6 +350,8 @@ MonoBehaviour:
   maxHealth: 100
   defense: 1
   currentHealth: 0
+  canDestroyBullet: 1
+  destroyVFX: {fileID: 0}
   dieAddScore: 1
 --- !u!1 &3587069986221860877
 GameObject:
