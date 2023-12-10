@@ -11,9 +11,19 @@ public class LaserEnemyController : EnemyController
     [Header("Settings")]
     public float attackRotateSpeed = 1;
 
+    private IEnumerator Start()
+    {
+        attackRange *= 0.5f;
+        yield return new WaitForSeconds(1.5f);
+        attackRange *= 2;
+    }
+
     protected override void MoveAction()
     {
-        transform.position += transform.right * (speed * Time.deltaTime); 
+        if (!_laserWeapon.isPlay)
+        {
+            transform.position += transform.right * (speed * Time.deltaTime);  
+        }
         RotateAction();
     }
 

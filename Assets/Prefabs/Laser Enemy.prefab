@@ -9684,8 +9684,8 @@ Transform:
   m_GameObject: {fileID: 1243039032168522597}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.3978, y: 0, z: 0}
-  m_LocalScale: {x: 16.816494, y: 0.6, z: 1.3}
+  m_LocalPosition: {x: 16.0305, y: 0, z: 0}
+  m_LocalScale: {x: 30.081345, y: 0.6, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5597904791022378545}
@@ -29946,7 +29946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  attackRange: 10
+  attackRange: 7
   thinkingTime: 0
   _currentState: 0
   _attackTimerMax: 10
@@ -29968,7 +29968,7 @@ MonoBehaviour:
   currentHealth: 0
   canDestroyBullet: 1
   destroyVFX: {fileID: 894037829428864505, guid: 035940719b9fd4b049e62ed074cef6b7, type: 3}
-  dieAddScore: 3
+  dieAddScore: 5
 --- !u!114 &8076526233532247674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29995,6 +29995,8 @@ MonoBehaviour:
   minLaserScaleY: 0.6
   maxLaserScaleY: 1.2
   laserScaleDuration: 0.25
+  shakeIntensity: 3
+  shakeDuration: 0.3
 --- !u!114 &4913614164512986079
 MonoBehaviour:
   m_ObjectHideFlags: 0

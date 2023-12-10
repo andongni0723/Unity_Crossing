@@ -28,6 +28,10 @@ public class EnemyLaserWeapon : MonoBehaviour
     public float minLaserScaleY = 0.6f;
     public float maxLaserScaleY = 1.2f;
     public float laserScaleDuration = 0.5f;
+    
+    [Space(10)]
+    public float shakeIntensity = 5;
+    public float shakeDuration = 0.02f;
 
     private void Awake()
     {
@@ -68,6 +72,7 @@ public class EnemyLaserWeapon : MonoBehaviour
         shootingUpVFX.Play();
         shootingDownVFX.Play();
         AudioManager.Instance.PlayLaserSoundAudio(AudioManager.Instance.laserSound);
+        CameraManager.Instance.CameraShake(shakeIntensity, shakeDuration);
         yield return new WaitForSeconds(fireTime);
         
         isPlay = false;

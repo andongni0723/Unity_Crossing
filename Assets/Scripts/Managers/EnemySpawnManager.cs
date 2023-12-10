@@ -5,10 +5,17 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
+public enum SpawnPositionType
+{
+    Up, Down, Left, Right
+}
+
 [Serializable]
 public class SpawnPosition
 {
-    public string name;
+    public string name; // Inspector Window
+    public SpawnPositionType type;
     public Vector2 minSpawnRange;
     public Vector2 maxSpawnRange; 
     public Quaternion spawnRotation;
@@ -21,8 +28,9 @@ public class EnemySpawn
     public List<GameObject> kindOfEnemyList = new List<GameObject>();
     public bool isRandomPositionSpawn = true;
     public int waveMaxSpawnCount = 10;
-    [Range(0, 100)]public int randomSpawnMin;
-    [Range(0, 100)]public int randomSpawnMax;
+    public int randomSpawnProbability;
+    [HideInInspector]public int randomSpawnMin;
+    [HideInInspector]public int randomSpawnMax;
 }
 
 public class EnemySpawnManager : MonoBehaviour
@@ -36,7 +44,7 @@ public class EnemySpawnManager : MonoBehaviour
     
     [Space(15)]
     public List<SpawnPosition> SpawnPositionsList = new List<SpawnPosition>();
-
+ 
     private void Awake()
     {
         if (isTest)
@@ -44,7 +52,27 @@ public class EnemySpawnManager : MonoBehaviour
             Debug.LogWarning("Test Mode : Not Spawn Enemy");
             return;
         }
+
+        SetEnemyRandomSpawnRange();
         StartCoroutine(SpawnEnemy());
+    }
+
+    void SetEnemyRandomSpawnRange()
+    {
+        int currentProbabilityNum = 0;
+        foreach (var enemy in enemySpawnList)
+        {
+            enemy.randomSpawnMin = currentProbabilityNum;
+            enemy.randomSpawnMax = currentProbabilityNum + enemy.randomSpawnProbability;
+            currentProbabilityNum += enemy.randomSpawnProbability;
+
+            Debug.Log($"{enemy.randomSpawnMin}, {enemy.randomSpawnMax}");
+        }
+
+        if (currentProbabilityNum != 100)
+        {
+            Debug.LogError("The Enemy Probability not not equal to 100%");
+        }
     }
 
     IEnumerator SpawnEnemy()
@@ -64,6 +92,8 @@ public class EnemySpawnManager : MonoBehaviour
             int spawnCount = Random.Range(1, 5);
             int spawnPositionIndex = Random.Range(0, SpawnPositionsList.Count);
             SpawnPosition currentSpawnPosition = SpawnPositionsList[spawnPositionIndex];
+            SpawnPositionType currentSpawnType = currentSpawnPosition.type;
+            //Debug.Log(currentSpawnPosition.name);
             
             // Reset Spawn Count
             foreach (var kindEnemy in enemySpawnList)
@@ -71,23 +101,36 @@ public class EnemySpawnManager : MonoBehaviour
                 KindOfEnemySpawnCount[kindEnemy.name] = kindEnemy.waveMaxSpawnCount;
             }
             
-            // x= true? 1 : 0;
-            // x = 1 if true 0
-
-           
-           
-
             // Spawn Enemy
             for (int i = 0; i < spawnCount; i++)
             {
                 foreach (var kindEnemy in enemySpawnList)
                 {
-                    int randomSpawnProbability = Random.Range(0, 100);
-                    
-                    if (randomSpawnProbability >= kindEnemy.randomSpawnMin && randomSpawnProbability <= kindEnemy.randomSpawnMax)
+                    int spawnRangeNum = Random.Range(0, 100);
+                    Debug.Log(spawnRangeNum);
+
+                    if (spawnRangeNum >= kindEnemy.randomSpawnMin && spawnRangeNum <= kindEnemy.randomSpawnMax)
                     {
-                        if(KindOfEnemySpawnCount[kindEnemy.name] <= 0) continue;
+                        // the enemy spawn count to max in this wave
+                        if(KindOfEnemySpawnCount[kindEnemy.name] <= 0) 
+                        {
+                            Debug.LogWarning("no");
+                            continue;
+                            
+                        } 
                         
+                        
+                        // Enemy Spawn Event
+                        switch (kindEnemy.name)
+                        {
+                            case "dangerousWall":
+                                EventHandler.CallDangerousWallSpawn(currentSpawnType);
+                                yield return new WaitForSeconds(3);
+                                break;
+                        }
+                        
+                        
+                        // Spawn Enemy
                         int spawnEnemyIndex = Random.Range(0, kindEnemy.kindOfEnemyList.Count);
                         Vector3 spawnPosition = RandomSpawnPosition(
                             kindEnemy.isRandomPositionSpawn,
@@ -100,6 +143,8 @@ public class EnemySpawnManager : MonoBehaviour
                             currentSpawnPosition.spawnRotation);
                         
                         KindOfEnemySpawnCount[kindEnemy.name]--;
+                        
+                        
                         yield return new WaitForSeconds(waitNextSpawnTime);
                     }
                 }

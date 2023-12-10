@@ -24,4 +24,11 @@ public class EventHandler : MonoBehaviour
     {
         PlayerDead?.Invoke();
     }
+
+    public static event Action<SpawnPositionType> DangerousWallSpawn;
+
+    public static void CallDangerousWallSpawn(SpawnPositionType type)
+    {
+        DangerousWallSpawn?.Invoke(type);
+    }
 }
