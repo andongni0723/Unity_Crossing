@@ -11,6 +11,10 @@ public class Bullet : MonoBehaviour
 
     [Header("Components")]
     public GameObject DestroyVFXPrefab;
+    private SpriteRenderer spriteRenderer => GetComponent<SpriteRenderer>();
+    private TrailRenderer trailRenderer => GetComponent<TrailRenderer>();
+    private ParticleSystem particleSystem => GetComponent<ParticleSystem>();
+
 
     [Header("Settings")]
     public float speed = 10;
@@ -39,14 +43,14 @@ public class Bullet : MonoBehaviour
             (health as BaseHealth).TakeDamage(damage);
             
             // Check if bullet is hit enemy when bullet is rebound
-            if(_collisionCount == 2)
+            if(_collisionCount == 2 && !other.gameObject.CompareTag("Player"))
                 GameManager.Instance.AddScore(1);
             
             Destroy(gameObject);
         }
         else if (_collisionCount >= 2)
         {
-            // Rebound more time
+            // Rebound again
             Destroy(gameObject);
         }
         else
@@ -56,9 +60,35 @@ public class Bullet : MonoBehaviour
             _point = transform.position;
             Vector2 outVec = Vector2.Reflect(inVec, other.contacts[0].normal);
             rb.velocity = outVec.normalized * speed;
-        
-            AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound); 
+            
+            AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound);
+
+            if (other.gameObject.CompareTag("Enemy"))
+                BecomeToEnemyBullet();
+            
+            if (other.gameObject.CompareTag("FinalBoss"))
+                BecomeToFinalBossBullet();
         }
+    }
+
+    private void BecomeToEnemyBullet()
+    {
+        gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+        spriteRenderer.color = Color.red;
+        trailRenderer.startColor = Color.red;
+        trailRenderer.endColor = Color.red;
+        var particleSystemMain = particleSystem.main;
+        particleSystemMain.startColor = Color.red;
+    }
+    
+    private void BecomeToFinalBossBullet()
+    {
+        gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+        spriteRenderer.color = Color.magenta;
+        trailRenderer.startColor = Color.magenta;
+        trailRenderer.endColor = Color.magenta;
+        var particleSystemMain = particleSystem.main;
+        particleSystemMain.startColor = Color.magenta;
     }
     
     private void OnTriggerEnter2D(Collider2D other)

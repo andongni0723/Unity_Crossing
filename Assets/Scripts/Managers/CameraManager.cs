@@ -15,7 +15,6 @@ public class CameraManager : Singleton<CameraManager>
         base.Awake();
         camera = GetComponent<CinemachineVirtualCamera>();
         noise = camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        
     }
 
     public void CameraShake(float intensity, float time)

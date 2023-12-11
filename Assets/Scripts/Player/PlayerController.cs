@@ -56,4 +56,5 @@ public class PlayerController : MonoBehaviour
     {
         _playerFire.Fire();
     }
+    
 }

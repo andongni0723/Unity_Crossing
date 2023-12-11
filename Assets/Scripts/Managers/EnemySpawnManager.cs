@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public enum SpawnPositionType
 {
+    
     Up, Down, Left, Right
 }
 
@@ -33,20 +34,26 @@ public class EnemySpawn
     [HideInInspector]public int randomSpawnMax;
 }
 
-public class EnemySpawnManager : MonoBehaviour
+public class EnemySpawnManager : Singleton<EnemySpawnManager>
 {
     [Header("Settings")] 
     public bool isTest = false;
     public List<EnemySpawn> enemySpawnList = new List<EnemySpawn>();
+    public GameObject finalBossPrefab;
     private Dictionary<string, int> KindOfEnemySpawnCount = new Dictionary<string, int>();
     public float waitNextSpawnTime = 1.5f;
     public float waitNextWaveTime = 3;
+
+    [Space(15)] 
+    public Vector3 finalBossGeneratePosition;
     
     [Space(15)]
     public List<SpawnPosition> SpawnPositionsList = new List<SpawnPosition>();
- 
-    private void Awake()
+
+    protected override void Awake()
     {
+        base.Awake();
+        
         if (isTest)
         {
             Debug.LogWarning("Test Mode : Not Spawn Enemy");
@@ -57,6 +64,25 @@ public class EnemySpawnManager : MonoBehaviour
         StartCoroutine(SpawnEnemy());
     }
 
+    #region Event
+
+    private void OnEnable()
+    {
+        EventHandler.BossEventPrepare += OnBossEventPrepare; // Stop spawn enemy
+    }
+
+    private void OnDisable()
+    {
+        EventHandler.BossEventPrepare -= OnBossEventPrepare;
+    }
+
+    private void OnBossEventPrepare()
+    {
+        StopAllCoroutines();
+    }
+
+    #endregion 
+    
     void SetEnemyRandomSpawnRange()
     {
         int currentProbabilityNum = 0;
@@ -66,7 +92,6 @@ public class EnemySpawnManager : MonoBehaviour
             enemy.randomSpawnMax = currentProbabilityNum + enemy.randomSpawnProbability;
             currentProbabilityNum += enemy.randomSpawnProbability;
 
-            Debug.Log($"{enemy.randomSpawnMin}, {enemy.randomSpawnMax}");
         }
 
         if (currentProbabilityNum != 100)
@@ -77,6 +102,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemy()
     {
+        KindOfEnemySpawnCount.Clear();
         foreach (var kindEnemy in enemySpawnList)
         {
             KindOfEnemySpawnCount.Add(kindEnemy.name, kindEnemy.waveMaxSpawnCount);
@@ -107,17 +133,12 @@ public class EnemySpawnManager : MonoBehaviour
                 foreach (var kindEnemy in enemySpawnList)
                 {
                     int spawnRangeNum = Random.Range(0, 100);
-                    Debug.Log(spawnRangeNum);
 
                     if (spawnRangeNum >= kindEnemy.randomSpawnMin && spawnRangeNum <= kindEnemy.randomSpawnMax)
                     {
                         // the enemy spawn count to max in this wave
                         if(KindOfEnemySpawnCount[kindEnemy.name] <= 0) 
-                        {
-                            Debug.LogWarning("no");
                             continue;
-                            
-                        } 
                         
                         
                         // Enemy Spawn Event
@@ -159,5 +180,11 @@ public class EnemySpawnManager : MonoBehaviour
             return new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY));
         else
             return new Vector3((minX + maxX) / 2, (minY + maxY) / 2);
+    }
+
+    public void FinalBossGenerate()
+    {
+        Debug.Log("BOSSSSSS");
+        Instantiate(finalBossPrefab, finalBossGeneratePosition, Quaternion.Euler(0, 0, 90));
     }
 }

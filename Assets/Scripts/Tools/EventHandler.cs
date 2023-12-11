@@ -31,4 +31,12 @@ public class EventHandler : MonoBehaviour
     {
         DangerousWallSpawn?.Invoke(type);
     }
+
+    public static event Action BossEventPrepare;
+
+    public static void CallBossEventPrepare()
+    {
+        BossEventPrepare?.Invoke();
+    }
+    
 }

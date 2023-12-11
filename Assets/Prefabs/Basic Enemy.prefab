@@ -5253,6 +5253,9 @@ MonoBehaviour:
   defense: 0
   currentHealth: 0
   canDestroyBullet: 1
+  effectSpriteRenderer: {fileID: 2841186248035268177}
+  status: 0
+  destroyVFX: {fileID: 0}
   dieAddScore: 1
 --- !u!1 &7142617872611544272
 GameObject:

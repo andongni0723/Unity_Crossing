@@ -6,7 +6,7 @@ public class EnemyHealth : BaseHealth
 {
     [Header("Components")]
     public GameObject destroyVFX;
-    
+
     [Header("Settings")]
     public int dieAddScore = 1;
     

@@ -13,9 +13,10 @@ public class LaserEnemyController : EnemyController
 
     private IEnumerator Start()
     {
-        attackRange *= 0.5f;
+        float t = attackRange;
+        attackRange = 0;
         yield return new WaitForSeconds(1.5f);
-        attackRange *= 2;
+        attackRange = t;
     }
 
     protected override void MoveAction()

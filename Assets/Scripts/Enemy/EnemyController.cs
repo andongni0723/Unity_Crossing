@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour
 {
     //[Header("Components")] 
     private Rigidbody2D _rb => GetComponent<Rigidbody2D>();
-    private EnemyHealth enemyHealth => GetComponent<EnemyHealth>();
+    protected EnemyHealth enemyHealth => GetComponent<EnemyHealth>();
 
     [Header("Settings")] 
     public float speed = 3;
@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour
     private bool _isThinking = false;
     private bool _isControllerEnabled = true;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _target = GameObject.FindWithTag("Player");
     }
@@ -38,14 +38,21 @@ public class EnemyController : MonoBehaviour
 
     private void OnEnable()
     {
+        EventHandler.BossEventPrepare += OnBossEventPrepare; // Destroy self
         EventHandler.PlayerCrossing += OnPlayerCrossing; // change state to Thinking
         EventHandler.PlayerDead += OnPlayerDead;
     }
     
     private void OnDisable()
     {
+        EventHandler.BossEventPrepare -= OnBossEventPrepare;
         EventHandler.PlayerCrossing -= OnPlayerCrossing;
         EventHandler.PlayerDead -= OnPlayerDead;
+    }
+
+    private void OnBossEventPrepare()
+    {
+        Destroy(gameObject);
     }
 
     private void OnPlayerCrossing(Vector3 pastPosition)

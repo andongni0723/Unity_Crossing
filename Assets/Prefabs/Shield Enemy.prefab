@@ -174,6 +174,8 @@ MonoBehaviour:
   defense: 0
   currentHealth: 0
   canDestroyBullet: 1
+  effectSpriteRenderer: {fileID: 7754305294124785934}
+  status: 0
   destroyVFX: {fileID: 894037829428864505, guid: 035940719b9fd4b049e62ed074cef6b7, type: 3}
   dieAddScore: 2
 --- !u!1 &3021277363022555251
@@ -188,7 +190,6 @@ GameObject:
   - component: {fileID: 1343625343776900854}
   - component: {fileID: 4900483948698748771}
   - component: {fileID: 7686720300595858153}
-  - component: {fileID: 1366499290214603779}
   m_Layer: 6
   m_Name: Shield
   m_TagString: Enemy
@@ -335,24 +336,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1366499290214603779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3021277363022555251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddfedf0da74bc4d2bb5df1efef60b26c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  defense: 1
-  currentHealth: 0
-  canDestroyBullet: 1
-  destroyVFX: {fileID: 0}
-  dieAddScore: 1
 --- !u!1 &3587069986221860877
 GameObject:
   m_ObjectHideFlags: 0
@@ -5275,7 +5258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1460823083806149325}
   m_Layer: 0
-  m_Name: Fire
+  m_Name: Shield Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

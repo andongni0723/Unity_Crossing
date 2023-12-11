@@ -13,6 +13,7 @@ public class AudioManager : Singleton<AudioManager>
     [Header("Settings")] 
     public AudioClip openingBGM;
     public AudioClip gameBGM;
+    public AudioClip finalBossBGM;
     public AudioClip fireSound;
     public AudioClip hitWallSound;
     public AudioClip hitSound;
@@ -39,6 +40,11 @@ public class AudioManager : Singleton<AudioManager>
         bgmAudioSource.clip = audioClip;
         bgmAudioSource.volume = 1;
         bgmAudioSource.Play();
+    }
+
+    public void StopBGM()
+    {
+        bgmAudioSource.Stop();
     }
 
     public void BGMFade(float target, float time)

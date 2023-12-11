@@ -16,7 +16,7 @@ public class Timer : MonoBehaviour
     public void TimerSettingCheck(string wantedTimerName)
     {
         if(wantedTimerName != TimerName)
-            Debug.LogError("TimerError: This timer is not you want (TimerName is not same with TimerSettingCheck)");
+            Debug.LogError($"TimerError: This timer in {gameObject.name} is not you want (TimerName is not same with TimerSettingCheck)");
     }
     public void TimerStart() => _timer = TimerMax;
     

@@ -50,7 +50,6 @@ public class EnemyLaserWeapon : MonoBehaviour
         var shootingDownVFXMain = shootingDownVFX.main;
         shootingDownVFXMain.duration = fireTime;
         
-        hurtTimer.TimerSettingCheck(timerName);
     }
     
     public void Shoot()
