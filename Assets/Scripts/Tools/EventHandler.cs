@@ -38,5 +38,11 @@ public class EventHandler : MonoBehaviour
     {
         BossEventPrepare?.Invoke();
     }
-    
+
+    public static event Action BossEventPrepareDone;
+
+    public static void CallBossEventPrepareDone()
+    {
+        BossEventPrepareDone?.Invoke();
+    }
 }

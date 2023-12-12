@@ -42,6 +42,7 @@ public class FinalBossEvent : MonoBehaviour
         bossHealthText.text = "";
         
         AudioManager.Instance.StopBGM();
+        AudioManager.Instance.PlayLaserSoundAudio(AudioManager.Instance.laserAccumulateSound);
 
         // text animation
         string text = "Boss!!!";
@@ -64,6 +65,7 @@ public class FinalBossEvent : MonoBehaviour
         sequence.Append(fadeCanvasGroup.DOFade(0, 0).OnComplete(() =>
         {
             AudioManager.Instance.PlayBGM(AudioManager.Instance.finalBossBGM);
+            EventHandler.CallBossEventPrepareDone();
         }));
 
         yield return null;

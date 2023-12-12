@@ -19,6 +19,7 @@ public class CameraManager : Singleton<CameraManager>
 
     public void CameraShake(float intensity, float time)
     {
+        // 0.5f, 0.2f
         
         noise.m_AmplitudeGain = intensity;
         //noise

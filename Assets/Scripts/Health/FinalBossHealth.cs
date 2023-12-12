@@ -18,5 +18,7 @@ public class FinalBossHealth : EnemyHealth
     {
         base.TakeDamage(damage);
         healthText.text = (currentHealth / maxHealth * 100).ToString("00") + "%";
+        if(currentHealth <= 0)
+            healthText.text = "00%";
     }
 }
