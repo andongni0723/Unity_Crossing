@@ -9,6 +9,7 @@ public class FinalBossBullet : MonoBehaviour
     [Header("Component")]
     public SpriteRenderer bulletSpriteRenderer;
     public SpriteRenderer bulletVFXSpriteRenderer;
+    private Collider2D collider => GetComponent<Collider2D>();
 
     [Header("Setting")] 
     public float bulletScaleBigTime = 0.5f;
@@ -30,7 +31,8 @@ public class FinalBossBullet : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.Append(bulletSpriteRenderer.transform.DOScale(1, bulletScaleBigTime));
         sequence.Join(bulletVFXSpriteRenderer.transform.DOScale(bulletScaleBig, bulletVFXScaleBigTime));
-        sequence.Join(bulletVFXSpriteRenderer.DOFade(0, bulletVFXScaleBigTime));
+        sequence.Join(bulletVFXSpriteRenderer.DOFade(0, bulletVFXScaleBigTime)
+            .OnComplete(() => collider.enabled = false));
         sequence.Append(bulletSpriteRenderer.DOFade(0, bulletScaleBigTime));
         sequence.OnComplete(() => Destroy(gameObject));
     }

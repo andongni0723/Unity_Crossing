@@ -17,8 +17,12 @@ public class FinalBossController : EnemyController
 {
     bool isPrepareDone = false;
     bool isShieldPlay = false;
-    [SerializeField]bool isAttack = false;
-    [SerializeField]int attackSkillOrder = 0;
+    bool isAttack = false;
+    int attackSkillOrder = 0;
+    
+    int finalBulletShootCount = 0;
+    float forwardLaserStartAngle = 0;
+    float forwardLaserTargetAngle = 0;
 
     [Header("Components")] 
     public Laser forwardLaser;
@@ -27,6 +31,10 @@ public class FinalBossController : EnemyController
     public GameObject shield;
     
     public GameObject skillBulletWarning;
+    
+    [Header("Setting")]
+    public float startDoubleLaserRotateTime = 5;
+    private float doubleLaserRotateTime;
 
     protected override void Awake()
     {
@@ -53,6 +61,9 @@ public class FinalBossController : EnemyController
 
     #endregion
 
+    protected override void MoveAction() { }
+    protected override void ThinkingAction() { }
+
     protected override void AttackAction()
     {
         if(isPrepareDone && !isAttack)
@@ -60,14 +71,16 @@ public class FinalBossController : EnemyController
             switch (attackSkillOrder)
             {
                 case 0:
+                    ForwardLaserBuff();
                     StartCoroutine(ForwardLaserAttack());
                     attackSkillOrder++;
                     break;
                 case 1:
-                    StartCoroutine(MoreBulletAttack());
-                    attackSkillOrder++;
+                    FinalBulletBuff();
+                    StartCoroutine(FinalBulletAttack());
                     break;
                 case 2:
+                    DoubleLaserBuff();
                     StartCoroutine(DoubleLaserRotate());
                     attackSkillOrder = 0;
                     break;
@@ -80,9 +93,36 @@ public class FinalBossController : EnemyController
         }
         
     }
-    protected override void MoveAction() { }
-    protected override void ThinkingAction() { }
-    
+
+    private void ForwardLaserBuff()
+    {
+        forwardLaser.LaserWeapon.fireTime = 5;
+        int rand = Random.Range(0, 2);
+        forwardLaserStartAngle = rand == 0 ? -180 : 0;
+        forwardLaserTargetAngle = rand == 0 ? 0 : -180;
+    }
+        
+    private void FinalBulletBuff()
+    {
+        // Shoot more time
+        if (finalBulletShootCount > GameManager.Instance.finalBossAppearCount)
+        {
+            finalBulletShootCount = 0;
+            attackSkillOrder++;
+        }
+        else
+        {
+            finalBulletShootCount++;
+        } 
+    }
+    private void DoubleLaserBuff()
+    {
+        // Rotate more time 
+        doubleLaserRotateTime = startDoubleLaserRotateTime + GameManager.Instance.finalBossAppearCount * 2;
+        forwardLaser.LaserWeapon.fireTime = doubleLaserRotateTime;
+        backLaser.LaserWeapon.fireTime = doubleLaserRotateTime;
+    }
+
     IEnumerator Shield()
     {
         isShieldPlay = true;
@@ -98,15 +138,17 @@ public class FinalBossController : EnemyController
     IEnumerator ForwardLaserAttack()
     {
         isAttack = true;
-        Debug.Log("FFF");
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DORotateQuaternion(Quaternion.Euler(0, 0, -180), 0.4f).OnComplete(() =>
+        sequence.Append(transform.DORotateQuaternion(Quaternion.Euler(0, 0, forwardLaserStartAngle),
+            0.4f).OnComplete(() =>
         {
             forwardLaser.LaserWeaponSpriteObject.SetActive(true);
             forwardLaser.LaserWeapon.Shoot();
         }));
         sequence.AppendInterval(forwardLaser.LaserWeapon.accumulateTime);
-        sequence.Append(transform.DORotateQuaternion(Quaternion.Euler(0, 0, 0), forwardLaser.LaserWeapon.fireTime));
+        
+        sequence.Append(transform.DORotateQuaternion(Quaternion.Euler(0, 0, forwardLaserTargetAngle),
+            forwardLaser.LaserWeapon.fireTime));
         sequence.AppendInterval(3);
         sequence.OnComplete(() =>
         {
@@ -117,7 +159,7 @@ public class FinalBossController : EnemyController
         yield return null;
     }
 
-    IEnumerator MoreBulletAttack()
+    IEnumerator FinalBulletAttack()
     {
         isAttack = true;
         transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -130,6 +172,8 @@ public class FinalBossController : EnemyController
                 yield return new WaitForSeconds(0.02f);
             }
         }
+
+        yield return new WaitForSeconds(1);
         isAttack = false;
         yield return null;
     }
@@ -137,7 +181,6 @@ public class FinalBossController : EnemyController
     IEnumerator DoubleLaserRotate()
     {
         isAttack = true;
-        Debug.Log("DDD");
         // Laser Shoot
         Sequence sequence = DOTween.Sequence();
         sequence.Append(transform.DORotateQuaternion(Quaternion.Euler(0, 0, -180), 0.4f).OnComplete(() =>
@@ -151,7 +194,7 @@ public class FinalBossController : EnemyController
         // Rotate
         yield return new WaitForSeconds(forwardLaser.LaserWeapon.accumulateTime);
         float angle = 1.5f;
-        for (int i = 0; i < 360/angle; i++)
+        for (int i = 0; i < forwardLaser.LaserWeapon.fireTime * 50; i++)
         {
             transform.Rotate(Vector3.forward * angle); 
             yield return new WaitForSeconds(0.02f);

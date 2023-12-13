@@ -13,6 +13,7 @@ public class FinalBossEvent : MonoBehaviour
     public SpriteRenderer backgroundSpriteRenderer;
     
     [Header("Setting")]
+    public List<string> BossEventStartTextList;
     public Color bossBackgroundColor;
 
     #region Event
@@ -20,16 +21,23 @@ public class FinalBossEvent : MonoBehaviour
     private void OnEnable()
     {
         EventHandler.BossEventPrepare += OnBossEventPrepare;
+        EventHandler.FinalBossDead += OnFinalBossDead;
     }
 
     private void OnDisable()
     {
         EventHandler.BossEventPrepare -= OnBossEventPrepare;
+        EventHandler.FinalBossDead -= OnFinalBossDead;
     }
 
     private void OnBossEventPrepare()
     {
         StartCoroutine(FinalBossPrepareAnimation());
+    }
+
+    private void OnFinalBossDead()
+    {
+        StartCoroutine(FinalBossDeadAnimation());
     }
 
     #endregion
@@ -45,11 +53,11 @@ public class FinalBossEvent : MonoBehaviour
         AudioManager.Instance.PlayLaserSoundAudio(AudioManager.Instance.laserAccumulateSound);
 
         // text animation
-        string text = "Boss!!!";
+        string text = BossEventStartTextList[Random.Range(0, BossEventStartTextList.Count)];
         for (int i = 0; i < text.Length; i++)
         {
             bossHealthText.text += text[i];
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
         }
 
         // Fade in
@@ -70,6 +78,31 @@ public class FinalBossEvent : MonoBehaviour
 
         yield return null;
     }
-    
-    
+
+    IEnumerator FinalBossDeadAnimation()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(backgroundSpriteRenderer.DOColor(Color.black, 1f)); 
+        
+        // string text = bossHealthText.text;
+        // for (int i = text.Length - 1; i <= 0 ; i--)
+        // {
+        //     bossHealthText.text.Remove(i);
+        //     yield return new WaitForSeconds(0.3f);
+        // } 
+        
+        bossHealthText.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(true);
+        
+        // text = GameManager.Instance.currentScore.ToString();
+        // scoreText.text = "";
+        // for (int i = 0; i < text.Length; i++)
+        // {
+        //     scoreText.text += text[i];
+        //     yield return new WaitForSeconds(0.3f);
+        // }
+        
+        EventHandler.CallFinalBossDeadEventDone();
+        yield return null;
+    }
 }

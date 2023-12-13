@@ -45,4 +45,18 @@ public class EventHandler : MonoBehaviour
     {
         BossEventPrepareDone?.Invoke();
     }
+
+    public static event Action FinalBossDead;
+
+    public static void CallBossDead()
+    {
+        FinalBossDead?.Invoke();
+    }
+    
+    public static event Action FinalBossDeadEventDone;
+
+    public static void CallFinalBossDeadEventDone()
+    {
+        FinalBossDeadEventDone?.Invoke();
+    }
 }

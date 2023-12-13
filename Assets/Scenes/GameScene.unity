@@ -470,8 +470,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentScore: 0
+  baseBossEventTargetScore: 2
   bossEventTargetScore: 2
   isFinalBossAlive: 0
+  finalBossAppearCount: 0
   scoreText: {fileID: 1136053831}
   scoreScaleAddVFX: {x: 1.2, y: 1.2, z: 1.2}
 --- !u!114 &111878835
@@ -518,6 +520,10 @@ MonoBehaviour:
   bossHealthText: {fileID: 963933358}
   fadeCanvasGroup: {fileID: 1246398164}
   backgroundSpriteRenderer: {fileID: 1733476117}
+  BossEventStartTextList:
+  - Boss!!!
+  - Warning!
+  - .-. ..- -.
   bossBackgroundColor: {r: 0.05882353, g: 0, b: 0.11372549, a: 1}
 --- !u!1 &378765915
 GameObject:
@@ -7239,7 +7245,7 @@ MonoBehaviour:
     randomSpawnMin: 85
     randomSpawnMax: 100
   finalBossPrefab: {fileID: 888971455302846004, guid: 845b823e98cd340aab0a90b9aff2ebb8, type: 3}
-  waitNextSpawnTime: 1.5
+  waitNextSpawnTime: 0.6
   waitNextWaveTime: 3
   finalBossGeneratePosition: {x: 0, y: -2.8, z: 0}
   SpawnPositionsList:

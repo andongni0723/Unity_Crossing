@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,12 @@ public class DangerousWallController : MonoBehaviour
     public float speed = 3;
     
     private Rigidbody2D _rb => GetComponent<Rigidbody2D>();
-    
+
+    private void Awake()
+    {
+        Destroy(gameObject, 15);
+    }
+
     private void FixedUpdate()
     {
         _rb.velocity = transform.right * speed;

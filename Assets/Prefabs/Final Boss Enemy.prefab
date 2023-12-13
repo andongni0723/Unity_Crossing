@@ -5022,8 +5022,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58127421db04b413480c302139fddf0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 80
-  defense: 0.42
+  maxHealth: 40
+  defense: 0.4
   currentHealth: 0
   canDestroyBullet: 1
   effectSpriteRenderer: {fileID: 876712914521422625}

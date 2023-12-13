@@ -29846,6 +29846,7 @@ GameObject:
   - component: {fileID: 5918870476461418569}
   - component: {fileID: 8252471781012108927}
   - component: {fileID: 8076526233532247674}
+  - component: {fileID: 8057669380958251892}
   m_Layer: 6
   m_Name: Laser Enemy
   m_TagString: Enemy
@@ -30006,7 +30007,7 @@ MonoBehaviour:
   shootingDownVFX: {fileID: 5417554012814501527}
   laserObject: {fileID: 1243039032168522597}
   timerName: hurtTimer
-  hurtTimer: {fileID: 0}
+  hurtTimer: {fileID: 8057669380958251892}
   accumulateTime: 3
   fireTime: 5
   isPlay: 0
@@ -30015,3 +30016,17 @@ MonoBehaviour:
   laserScaleDuration: 0.25
   shakeIntensity: 3
   shakeDuration: 0.3
+--- !u!114 &8057669380958251892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8979200009557448490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b6736dbb09ef480fb4eebd76f48c4f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimerName: hurtTimer
+  TimerMax: 1

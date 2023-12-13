@@ -8,14 +8,50 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public int currentScore = 0;
-    public int bossEventTargetScore = 2;
+    public int baseBossEventTargetScore = 30;
+    [SerializeField] int bossEventTargetScore;
     public bool isFinalBossAlive = false;
+
+    public int finalBossAppearCount = 0;
+    
 
     [Header("Components")] 
     public TextMeshProUGUI scoreText;
 
     [Header("Setting")] 
     public Vector3 scoreScaleAddVFX;
+
+    #region Event
+
+    private void OnEnable()
+    {
+        EventHandler.FinalBossDead += OnFinalBossDead; // Update boss data
+        EventHandler.FinalBossDeadEventDone += OnFinalBossDeadEventDone; // Update boss Status
+    }
+
+    private void OnDisable()
+    {
+        EventHandler.FinalBossDead -= OnFinalBossDead;
+        EventHandler.FinalBossDeadEventDone -= OnFinalBossDeadEventDone;
+    }
+
+    private void OnFinalBossDead()
+    {
+        UpdateBossData();
+    }
+
+    private void OnFinalBossDeadEventDone()
+    {
+        isFinalBossAlive = false;
+    }
+
+    #endregion
+
+    protected override void Awake()
+    {
+        base.Awake();
+        bossEventTargetScore = baseBossEventTargetScore;
+    }
 
     public void AddScore(int score)
     {
@@ -34,5 +70,17 @@ public class GameManager : Singleton<GameManager>
             EventHandler.CallBossEventPrepare();
             isFinalBossAlive = true;
         }
+    }
+
+    private void UpdateBossData()
+    {
+        finalBossAppearCount++;
+        isFinalBossAlive = false;
+        bossEventTargetScore = currentScore + finalBossAppearCount * 10 + 30;
+        
+        if (EnemySpawnManager.Instance.waitNextSpawnTime <= 0.6)
+            EnemySpawnManager.Instance.waitNextSpawnTime = 0.6f;
+        else 
+            EnemySpawnManager.Instance.waitNextSpawnTime -= 0.3f;
     }
 }

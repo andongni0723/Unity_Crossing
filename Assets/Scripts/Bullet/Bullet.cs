@@ -43,7 +43,7 @@ public class Bullet : MonoBehaviour
             (health as BaseHealth).TakeDamage(damage);
             
             // Check if bullet is hit enemy when bullet is rebound
-            if(_collisionCount == 2 && !other.gameObject.CompareTag("Player"))
+            if(_collisionCount == 2 && !other.gameObject.CompareTag("Player") && !GameManager.Instance.isFinalBossAlive)
                 GameManager.Instance.AddScore(1);
             
             Destroy(gameObject);

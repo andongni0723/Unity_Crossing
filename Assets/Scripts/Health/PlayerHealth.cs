@@ -46,6 +46,8 @@ public class PlayerHealth : BaseHealth
         base.TakeDamage(damage);
 
         UpdateHealthText();
+
+        StartCoroutine(GiveEffect(EffectStatus.Invincible, 1));
         
         EventHandler.CallPlayerHurt();
     }

@@ -69,11 +69,13 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
     private void OnEnable()
     {
         EventHandler.BossEventPrepare += OnBossEventPrepare; // Stop spawn enemy
+        EventHandler.FinalBossDeadEventDone += OnFinalBossDeadEventDone; // Start spawn enemy
     }
 
     private void OnDisable()
     {
         EventHandler.BossEventPrepare -= OnBossEventPrepare;
+        EventHandler.FinalBossDeadEventDone -= OnFinalBossDeadEventDone;
     }
 
     private void OnBossEventPrepare()
@@ -81,8 +83,13 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
         StopAllCoroutines();
     }
 
-    #endregion 
-    
+    private void OnFinalBossDeadEventDone()
+    {
+        StartCoroutine(SpawnEnemy());
+    }
+
+    #endregion
+
     void SetEnemyRandomSpawnRange()
     {
         int currentProbabilityNum = 0;
@@ -184,7 +191,6 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
 
     public void FinalBossGenerate()
     {
-        Debug.Log("BOSSSSSS");
         Instantiate(finalBossPrefab, finalBossGeneratePosition, Quaternion.Euler(0, 0, 90));
     }
 }

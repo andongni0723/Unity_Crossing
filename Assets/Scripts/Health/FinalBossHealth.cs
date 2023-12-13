@@ -21,4 +21,10 @@ public class FinalBossHealth : EnemyHealth
         if(currentHealth <= 0)
             healthText.text = "00%";
     }
+
+    protected override void Die()
+    {
+        EventHandler.CallBossDead();
+        base.Die();
+    }
 }
