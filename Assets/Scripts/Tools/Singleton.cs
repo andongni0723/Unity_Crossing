@@ -9,7 +9,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         get { return instance; }
     }
 
-    protected  virtual void Awake()
+    public virtual void Awake()
     {
         if (instance != null)
         {

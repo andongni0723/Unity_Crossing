@@ -20,22 +20,30 @@ public class PlayerHealth : BaseHealth
     {
         EventHandler.PlayerCrossing += OnPlayerCrossing; // Give invincible effect
         EventHandler.BossEventPrepare += OnBossEventPrepare; // Add 3 life
+        EventHandler.FinalBossDead += OnFinalBossDead; // Set life to 3
     }
 
     private void OnDisable()
     {
         EventHandler.PlayerCrossing -= OnPlayerCrossing;
         EventHandler.BossEventPrepare -= OnBossEventPrepare;
+        EventHandler.FinalBossDead -= OnFinalBossDead;
     }
 
     private void OnPlayerCrossing(Vector3 pastPosition)
     {
         StartCoroutine(GiveEffect(EffectStatus.Invincible, 1));
     }
-    
+
     private void OnBossEventPrepare()
     {
         currentHealth += 3;
+        UpdateHealthText();
+    }
+
+    private void OnFinalBossDead()
+    {
+        currentHealth = 3;
         UpdateHealthText();
     }
 
@@ -59,6 +67,7 @@ public class PlayerHealth : BaseHealth
         {
             healthText.text += ".";   
         }
+        
     }
     
     protected override void Die()

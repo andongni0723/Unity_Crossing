@@ -27,6 +27,7 @@ public class FinalBossBullet : MonoBehaviour
         bulletVFXSpriteRenderer.transform.localScale = Vector3.zero;
         CameraManager.Instance.CameraShake(0.3f, 0.2f);
         AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound);
+        CheckHitPlayer();
         
         Sequence sequence = DOTween.Sequence();
         sequence.Append(bulletSpriteRenderer.transform.DOScale(1, bulletScaleBigTime));
@@ -36,12 +37,10 @@ public class FinalBossBullet : MonoBehaviour
         sequence.Append(bulletSpriteRenderer.DOFade(0, bulletScaleBigTime));
         sequence.OnComplete(() => Destroy(gameObject));
     }
-    
-    private void OnTriggerEnter2D(Collider2D other)
+
+    private void CheckHitPlayer()
     {
-        if (other.CompareTag("Player"))
-        {
-            other.GetComponent<PlayerHealth>().TakeDamage(1);
-        }
+        if(Vector2.Distance(gameObject.transform.position, GameManager.Instance.player.transform.position) <= 1.1f)
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().TakeDamage(1);
     }
 }

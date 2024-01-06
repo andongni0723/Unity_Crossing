@@ -50,7 +50,7 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
     [Space(15)]
     public List<SpawnPosition> SpawnPositionsList = new List<SpawnPosition>();
 
-    protected override void Awake()
+    public override void Awake()
     {
         base.Awake();
         

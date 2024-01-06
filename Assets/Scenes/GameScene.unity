@@ -470,11 +470,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentScore: 0
-  baseBossEventTargetScore: 2
-  bossEventTargetScore: 2
+  baseBossEventTargetScore: 30
   isFinalBossAlive: 0
   finalBossAppearCount: 0
+  player: {fileID: 0}
   scoreText: {fileID: 1136053831}
+  mainVolume: {fileID: 776159652}
+  finalBossVolume: {fileID: 1894057642}
   scoreScaleAddVFX: {x: 1.2, y: 1.2, z: 1.2}
 --- !u!114 &111878835
 MonoBehaviour:
@@ -6193,7 +6195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsGlobal: 1
-  priority: 0
+  priority: 1
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 1acf5e004192f403ba8cebb751cd6791, type: 2}
@@ -6247,7 +6249,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -26.039}
-  m_SizeDelta: {x: 51.946, y: 12.932}
+  m_SizeDelta: {x: 134.282, y: 12.932}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804186410
 MonoBehaviour:
@@ -6463,7 +6465,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.18, y: 1.53}
-  m_SizeDelta: {x: 76.368, y: 29.412}
+  m_SizeDelta: {x: 132.183, y: 29.412}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &963933358
 MonoBehaviour:
@@ -6859,7 +6861,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.18, y: 1.53}
-  m_SizeDelta: {x: 76.368, y: 29.412}
+  m_SizeDelta: {x: 133.92, y: 29.412}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1136053831
 MonoBehaviour:
@@ -7245,8 +7247,8 @@ MonoBehaviour:
     randomSpawnMin: 85
     randomSpawnMax: 100
   finalBossPrefab: {fileID: 888971455302846004, guid: 845b823e98cd340aab0a90b9aff2ebb8, type: 3}
-  waitNextSpawnTime: 0.6
-  waitNextWaveTime: 3
+  waitNextSpawnTime: 1.5
+  waitNextWaveTime: 2
   finalBossGeneratePosition: {x: 0, y: -2.8, z: 0}
   SpawnPositionsList:
   - name: Up
@@ -7788,6 +7790,55 @@ MonoBehaviour:
   shakeDuration: 0.05
   playerXCrossing: 1
   playerYCrossing: 0
+--- !u!1 &1894057641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1894057643}
+  - component: {fileID: 1894057642}
+  m_Layer: 0
+  m_Name: Final Boss Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1894057642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894057641}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 9c1d3a03f4f7744c8ba31d2504d7f62d, type: 2}
+--- !u!4 &1894057643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894057641}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1918959048
 GameObject:
   m_ObjectHideFlags: 0
@@ -8477,6 +8528,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 870607197}
   - {fileID: 776159653}
+  - {fileID: 1894057643}
   - {fileID: 2036438780}
   - {fileID: 1733476118}
   - {fileID: 111878833}

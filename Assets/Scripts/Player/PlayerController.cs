@@ -27,6 +27,20 @@ public class PlayerController : MonoBehaviour
         
         _controls.Enable();
     }
+
+    #region Event
+
+    private void OnEnable()
+    {
+        _controls.Enable(); 
+    }
+
+    private void OnDisable()
+    {
+        _controls.Disable();
+    }
+
+    #endregion 
     
     private void FixedUpdate()
     {

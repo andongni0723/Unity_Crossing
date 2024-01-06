@@ -4,22 +4,34 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GameManager : Singleton<GameManager>
 {
     public int currentScore = 0;
-    public int baseBossEventTargetScore = 30;
-    [SerializeField] int bossEventTargetScore;
+    public int baseBossEventTargetScore = 30; 
+    private int bossEventTargetScore;
     public bool isFinalBossAlive = false;
 
     public int finalBossAppearCount = 0;
-    
+
 
     [Header("Components")] 
+    public GameObject player;
     public TextMeshProUGUI scoreText;
+    public Volume mainVolume;
+    public Volume finalBossVolume;
 
     [Header("Setting")] 
     public Vector3 scoreScaleAddVFX;
+
+    public override void Awake()
+    {
+        base.Awake();
+        AudioManager.Instance.PlayBGM(AudioManager.Instance.gameBGM);
+        player = GameObject.FindGameObjectWithTag("Player");
+        bossEventTargetScore = baseBossEventTargetScore;
+    }
 
     #region Event
 
@@ -47,12 +59,6 @@ public class GameManager : Singleton<GameManager>
 
     #endregion
 
-    protected override void Awake()
-    {
-        base.Awake();
-        bossEventTargetScore = baseBossEventTargetScore;
-    }
-
     public void AddScore(int score)
     {
         currentScore += score;
@@ -78,9 +84,7 @@ public class GameManager : Singleton<GameManager>
         isFinalBossAlive = false;
         bossEventTargetScore = currentScore + finalBossAppearCount * 10 + 30;
         
-        if (EnemySpawnManager.Instance.waitNextSpawnTime <= 0.6)
-            EnemySpawnManager.Instance.waitNextSpawnTime = 0.6f;
-        else 
-            EnemySpawnManager.Instance.waitNextSpawnTime -= 0.3f;
+        EnemySpawnManager.Instance.waitNextSpawnTime = 
+            Mathf.Max(EnemySpawnManager.Instance.waitNextSpawnTime - 0.3f, 0.3f);
     }
 }

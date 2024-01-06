@@ -10,7 +10,7 @@ public class CameraManager : Singleton<CameraManager>
     private CinemachineBasicMultiChannelPerlin noise;
     
 
-    protected override void Awake()
+    public override void Awake()
     {
         base.Awake();
         camera = GetComponent<CinemachineVirtualCamera>();

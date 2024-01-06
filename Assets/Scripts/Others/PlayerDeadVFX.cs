@@ -16,7 +16,7 @@ public class PlayerDeadVFX : MonoBehaviour
     
     private void Awake()
     {
-        lensDistortion = FindObjectOfType<Volume>().profile.components[2] as LensDistortion;
+        lensDistortion = GameManager.Instance.mainVolume.profile.components[2] as LensDistortion;
     }
 
     #region Event
@@ -50,6 +50,9 @@ public class PlayerDeadVFX : MonoBehaviour
         Sequence deadSequence = DOTween.Sequence();
         deadSequence.Append(DOTween.To(() => lensDistortion.intensity.value, x => lensDistortion.intensity.value = x, -1, VFXDuration / 2));
         deadSequence.Append(DOTween.To(() => lensDistortion.scale.value, x => lensDistortion.scale.value = (float)x, 0.01, VFXDuration / 2).SetEase(Ease.OutSine));
-        deadSequence.Join(DeadCanvasGroup.DOFade(1, VFXDuration / 2));
+        deadSequence.Join(DeadCanvasGroup.DOFade(1, VFXDuration / 2).OnComplete(() =>
+        {
+            SceneLoadManager.Instance.ChangeScene(SceneLoadManager.Instance.mainMenuSceneName);
+        }));
     }
 }

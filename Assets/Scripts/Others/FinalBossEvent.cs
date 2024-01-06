@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class FinalBossEvent : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class FinalBossEvent : MonoBehaviour
     public TextMeshProUGUI bossHealthText;
     public CanvasGroup fadeCanvasGroup;
     public SpriteRenderer backgroundSpriteRenderer;
+    ChromaticAberration chromaticAberration =>
+        GameManager.Instance.finalBossVolume.profile.components[0] as ChromaticAberration;
     
     [Header("Setting")]
     public List<string> BossEventStartTextList;
@@ -73,6 +76,7 @@ public class FinalBossEvent : MonoBehaviour
         sequence.Append(fadeCanvasGroup.DOFade(0, 0).OnComplete(() =>
         {
             AudioManager.Instance.PlayBGM(AudioManager.Instance.finalBossBGM);
+            chromaticAberration.intensity.value = 1;
             EventHandler.CallBossEventPrepareDone();
         }));
 
@@ -81,27 +85,16 @@ public class FinalBossEvent : MonoBehaviour
 
     IEnumerator FinalBossDeadAnimation()
     {
+        AudioManager.Instance.StopBGM();
+        AudioManager.Instance.PlayBGM(AudioManager.Instance.gameBGM);
+        chromaticAberration.intensity.value = 0;
+        
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(backgroundSpriteRenderer.DOColor(Color.black, 1f)); 
-        
-        // string text = bossHealthText.text;
-        // for (int i = text.Length - 1; i <= 0 ; i--)
-        // {
-        //     bossHealthText.text.Remove(i);
-        //     yield return new WaitForSeconds(0.3f);
-        // } 
-        
+        sequence.Append(backgroundSpriteRenderer.DOColor(Color.black, 1f));
+
         bossHealthText.gameObject.SetActive(false);
         scoreText.gameObject.SetActive(true);
-        
-        // text = GameManager.Instance.currentScore.ToString();
-        // scoreText.text = "";
-        // for (int i = 0; i < text.Length; i++)
-        // {
-        //     scoreText.text += text[i];
-        //     yield return new WaitForSeconds(0.3f);
-        // }
-        
+
         EventHandler.CallFinalBossDeadEventDone();
         yield return null;
     }

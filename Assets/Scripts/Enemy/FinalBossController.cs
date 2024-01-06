@@ -10,7 +10,6 @@ public class Laser
 {
     public EnemyLaserWeapon LaserWeapon;
     public GameObject LaserWeaponSpriteObject;
-    //public SpriteRenderer LaserWeaponSpriteRenderer; 
 }
 
 public class FinalBossController : EnemyController
@@ -94,9 +93,14 @@ public class FinalBossController : EnemyController
         
     }
 
+    #region AttackBuff
     private void ForwardLaserBuff()
     {
         forwardLaser.LaserWeapon.fireTime = 5;
+        forwardLaser.LaserWeapon.accumulateTime = Mathf.Max(3 - GameManager.Instance.finalBossAppearCount, 0);
+        Debug.Log(forwardLaser.LaserWeapon.accumulateTime);
+        
+        
         int rand = Random.Range(0, 2);
         forwardLaserStartAngle = rand == 0 ? -180 : 0;
         forwardLaserTargetAngle = rand == 0 ? 0 : -180;
@@ -117,12 +121,21 @@ public class FinalBossController : EnemyController
     }
     private void DoubleLaserBuff()
     {
+        forwardLaser.LaserWeapon.accumulateTime = 3f;
+        backLaser.LaserWeapon.accumulateTime = 3f;
+
+        Debug.Log(forwardLaser.LaserWeapon.accumulateTime);
+        Debug.Log(backLaser.LaserWeapon.accumulateTime);
+        
         // Rotate more time 
         doubleLaserRotateTime = startDoubleLaserRotateTime + GameManager.Instance.finalBossAppearCount * 2;
         forwardLaser.LaserWeapon.fireTime = doubleLaserRotateTime;
         backLaser.LaserWeapon.fireTime = doubleLaserRotateTime;
     }
+    
+    #endregion
 
+    #region SkillAction
     IEnumerator Shield()
     {
         isShieldPlay = true;
@@ -206,5 +219,7 @@ public class FinalBossController : EnemyController
         backLaser.LaserWeaponSpriteObject.SetActive(false);
         isAttack = false;
     }
+    
+    #endregion
 }
 

@@ -37,10 +37,12 @@ public class AudioManager : Singleton<AudioManager>
     
     public void PlayBGM(AudioClip audioClip)
     {
+        bgmAudioSource.Stop();
         bgmAudioSource.clip = audioClip;
         bgmAudioSource.volume = 1;
         bgmAudioSource.Play();
     }
+    
 
     public void StopBGM()
     {
