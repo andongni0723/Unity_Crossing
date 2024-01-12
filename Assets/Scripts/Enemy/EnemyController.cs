@@ -29,9 +29,9 @@ public class EnemyController : MonoBehaviour
     private bool _isThinking = false;
     private bool _isControllerEnabled = true;
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
-        _target = GameObject.FindWithTag("Player");
+        _target = GameManager.Instance.player;
     }
 
     #region Event

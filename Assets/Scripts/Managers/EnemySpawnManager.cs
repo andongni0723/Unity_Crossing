@@ -60,6 +60,12 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
             return;
         }
 
+        if (MainGameManager.Instance.isHardMode)
+        {
+            waitNextSpawnTime = 0.5f;
+            waitNextWaveTime = 1;
+        }
+
         SetEnemyRandomSpawnRange();
         StartCoroutine(SpawnEnemy());
     }

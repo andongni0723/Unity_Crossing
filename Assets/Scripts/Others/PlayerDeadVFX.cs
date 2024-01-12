@@ -16,7 +16,8 @@ public class PlayerDeadVFX : MonoBehaviour
     
     private void Awake()
     {
-        lensDistortion = GameManager.Instance.mainVolume.profile.components[2] as LensDistortion;
+        if(GameManager.Instance != null)
+            lensDistortion = GameManager.Instance.mainVolume.profile.components[2] as LensDistortion;
     }
 
     #region Event

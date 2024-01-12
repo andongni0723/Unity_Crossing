@@ -15,6 +15,7 @@ public class SceneLoadManager : Singleton<SceneLoadManager>
     [SceneName] public string basicSceneName;
     [SceneName] public string mainMenuSceneName;
     [SceneName] public string gameSceneName;
+    [SceneName] public string teachSceneName;
     
     private string currentSceneName;
     
@@ -36,6 +37,7 @@ public class SceneLoadManager : Singleton<SceneLoadManager>
     public void ChangeScene(string sceneName)
     {
         // scene mode is additive
+        Debug.Log("Change Scene");
         Sequence sequence = DOTween.Sequence();
         sequence.Append(loadingCanvasGroup.DOFade(1, 0.5f).OnComplete(() =>
         {

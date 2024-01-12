@@ -36,24 +36,41 @@ public class BaseHealth : MonoBehaviour
                 break;
         }
         currentHealth -= damage * (1 - defense);
-       // Debug.Log("d");
-        if (currentHealth <= 0)
-            Die();
+        if (currentHealth <= 0) Die();
+    }
+
+    public virtual void TakeRealDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0) Die();
     }
 
     public IEnumerator GiveEffect(EffectStatus targetEffect, float effectEndTime)
     {
         status = targetEffect;
-        EffectAction(targetEffect, effectEndTime);
+        EffectAction(targetEffect, effectEndTime, false);
         yield return new WaitForSeconds(effectEndTime);
         status = EffectStatus.None;
     }
 
-    void EffectAction(EffectStatus targetEffect, float effectEndTime)
+    public void GivePermanentEffect(EffectStatus targetEffect)
+    {
+        status = targetEffect;
+        EffectAction(targetEffect, -1, true); 
+    }
+
+    public void ClearEffect()
+    {
+        StopAllCoroutines();
+        status = EffectStatus.None;
+    }
+
+    void EffectAction(EffectStatus targetEffect, float effectEndTime, bool isPermanentEffect)
     {
         switch (targetEffect)
         {
            case EffectStatus.Invincible:
+               if (isPermanentEffect) break;
                
                for (int i = 0; i < effectEndTime * 2; i++)
                {

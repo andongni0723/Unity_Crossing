@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     public GameObject DestroyVFXPrefab;
     private SpriteRenderer spriteRenderer => GetComponent<SpriteRenderer>();
     private TrailRenderer trailRenderer => GetComponent<TrailRenderer>();
-    private ParticleSystem particleSystem => GetComponent<ParticleSystem>();
+    private new ParticleSystem particleSystem => GetComponent<ParticleSystem>();
 
 
     [Header("Settings")]

@@ -56,6 +56,7 @@ public class FinalBossEvent : MonoBehaviour
         AudioManager.Instance.PlayLaserSoundAudio(AudioManager.Instance.laserAccumulateSound);
 
         // text animation
+        // bossHealthText.text = "100%";
         string text = BossEventStartTextList[Random.Range(0, BossEventStartTextList.Count)];
         for (int i = 0; i < text.Length; i++)
         {

@@ -46,6 +46,13 @@ public class EventHandler : MonoBehaviour
         BossEventPrepareDone?.Invoke();
     }
 
+    public static event Action FinalBossLaserEnemyDead;
+
+    public static void CallFinalBossLaserEnemyDead()
+    {
+        FinalBossLaserEnemyDead?.Invoke();
+    }
+
     public static event Action FinalBossDead;
 
     public static void CallBossDead()
@@ -58,5 +65,12 @@ public class EventHandler : MonoBehaviour
     public static void CallFinalBossDeadEventDone()
     {
         FinalBossDeadEventDone?.Invoke();
+    }
+
+    public static event Action TeachUnitFeedback;
+
+    public static void CallTeachUnitFeedback()
+    {
+        TeachUnitFeedback?.Invoke();
     }
 }

@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
     [Header("Components")] 
     public GameObject player;
     public TextMeshProUGUI scoreText;
+    public GameObject hardModeText;
     public Volume mainVolume;
     public Volume finalBossVolume;
 
@@ -28,9 +29,16 @@ public class GameManager : Singleton<GameManager>
     public override void Awake()
     {
         base.Awake();
-        AudioManager.Instance.PlayBGM(AudioManager.Instance.gameBGM);
         player = GameObject.FindGameObjectWithTag("Player");
+        AudioManager.Instance.PlayBGM(AudioManager.Instance.gameBGM);
+        Debug.Log("GameManager Awake");
         bossEventTargetScore = baseBossEventTargetScore;
+        
+        // Hard Mode
+        if (MainGameManager.Instance.isHardMode)
+        {
+            hardModeText.SetActive(true);
+        }
     }
 
     #region Event
@@ -82,9 +90,18 @@ public class GameManager : Singleton<GameManager>
     {
         finalBossAppearCount++;
         isFinalBossAlive = false;
-        bossEventTargetScore = currentScore + finalBossAppearCount * 10 + 30;
-        
-        EnemySpawnManager.Instance.waitNextSpawnTime = 
-            Mathf.Max(EnemySpawnManager.Instance.waitNextSpawnTime - 0.3f, 0.3f);
+
+        if (MainGameManager.Instance.isHardMode)
+        {
+            bossEventTargetScore = currentScore + finalBossAppearCount * 10 + 50;
+            EnemySpawnManager.Instance.waitNextSpawnTime = 
+                Mathf.Max(EnemySpawnManager.Instance.waitNextSpawnTime - 0.5f, 0.1f);
+        }
+        else
+        {
+            bossEventTargetScore = currentScore + finalBossAppearCount * 10 + 30;
+            EnemySpawnManager.Instance.waitNextSpawnTime = 
+                Mathf.Max(EnemySpawnManager.Instance.waitNextSpawnTime - 0.3f, 0.3f);
+        }
     }
 }

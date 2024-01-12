@@ -60,6 +60,31 @@ MonoBehaviour:
   colorDrift:
     m_OverrideState: 1
     m_Value: 0.345
+--- !u!114 &-3460710212592436844
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
+  m_Name: FilmGrain
+  m_EditorClassIdentifier: 
+  active: 1
+  type:
+    m_OverrideState: 1
+    m_Value: 9
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+  response:
+    m_OverrideState: 1
+    m_Value: 0.892
+  texture:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,6 +101,7 @@ MonoBehaviour:
   - {fileID: 8262475317172553732}
   - {fileID: 2652191788599295245}
   - {fileID: 3612104249210106339}
+  - {fileID: -3460710212592436844}
 --- !u!114 &2652191788599295245
 MonoBehaviour:
   m_ObjectHideFlags: 3

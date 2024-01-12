@@ -34,10 +34,22 @@ public class FinalBossController : EnemyController
     [Header("Setting")]
     public float startDoubleLaserRotateTime = 5;
     private float doubleLaserRotateTime;
+    private int finalBulletEachColumnBulletCount = 3;
+    private WaitForSeconds finalBulletWaveShootTime = new WaitForSeconds(1);
+    private WaitForSeconds finalBulletShootTime = new WaitForSeconds(0.02f);
 
-    protected override void Awake()
+    [Space(15)] 
+    public GameObject finalBossLaserEnemyPrefab;
+    public Vector3 finalLaserEnemyPos1;
+    public Vector3 finalLaserEnemyPos2;
+    public Vector3 finalLaserEnemyPos3;
+    private int finalLaserEnemyDeadCount = 0;
+    private bool isAllFinalLaserEnemyDead = false;
+
+
+
+    protected void Awake()
     {
-        base.Awake();
         StartCoroutine(enemyHealth.GiveEffect(EffectStatus.Invincible, 5));
     }
 
@@ -46,11 +58,25 @@ public class FinalBossController : EnemyController
     private void OnEnable()
     {
         EventHandler.BossEventPrepareDone += OnBossEventPrepareDone; // Check isPrepareDone
+        EventHandler.FinalBossLaserEnemyDead += OnFinalBossLaserEnemyDead; // Check All FinalBossLaserEnemy is Dead
     }
 
     private void OnDisable()
     {
         EventHandler.BossEventPrepareDone -= OnBossEventPrepareDone;
+        EventHandler.FinalBossLaserEnemyDead -= OnFinalBossLaserEnemyDead;
+    }
+
+    private void OnFinalBossLaserEnemyDead()
+    {
+        finalBulletShootCount++;
+        enemyHealth.TakeRealDamage(3);
+
+        if (finalBulletShootCount == 3)
+        {
+            finalBulletShootCount = 0;
+            isAllFinalLaserEnemyDead = true;
+        }
     }
 
     private void OnBossEventPrepareDone()
@@ -74,15 +100,25 @@ public class FinalBossController : EnemyController
                     StartCoroutine(ForwardLaserAttack());
                     attackSkillOrder++;
                     break;
+                
                 case 1:
                     FinalBulletBuff();
                     StartCoroutine(FinalBulletAttack());
+                    // Add order in FinalBulletBuff
                     break;
+                
                 case 2:
                     DoubleLaserBuff();
                     StartCoroutine(DoubleLaserRotate());
+                    attackSkillOrder++;
+                    break;
+                
+                case 3:
+                    FinalBossLaserEnemyBuff();
+                    StartCoroutine(FinalBossLaserEnemy());
                     attackSkillOrder = 0;
                     break;
+
             }
         }
         
@@ -108,8 +144,18 @@ public class FinalBossController : EnemyController
         
     private void FinalBulletBuff()
     {
+        int maxShootCount = GameManager.Instance.finalBossAppearCount;
+        
+        // Hard Mode
+        if (MainGameManager.Instance.isHardMode)
+        {
+            maxShootCount *= 2;
+            finalBulletWaveShootTime = new WaitForSeconds(0f);
+            finalBulletShootTime = new WaitForSeconds(0.01f);
+            finalBulletEachColumnBulletCount = 5;
+        }
         // Shoot more time
-        if (finalBulletShootCount > GameManager.Instance.finalBossAppearCount)
+        if (finalBulletShootCount > maxShootCount)
         {
             finalBulletShootCount = 0;
             attackSkillOrder++;
@@ -124,13 +170,15 @@ public class FinalBossController : EnemyController
         forwardLaser.LaserWeapon.accumulateTime = 3f;
         backLaser.LaserWeapon.accumulateTime = 3f;
 
-        Debug.Log(forwardLaser.LaserWeapon.accumulateTime);
-        Debug.Log(backLaser.LaserWeapon.accumulateTime);
-        
         // Rotate more time 
         doubleLaserRotateTime = startDoubleLaserRotateTime + GameManager.Instance.finalBossAppearCount * 2;
         forwardLaser.LaserWeapon.fireTime = doubleLaserRotateTime;
         backLaser.LaserWeapon.fireTime = doubleLaserRotateTime;
+    }
+
+    private void FinalBossLaserEnemyBuff()
+    {
+        
     }
     
     #endregion
@@ -177,16 +225,16 @@ public class FinalBossController : EnemyController
         isAttack = true;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         
-        for (int i = -10; i < 8; i++)
+        for (int i = -10; i < 10; i++)
         {
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < finalBulletEachColumnBulletCount; j++)
             {
                 Instantiate(skillBulletWarning, new Vector3(i, Random.Range(-5, 5), 0), Quaternion.identity);
-                yield return new WaitForSeconds(0.02f);
+                yield return finalBulletShootTime;
             }
         }
 
-        yield return new WaitForSeconds(1);
+        yield return finalBulletWaveShootTime;
         isAttack = false;
         yield return null;
     }
@@ -218,6 +266,27 @@ public class FinalBossController : EnemyController
         forwardLaser.LaserWeaponSpriteObject.SetActive(false);
         backLaser.LaserWeaponSpriteObject.SetActive(false);
         isAttack = false;
+    }
+
+    IEnumerator FinalBossLaserEnemy()
+    {
+        isAttack = true;
+        Instantiate(finalBossLaserEnemyPrefab, finalLaserEnemyPos1, Quaternion.identity);
+        Instantiate(finalBossLaserEnemyPrefab, finalLaserEnemyPos2, Quaternion.identity);
+        Instantiate(finalBossLaserEnemyPrefab, finalLaserEnemyPos3, Quaternion.identity);
+
+        // StartCoroutine(enemyHealth.GiveEffect(EffectStatus.Invincible, 99999));
+        enemyHealth.GivePermanentEffect(EffectStatus.Invincible);
+        isAllFinalLaserEnemyDead = false;
+
+        Debug.Log("Before");
+        yield return new WaitUntil(() => isAllFinalLaserEnemyDead);
+        Debug.Log("After");
+        
+        enemyHealth.ClearEffect();
+        
+        isAttack = false;
+        yield return null;
     }
     
     #endregion

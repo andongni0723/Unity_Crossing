@@ -12,27 +12,50 @@ public class MenuManager : MonoBehaviour
     public float scoreTextAnimationDuration = 0.01f;
     public float mainLightFadeInDuration = 1f;
     public float mainLightIntensity = 0.14f;
+    
+    [Space(15)]
+    public Color mainLightRedColor;
+    public Color mainLightGreenColor;
+    public Color logoTextRedColor;
+    public Color logoTextGreenColor;
+    public Color textRedColor;
+    public Color textGreenColor;
+    public Color iconRedColor;
+    public Color iconGreenColor;
+    public float changeThemeDuration = 1f;
+    public float checkBoxOpenDuration = 0.5f;
 
     [Header("Component")]
     public TextMeshProUGUI highScoreLabelText;
     public TextMeshProUGUI highScoreText;
+    public TextMeshProUGUI logoText;
     public CanvasGroup mainUI;
     public Light2D mainLight;
     public Light2D redLight;
     public Button startButton;
     public Button teachButton;
+    
+    [Space(15)]
+    public GameObject checkBox;
+    public Button checkBoxYesButton;
+    public Button checkBoxNoButton;
 
     private void Awake()
     {
         AudioManager.Instance.PlayBGM(AudioManager.Instance.openingBGM);
+        StartCoroutine(ChangeTheme(mainLightGreenColor, logoTextGreenColor, textGreenColor, iconGreenColor)); 
+        
         StartCoroutine(StartSceneAnimation());
+        //StartCoroutine(ChengeThemeTest()); // TODO: Test
     }
-    
+
+    #region Button Method
+
     public void StartGame()
     {
         startButton.interactable = false;
         AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound);
-        AudioManager.Instance.BGMFade(0, 1);
+        AudioManager.Instance.BGMFade(0, 1.5f);
         SceneLoadManager.Instance.ChangeScene(SceneLoadManager.Instance.gameSceneName);
     }
 
@@ -40,7 +63,48 @@ public class MenuManager : MonoBehaviour
     {
         teachButton.interactable = false;
         AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound);
-        Debug.Log("Teach Scene");
+        AudioManager.Instance.BGMFade(0, 1.5f);
+        SceneLoadManager.Instance.ChangeScene(SceneLoadManager.Instance.teachSceneName);
+    }
+
+    public void Hard()
+    {
+        CheckBoxOpen();
+        MainGameManager.Instance.isHardMode = true;
+    }
+
+    public void CheckBoxYes()
+    {
+        startButton.interactable = false;
+        AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound);
+        AudioManager.Instance.BGMFade(0, 1.5f);
+        SceneLoadManager.Instance.ChangeScene(SceneLoadManager.Instance.gameSceneName);
+    }
+    
+    public void CheckBoxNo()
+    {
+        StartCoroutine(ChangeTheme(mainLightGreenColor, logoTextGreenColor, textGreenColor, iconGreenColor)); 
+        CheckBoxClose();
+    }
+
+    #endregion
+    
+    private void CheckBoxOpen()
+    {
+        StartCoroutine(ChangeTheme(mainLightRedColor, logoTextRedColor, textRedColor, iconRedColor));
+        checkBox.transform.localScale = Vector3.zero;
+        checkBox.SetActive(true);
+        checkBox.transform.DOScale(1, checkBoxOpenDuration); 
+    }
+
+    private void CheckBoxClose()
+    {
+        StartCoroutine(ChangeTheme(mainLightGreenColor, logoTextGreenColor, textGreenColor, iconGreenColor));
+        checkBox.transform.localScale = Vector3.one;
+        checkBox.transform.DOScale(0, checkBoxOpenDuration).OnComplete(() =>
+        {
+            checkBox.SetActive(false); 
+        });  
     }
 
     IEnumerator StartSceneAnimation()
@@ -83,13 +147,23 @@ public class MenuManager : MonoBehaviour
 
         yield return null;
     }
+
+    IEnumerator ChengeThemeTest()
+    {
+        while (true)
+        {
+            StartCoroutine(ChangeTheme(mainLightRedColor, logoTextRedColor, textRedColor, iconRedColor));
+            yield return new WaitForSeconds(3);
+            StartCoroutine(ChangeTheme(mainLightGreenColor, logoTextGreenColor, textGreenColor, iconGreenColor)); 
+            yield return new WaitForSeconds(3);
+        }
+    }
     
     IEnumerator RedLightAnimation()
     {
         while (true)
         {
             float random = Random.Range(0, 11) / 10.0f;
-            Debug.Log(random);
             Sequence sequence = DOTween.Sequence();
             
             sequence.Append(DOTween.To(
@@ -100,5 +174,27 @@ public class MenuManager : MonoBehaviour
             sequence.AppendInterval(2);
             yield return sequence.WaitForCompletion();
         }
+    }
+
+    
+
+    IEnumerator ChangeTheme(Color lightTargetColor, Color logoTargetColor, Color textTargetColor, Color iconTargetColor)
+    {
+        Sequence sequence = DOTween.Sequence();
+        
+        sequence.Append(logoText.DOColor(logoTargetColor, changeThemeDuration));
+        sequence.Join(highScoreText.DOColor(textTargetColor, changeThemeDuration));
+        sequence.Join(teachButton.GetComponent<Image>().DOColor(iconTargetColor, changeThemeDuration));
+        sequence.Join(startButton.GetComponent<Image>().DOColor(iconTargetColor, changeThemeDuration));
+        
+        Sequence backgroundSequence = DOTween.Sequence();
+        backgroundSequence.Append(DOTween.To(
+            (x => mainLight.color = new Color(x, mainLight.color.g, mainLight.color.b)),
+            mainLight.color.r, lightTargetColor.r, changeThemeDuration / 2.0f));
+        backgroundSequence.Append(DOTween.To(
+            (x => mainLight.color = new Color(mainLight.color.r, x, mainLight.color.b)),
+            mainLight.color.g, lightTargetColor.g, changeThemeDuration / 2.0f)); 
+        
+        yield return sequence.WaitForCompletion();   
     }
 }

@@ -17,7 +17,8 @@ public class HurtVFX : MonoBehaviour
     
     private void Awake()
     {
-        chromaticAberration = GameManager.Instance.mainVolume.profile.components[1] as ChromaticAberration;
+        if(GameManager.Instance != null)
+            chromaticAberration = GameManager.Instance.mainVolume.profile.components[1] as ChromaticAberration;
     }
 
     #region Event

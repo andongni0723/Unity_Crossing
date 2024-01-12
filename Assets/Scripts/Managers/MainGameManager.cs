@@ -8,9 +8,11 @@ public class MainGameManager : Singleton<MainGameManager>
     [Header("Data")]
     public int highScore;
     public int latestScore;
+    public bool isHardMode = false;
     public void Start()
     {
         // Game Scene
+        Application.targetFrameRate = 200;
         LoadGameData();
     }
 
@@ -29,6 +31,7 @@ public class MainGameManager : Singleton<MainGameManager>
     private void OnPlayerDead()
     {
         SaveGameData(GameManager.Instance.currentScore);
+        isHardMode = false;
     }
 
     #endregion 
