@@ -67,6 +67,7 @@ public class TeachManager : MonoBehaviour
         foreach (var teachDetails in TeachUnitDataList)
         {
             isPlayerJumpTeach = false;
+            currentUnitGetFeedback = 0;
             teachDetails.teachUnitObject.SetActive(true);
 
             // Teach Voice
@@ -88,6 +89,11 @@ public class TeachManager : MonoBehaviour
             if (teachDetails.isAutoSkip)
             {
                 yield return new WaitUntil(() => AudioManager.Instance.CheckVoicePlayDone());
+                isPlayerJumpTeach = true;
+            }
+            else
+            {
+                yield return new WaitUntil(() => currentUnitGetFeedback == teachDetails.thisUnitNeedFeedback);
                 isPlayerJumpTeach = true;
             }
 

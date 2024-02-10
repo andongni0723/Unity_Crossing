@@ -533,6 +533,51 @@ MonoBehaviour:
       the character to the white square areas.
     teachUnitObject: {fileID: 158225617}
     thisUnitNeedFeedback: 3
+  - unitName: Unit2
+    isAutoSkip: 1
+    textAudio: {fileID: 8300000, guid: 7a4a38026f834449c8bdb977f9d213c0, type: 3}
+    teachText: Good Job! Then you can press the left mouse button to shoot.
+    teachUnitObject: {fileID: 438274944}
+    thisUnitNeedFeedback: 0
+  - unitName: Unit3
+    isAutoSkip: 0
+    textAudio: {fileID: 8300000, guid: e5a4f417bb8b64fdd8816cf830645a78, type: 3}
+    teachText: Now there are some enemies, try to kill them.
+    teachUnitObject: {fileID: 158225617}
+    thisUnitNeedFeedback: 0
+  - unitName: Unit4
+    isAutoSkip: 1
+    textAudio: {fileID: 8300000, guid: b9d5391be4f2d4b17b00b10553b657a0, type: 3}
+    teachText: Great. And in this game, you have special skills, you can "cross"
+      the wall and rebound the bullet.
+    teachUnitObject: {fileID: 438274944}
+    thisUnitNeedFeedback: 0
+  - unitName: Unit5
+    isAutoSkip: 1
+    textAudio: {fileID: 8300000, guid: bbde1f8e885ea45f08970160b59ecc27, type: 3}
+    teachText: It's easy. you need to touch the wall, then the wall will help you
+      cross.
+    teachUnitObject: {fileID: 438274944}
+    thisUnitNeedFeedback: 0
+  - unitName: Unit6
+    isAutoSkip: 0
+    textAudio: {fileID: 8300000, guid: fd0e8d45d92c545d2947cf1cd04f8edd, type: 3}
+    teachText: Try crossing the wall five times, I believe you can.
+    teachUnitObject: {fileID: 158225617}
+    thisUnitNeedFeedback: 0
+  - unitName: Unit7
+    isAutoSkip: 1
+    textAudio: {fileID: 8300000, guid: 26eacb4ae04194a1fa9a86fb59775a4f, type: 3}
+    teachText: Now there is a strong enemy. Be careful, if you shoot on its shield,
+      it will rebound the bullet to you.
+    teachUnitObject: {fileID: 438274944}
+    thisUnitNeedFeedback: 0
+  - unitName: Unit8
+    isAutoSkip: 0
+    textAudio: {fileID: 8300000, guid: 26eacb4ae04194a1fa9a86fb59775a4f, type: 3}
+    teachText: You can try to rebound the bullet or cross the wall to kill it.
+    teachUnitObject: {fileID: 158225617}
+    thisUnitNeedFeedback: 0
   teachUIText: {fileID: 711849757}
 --- !u!1 &149102659
 GameObject:
