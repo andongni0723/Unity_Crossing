@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -23,7 +24,6 @@ public class AudioManager : Singleton<AudioManager>
     
     private bool isBGMAudioFade = false;
 
-
     public void PlaySoundAudio(AudioClip audioClip)
     {
         soundAudioSource.clip = audioClip;
@@ -36,6 +36,13 @@ public class AudioManager : Singleton<AudioManager>
         VoiceAudioSource.clip = voiceClip;
         VoiceAudioSource.volume = 1;
         VoiceAudioSource.Play();
+        
+        Invoke(nameof(SkipTeachUnit), voiceClip.length);
+    }
+
+    private void SkipTeachUnit() 
+    {
+        EventHandler.CallSkipThisUnit();
     }
 
     public bool CheckVoicePlayDone()

@@ -10,8 +10,8 @@ public enum State
 public class EnemyController : MonoBehaviour
 {
     //[Header("Components")] 
-    private Rigidbody2D _rb => GetComponent<Rigidbody2D>();
-    protected EnemyHealth enemyHealth => GetComponent<EnemyHealth>();
+    private Rigidbody2D _rb;
+    protected EnemyHealth enemyHealth;
 
     [Header("Settings")] 
     public float speed = 3;
@@ -22,16 +22,26 @@ public class EnemyController : MonoBehaviour
     // [Header("Variables")]
     [SerializeField]private State _currentState;
 
-    protected GameObject _target;
-    protected float _targetDistance;
+    [SerializeField]protected GameObject _target;
+    private float _targetDistance;
     private Vector3 _targetBeforeCrossingPosition;
     
     private bool _isThinking = false;
-    private bool _isControllerEnabled = true;
+    [SerializeField]private bool _isControllerEnabled = true;
+
+    protected virtual void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+        enemyHealth = GetComponent<EnemyHealth>();
+    }
 
     protected virtual void Start()
     {
-        _target = GameManager.Instance.player;
+        if(GameManager.Instance != null)
+            _target = GameManager.Instance.player;
+        
+        if(TeachManager.Instance != null)
+            _target = TeachManager.Instance.player;
     }
 
     #region Event

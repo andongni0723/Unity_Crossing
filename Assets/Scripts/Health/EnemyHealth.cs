@@ -15,7 +15,7 @@ public class EnemyHealth : BaseHealth
         if(destroyVFX != null)
             Instantiate(destroyVFX, transform.position, Quaternion.identity);
         
-        GameManager.Instance.AddScore(dieAddScore);
+        EventHandler.CallAddScoreEvent(dieAddScore); 
         base.Die();
     }
     

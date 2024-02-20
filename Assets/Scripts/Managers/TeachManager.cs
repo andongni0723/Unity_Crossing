@@ -22,39 +22,66 @@ public class TeachUnitData
 
 }
 
-public class TeachManager : MonoBehaviour
+public class TeachManager : Singleton<TeachManager>
 {
     public List<TeachUnitData> TeachUnitDataList = new List<TeachUnitData>();
     private bool isPlayerJumpTeach = false;
 
     [Header("Component")] 
+    public GameObject player;
     public TextMeshProUGUI teachUIText;
+    public TextMeshProUGUI hintUIText;
 
     private WaitForSeconds autoSkipDuration = new WaitForSeconds(1);
+    private string currentTeachUnitName = "";
     private int currentUnitGetFeedback = 0;
-    
-    private void Awake()
+    // private bool isCallSkip = false;
+
+    public override void Awake()
     {
+        base.Awake();  
         StartCoroutine(TeachAction());
+        player = GameObject.FindWithTag("Player");
     }
 
     #region Event
 
     private void OnEnable()
     {
-        EventHandler.TeachUnitFeedback += OnTeachUnitFeedback;
+        EventHandler.SkipThisUnit += OnSkipThisUnit; // Skip this unit
+        EventHandler.TeachUnitFeedback += OnTeachUnitFeedback; // Add feedback
+        EventHandler.PlayerCrossing += OnPlayerCrossing; // Check and add feedback
+        EventHandler.TeachNextUnit += OnTeachNextUnit; // Close hint text
     }
 
     private void OnDisable()
     {
+        EventHandler.SkipThisUnit -= OnSkipThisUnit; // Skip this unit
         EventHandler.TeachUnitFeedback -= OnTeachUnitFeedback;
+        EventHandler.PlayerCrossing -= OnPlayerCrossing;
+        EventHandler.TeachNextUnit -= OnTeachNextUnit; 
     }
 
-    private void OnTeachUnitFeedback()
+    private void OnSkipThisUnit()
     {
-        currentUnitGetFeedback++;
-        
-        
+        isPlayerJumpTeach = true;
+    }
+
+    private void OnTeachNextUnit()
+    {
+        if(currentTeachUnitName != "Unit0")
+            hintUIText.gameObject.SetActive(false);
+    }
+
+    private void OnPlayerCrossing(Vector3 obj)
+    {
+        if(currentTeachUnitName == "Unit6")
+            EventHandler.CallTeachUnitFeedback(1);
+    }
+
+    private void OnTeachUnitFeedback(int amount)
+    {
+        currentUnitGetFeedback += amount;
     }
 
     #endregion 
@@ -66,9 +93,12 @@ public class TeachManager : MonoBehaviour
         
         foreach (var teachDetails in TeachUnitDataList)
         {
+            
             isPlayerJumpTeach = false;
             currentUnitGetFeedback = 0;
+            currentTeachUnitName = teachDetails.unitName;
             teachDetails.teachUnitObject.SetActive(true);
+            EventHandler.CallTeachNextUnit();
 
             // Teach Voice
             AudioManager.Instance.PlayVoiceAudio(teachDetails.textAudio);
@@ -81,25 +111,21 @@ public class TeachManager : MonoBehaviour
             foreach (char c in text)
             {
                 teachUIText.text += c;
-                Debug.Log(c);
                 yield return textAnimationDuration;
             }
-
+            
             // Check this Unit need player stand the square to skip
             if (teachDetails.isAutoSkip)
             {
-                yield return new WaitUntil(() => AudioManager.Instance.CheckVoicePlayDone());
-                isPlayerJumpTeach = true;
+                yield return new WaitUntil(() => isPlayerJumpTeach);
             }
             else
             {
-                yield return new WaitUntil(() => currentUnitGetFeedback == teachDetails.thisUnitNeedFeedback);
-                isPlayerJumpTeach = true;
+                yield return new WaitUntil(() => currentUnitGetFeedback >= teachDetails.thisUnitNeedFeedback);
             }
+            // isPlayerJumpTeach = true;
 
-            // TODO: Check current get feedback is enough
-            
-            yield return new WaitUntil(() => isPlayerJumpTeach);
+            // yield return new WaitUntil(() => isPlayerJumpTeach);
             teachDetails.teachUnitObject.SetActive(false);
         }
     }

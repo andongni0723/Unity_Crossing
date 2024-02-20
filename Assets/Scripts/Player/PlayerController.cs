@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Components")] 
     private PlayerInputControls _controls;
-    private Rigidbody2D _rb => GetComponent<Rigidbody2D>();
-    private PlayerFire _playerFire => GetComponent<PlayerFire>();
+    private Rigidbody2D _rb;
+    private PlayerFire _playerFire;
     
     private Vector2 _moveDirection;
     private Vector2 _mousePosition;
@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        _rb = GetComponent<Rigidbody2D>();
+        _playerFire = GetComponent<PlayerFire>();
         _controls = new PlayerInputControls();
         _controls.Player.Fire.performed += _ => OnFire();
         

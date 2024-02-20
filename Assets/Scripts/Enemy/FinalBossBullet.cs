@@ -9,7 +9,7 @@ public class FinalBossBullet : MonoBehaviour
     [Header("Component")]
     public SpriteRenderer bulletSpriteRenderer;
     public SpriteRenderer bulletVFXSpriteRenderer;
-    private new Collider2D collider => GetComponent<Collider2D>();
+    private new Collider2D collider;
 
     [Header("Setting")] 
     public float bulletScaleBigTime = 0.5f;
@@ -18,6 +18,7 @@ public class FinalBossBullet : MonoBehaviour
 
     private void Awake()
     {
+        collider = GetComponent<Collider2D>();
         BulletAnimation();
     }
 

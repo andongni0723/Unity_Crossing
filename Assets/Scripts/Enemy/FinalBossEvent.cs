@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 
 public class FinalBossEvent : MonoBehaviour
 {
@@ -12,12 +14,17 @@ public class FinalBossEvent : MonoBehaviour
     public TextMeshProUGUI bossHealthText;
     public CanvasGroup fadeCanvasGroup;
     public SpriteRenderer backgroundSpriteRenderer;
-    ChromaticAberration chromaticAberration =>
-        GameManager.Instance.finalBossVolume.profile.components[0] as ChromaticAberration;
+    ChromaticAberration chromaticAberration;
     
     [Header("Setting")]
     public List<string> BossEventStartTextList;
     public Color bossBackgroundColor;
+
+    private void Awake()
+    {
+        if(GameManager.Instance != null)
+            chromaticAberration = GameManager.Instance.finalBossVolume.profile.components[0] as ChromaticAberration;
+    }
 
     #region Event
 
@@ -44,7 +51,6 @@ public class FinalBossEvent : MonoBehaviour
     }
 
     #endregion
-
 
     IEnumerator FinalBossPrepareAnimation()
     {

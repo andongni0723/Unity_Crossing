@@ -6,10 +6,16 @@ using UnityEngine;
 public class LaserEnemyController : EnemyController
 {
     //[Header("Components")]
-    protected EnemyLaserWeapon _laserWeapon => GetComponent<EnemyLaserWeapon>();
+    protected EnemyLaserWeapon _laserWeapon;
     
     [Header("Settings")]
     public float attackRotateSpeed = 1;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _laserWeapon = GetComponent<EnemyLaserWeapon>(); 
+    }
 
     protected new virtual IEnumerator Start()
     {

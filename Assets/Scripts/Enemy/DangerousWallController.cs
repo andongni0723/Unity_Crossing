@@ -8,11 +8,12 @@ public class DangerousWallController : MonoBehaviour
     [Header("Settings")]
     public float speed = 3;
     
-    private Rigidbody2D _rb => GetComponent<Rigidbody2D>();
+    private Rigidbody2D _rb;
 
     private void Awake()
     {
         Destroy(gameObject, 15);
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()

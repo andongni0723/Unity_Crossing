@@ -5,21 +5,29 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Rigidbody2D rb => GetComponent<Rigidbody2D>();
+    private Rigidbody2D rb;
     [SerializeField]private int _collisionCount = 0;
     private Vector3 _point;
 
     [Header("Components")]
     public GameObject DestroyVFXPrefab;
-    private SpriteRenderer spriteRenderer => GetComponent<SpriteRenderer>();
-    private TrailRenderer trailRenderer => GetComponent<TrailRenderer>();
-    private new ParticleSystem particleSystem => GetComponent<ParticleSystem>();
+    private SpriteRenderer spriteRenderer;
+    private TrailRenderer trailRenderer;
+    private new ParticleSystem particleSystem;
 
 
     [Header("Settings")]
     public float speed = 10;
 
     public int damage = 100;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>(); 
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
+        particleSystem = GetComponent<ParticleSystem>();
+    }
 
     private void Start()
     {
@@ -43,8 +51,11 @@ public class Bullet : MonoBehaviour
             (health as BaseHealth).TakeDamage(damage);
             
             // Check if bullet is hit enemy when bullet is rebound
-            if(_collisionCount == 2 && !other.gameObject.CompareTag("Player") && !GameManager.Instance.isFinalBossAlive)
-                GameManager.Instance.AddScore(1);
+            if (GameManager.Instance != null)
+            {
+                if(_collisionCount == 2 && !other.gameObject.CompareTag("Player") && !GameManager.Instance.isFinalBossAlive)
+                    EventHandler.CallAddScoreEvent(1); 
+            }
             
             Destroy(gameObject);
         }

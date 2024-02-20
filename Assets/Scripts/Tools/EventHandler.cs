@@ -31,6 +31,12 @@ public class EventHandler : MonoBehaviour
     {
         DangerousWallSpawn?.Invoke(type);
     }
+    
+    public static event Action<int> AddScoreEvent;
+    public static void CallAddScoreEvent(int score)
+    {
+        AddScoreEvent?.Invoke(score);
+    }
 
     public static event Action BossEventPrepare;
 
@@ -67,10 +73,22 @@ public class EventHandler : MonoBehaviour
         FinalBossDeadEventDone?.Invoke();
     }
 
-    public static event Action TeachUnitFeedback;
+    public static event Action<int> TeachUnitFeedback;
 
-    public static void CallTeachUnitFeedback()
+    public static void CallTeachUnitFeedback(int amount)
     {
-        TeachUnitFeedback?.Invoke();
+        TeachUnitFeedback?.Invoke(amount);
+    }
+    
+    public static event Action SkipThisUnit;
+    public static void CallSkipThisUnit()
+    {
+        SkipThisUnit?.Invoke();
+    } 
+
+    public static event Action TeachNextUnit;
+    public static void CallTeachNextUnit()
+    {
+        TeachNextUnit?.Invoke();
     }
 }

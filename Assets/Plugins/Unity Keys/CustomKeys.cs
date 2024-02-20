@@ -62,8 +62,16 @@ public class CustomKeys : Editor
                 return currentScene;
             }
         }
-
+        
         return default;
+    }
+    
+    [MenuItem("Custom Keys/Create C# Scripts %#C")]
+    public static void CreateNewCSharpScript()
+    {
+        ProjectWindowUtil.CreateScriptAssetFromTemplateFile(
+            "/Applications/Unity/Hub/Editor/2022.3.10f1/Unity.app/Contents/Resources/ScriptTemplates/81-C# Script-NewBehaviourScript.cs.txt",
+            "NewBehaviourScript.cs");
     }
 }
 

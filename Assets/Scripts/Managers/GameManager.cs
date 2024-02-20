@@ -47,12 +47,14 @@ public class GameManager : Singleton<GameManager>
     {
         EventHandler.FinalBossDead += OnFinalBossDead; // Update boss data
         EventHandler.FinalBossDeadEventDone += OnFinalBossDeadEventDone; // Update boss Status
+        EventHandler.AddScoreEvent += AddScoreEvent; // Add Score
     }
 
     private void OnDisable()
     {
         EventHandler.FinalBossDead -= OnFinalBossDead;
         EventHandler.FinalBossDeadEventDone -= OnFinalBossDeadEventDone;
+        EventHandler.AddScoreEvent -= AddScoreEvent; // Add Score
     }
 
     private void OnFinalBossDead()
@@ -67,7 +69,7 @@ public class GameManager : Singleton<GameManager>
 
     #endregion
 
-    public void AddScore(int score)
+    private void AddScoreEvent(int score)
     {
         currentScore += score;
         scoreText.text = currentScore.ToString();
