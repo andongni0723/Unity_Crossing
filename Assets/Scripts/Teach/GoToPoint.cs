@@ -15,6 +15,7 @@ public class GoToPoint : MonoBehaviour
    public float standTime = 1f;
 
    private bool isCall = false;
+   private bool isBackScene;
    private bool isPlayerStand = false;
    private Color initialOutLineColor;
 
@@ -41,6 +42,9 @@ public class GoToPoint : MonoBehaviour
       standHintsSpriteRenderer.transform.localScale = Vector3.zero;
       OutlintSpriteRenderer.color = initialOutLineColor;
       standHintsSpriteRenderer.color = initialOutLineColor;
+      
+      if(TeachManager.Instance.currentTeachUnitName == "Unit10")
+         isBackScene = true;
    }
 
    private void OnTriggerStay2D(Collider2D other)
@@ -80,6 +84,12 @@ public class GoToPoint : MonoBehaviour
 
    protected virtual void StandDone()
    {
+      if (isBackScene)
+      {
+         SceneLoadManager.Instance.ChangeScene(SceneLoadManager.Instance.mainMenuSceneName);
+         return;
+      }
+      
       EventHandler.CallTeachUnitFeedback(teachUnitFeedbackCount);
       EventHandler.CallSkipThisUnit();
    }

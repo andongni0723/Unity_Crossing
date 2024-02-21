@@ -50,6 +50,7 @@ public class FinalBossController : EnemyController
 
     protected void Awake()
     {
+        base.Awake();
         StartCoroutine(enemyHealth.GiveEffect(EffectStatus.Invincible, 5));
     }
 

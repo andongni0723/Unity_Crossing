@@ -4999,6 +4999,8 @@ MonoBehaviour:
   attackRange: 100
   thinkingTime: 0
   _currentState: 0
+  _target: {fileID: 0}
+  _isControllerEnabled: 1
   _attackTimerMax: 20
   forwardLaser:
     LaserWeapon: {fileID: 7511134392054881123}

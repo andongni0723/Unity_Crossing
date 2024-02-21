@@ -5,10 +5,8 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-
 public enum SpawnPositionType
 {
-    
     Up, Down, Left, Right
 }
 

@@ -21,9 +21,10 @@ public class AudioManager : Singleton<AudioManager>
     public AudioClip hitSound;
     public AudioClip laserAccumulateSound;
     public AudioClip laserSound;
+    public AudioClip addFeedbackSound;
     
     private bool isBGMAudioFade = false;
-
+    
     public void PlaySoundAudio(AudioClip audioClip)
     {
         soundAudioSource.clip = audioClip;
@@ -36,13 +37,6 @@ public class AudioManager : Singleton<AudioManager>
         VoiceAudioSource.clip = voiceClip;
         VoiceAudioSource.volume = 1;
         VoiceAudioSource.Play();
-        
-        Invoke(nameof(SkipTeachUnit), voiceClip.length);
-    }
-
-    private void SkipTeachUnit() 
-    {
-        EventHandler.CallSkipThisUnit();
     }
 
     public bool CheckVoicePlayDone()

@@ -1186,6 +1186,7 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: 2880518f104ae44ccabc2457d8de6461, type: 3}
   laserAccumulateSound: {fileID: 8300000, guid: 7b0caa6ad8f82473b9e85a32c4b8ff36, type: 3}
   laserSound: {fileID: 8300000, guid: c1b1f3accb10a4fb9a31ec8df4082455, type: 3}
+  addFeedbackSound: {fileID: 8300000, guid: 3d897fb5886244bbeb3dfa7ad296728e, type: 3}
 --- !u!1 &1989728567
 GameObject:
   m_ObjectHideFlags: 0

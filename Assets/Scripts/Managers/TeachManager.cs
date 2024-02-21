@@ -33,15 +33,24 @@ public class TeachManager : Singleton<TeachManager>
     public TextMeshProUGUI hintUIText;
 
     private WaitForSeconds autoSkipDuration = new WaitForSeconds(1);
-    private string currentTeachUnitName = "";
+    public string currentTeachUnitName = "";
     private int currentUnitGetFeedback = 0;
-    // private bool isCallSkip = false;
+    private bool canSkipTeach = false;
 
     public override void Awake()
     {
         base.Awake();  
         StartCoroutine(TeachAction());
         player = GameObject.FindWithTag("Player");
+    }
+
+    private void Update()
+    {
+        if (!AudioManager.Instance.VoiceAudioSource.isPlaying)
+        {
+            canSkipTeach = false;
+            EventHandler.CallSkipThisUnit();
+        }
     }
 
     #region Event
@@ -82,6 +91,7 @@ public class TeachManager : Singleton<TeachManager>
     private void OnTeachUnitFeedback(int amount)
     {
         currentUnitGetFeedback += amount;
+        AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.addFeedbackSound);
     }
 
     #endregion 
@@ -93,7 +103,7 @@ public class TeachManager : Singleton<TeachManager>
         
         foreach (var teachDetails in TeachUnitDataList)
         {
-            
+            canSkipTeach = true;
             isPlayerJumpTeach = false;
             currentUnitGetFeedback = 0;
             currentTeachUnitName = teachDetails.unitName;
