@@ -72,6 +72,9 @@ public class PlayerHealth : BaseHealth
     
     protected override void Die()
     {
+        if(isDead) return;
+        isDead = true;
+
         Debug.Log("Player Die");
         EventHandler.CallPlayerDead();
     }

@@ -15,6 +15,7 @@ public class BaseHealth : MonoBehaviour
     [Range(0, 1)] public float defense = 0;
     public float currentHealth;
     public bool canDestroyBullet = true;
+    protected bool isDead = false;
 
     [Header("Component")] 
     public SpriteRenderer effectSpriteRenderer;
@@ -87,6 +88,9 @@ public class BaseHealth : MonoBehaviour
 
     protected virtual void Die()
     {
+        if(isDead) return;
+        
+        isDead = true;
         Destroy(gameObject);
     }
 }

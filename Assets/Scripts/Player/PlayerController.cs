@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     
     private Vector2 _moveDirection;
     private Vector2 _mousePosition;
-    private Vector2 _worldMousePosition;
+    [SerializeField]private Vector2 _worldMousePosition;
     public float speed = 5;
 
 
@@ -22,7 +22,12 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _playerFire = GetComponent<PlayerFire>();
         _controls = new PlayerInputControls();
+
+#if PLATFORM_STANDALONE 
         _controls.Player.Fire.performed += _ => OnFire();
+#else // Mobile
+        _controls.Player.Fire.performed += _ => MobileOnFire();
+#endif
         
         // Debug
         Application.targetFrameRate = 300;
@@ -51,7 +56,10 @@ public class PlayerController : MonoBehaviour
         _worldMousePosition = Camera.main.ScreenToWorldPoint(_mousePosition);
         
         Movement();
+        
+#if PLATFORM_STANDALONE
         Look();
+#endif
     }
 
     private void Movement()
@@ -70,6 +78,12 @@ public class PlayerController : MonoBehaviour
     
     private void OnFire()
     {
+        _playerFire.Fire();
+    }
+
+    private void MobileOnFire()
+    {
+        Look();
         _playerFire.Fire();
     }
     

@@ -5,11 +5,12 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 public class GameManager : Singleton<GameManager>
 {
     public int currentScore = 0;
-    public int baseBossEventTargetScore = 30; 
+    public int firstBossEventTargetScore = 30; 
     private int bossEventTargetScore;
     public bool isFinalBossAlive = false;
 
@@ -32,7 +33,7 @@ public class GameManager : Singleton<GameManager>
         player = GameObject.FindGameObjectWithTag("Player");
         AudioManager.Instance.PlayBGM(AudioManager.Instance.gameBGM);
         Debug.Log("GameManager Awake");
-        bossEventTargetScore = baseBossEventTargetScore;
+        bossEventTargetScore = firstBossEventTargetScore;
         
         // Hard Mode
         if (MainGameManager.Instance.isHardMode)

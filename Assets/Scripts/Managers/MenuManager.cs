@@ -29,6 +29,7 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI highScoreLabelText;
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI logoText;
+    public TextMeshProUGUI versionText;
     public CanvasGroup mainUI;
     public Light2D mainLight;
     public Light2D redLight;
@@ -70,12 +71,12 @@ public class MenuManager : MonoBehaviour
     public void Hard()
     {
         CheckBoxOpen();
-        MainGameManager.Instance.isHardMode = true;
     }
 
     public void CheckBoxYes()
     {
         startButton.interactable = false;
+        MainGameManager.Instance.isHardMode = true;
         AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitWallSound);
         AudioManager.Instance.BGMFade(0, 1.5f);
         SceneLoadManager.Instance.ChangeScene(SceneLoadManager.Instance.gameSceneName);
@@ -147,17 +148,6 @@ public class MenuManager : MonoBehaviour
 
         yield return null;
     }
-
-    IEnumerator ChengeThemeTest()
-    {
-        while (true)
-        {
-            StartCoroutine(ChangeTheme(mainLightRedColor, logoTextRedColor, textRedColor, iconRedColor));
-            yield return new WaitForSeconds(3);
-            StartCoroutine(ChangeTheme(mainLightGreenColor, logoTextGreenColor, textGreenColor, iconGreenColor)); 
-            yield return new WaitForSeconds(3);
-        }
-    }
     
     IEnumerator RedLightAnimation()
     {
@@ -176,17 +166,18 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    
-
     IEnumerator ChangeTheme(Color lightTargetColor, Color logoTargetColor, Color textTargetColor, Color iconTargetColor)
     {
         Sequence sequence = DOTween.Sequence();
         
+        // Text and Button Color Change
         sequence.Append(logoText.DOColor(logoTargetColor, changeThemeDuration));
+        sequence.Join(versionText.DOColor(logoTargetColor, changeThemeDuration));
         sequence.Join(highScoreText.DOColor(textTargetColor, changeThemeDuration));
         sequence.Join(teachButton.GetComponent<Image>().DOColor(iconTargetColor, changeThemeDuration));
         sequence.Join(startButton.GetComponent<Image>().DOColor(iconTargetColor, changeThemeDuration));
         
+        // Light Color Change
         Sequence backgroundSequence = DOTween.Sequence();
         backgroundSequence.Append(DOTween.To(
             (x => mainLight.color = new Color(x, mainLight.color.g, mainLight.color.b)),
