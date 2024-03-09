@@ -6,6 +6,7 @@ using UnityEngine;
 public class LaserEnemyController : EnemyController
 {
     //[Header("Components")]
+    protected Camera mainCamera;
     protected EnemyLaserWeapon _laserWeapon;
     
     [Header("Settings")]
@@ -15,6 +16,7 @@ public class LaserEnemyController : EnemyController
     {
         base.Awake();
         _laserWeapon = GetComponent<EnemyLaserWeapon>(); 
+        mainCamera = Camera.main;
     }
 
     protected new virtual IEnumerator Start()
@@ -24,6 +26,18 @@ public class LaserEnemyController : EnemyController
         attackRange = 0;
         yield return new WaitForSeconds(1.5f);
         attackRange = t;
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    protected bool IsInCameraView(Vector3 worldPos)
+    {
+        Vector3 viewPos = mainCamera.WorldToViewportPoint(worldPos);
+
+        return !(viewPos.x < 0) && !(viewPos.x > 1) && !(viewPos.y < 0) && !(viewPos.y > 1);
     }
 
     protected override void MoveAction()
@@ -44,8 +58,14 @@ public class LaserEnemyController : EnemyController
         
          if (AttackTimerCheck())
          {
-              _laserWeapon.Shoot();
-              AttackTimerStart();
+             if (!IsInCameraView(transform.position))
+             {
+                 Destroy(gameObject);
+                 return;
+             }
+             
+             _laserWeapon.Shoot();
+             AttackTimerStart();
          }
     }
     

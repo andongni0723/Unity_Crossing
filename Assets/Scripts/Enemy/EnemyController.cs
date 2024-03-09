@@ -67,6 +67,8 @@ public class EnemyController : MonoBehaviour
 
     private void OnPlayerCrossing(Vector3 pastPosition)
     {
+        if(_isThinking) return;
+        
         _targetBeforeCrossingPosition = pastPosition;
         StartCoroutine(ToThinkingState());
     }
@@ -168,6 +170,11 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void ThinkingAction()
     {
+        if(Vector2.Distance(_targetBeforeCrossingPosition, transform.position) < 0.3f) // if gone 
+        {
+            return;
+        }
+        
         //Move to the position before player crossing
         float angle = Mathf.Atan2(_targetBeforeCrossingPosition.y - transform.position.y, 
             _targetBeforeCrossingPosition.x - transform.position.x) * Mathf.Rad2Deg;

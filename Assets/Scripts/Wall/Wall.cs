@@ -37,6 +37,7 @@ public class Wall : MonoBehaviour
                 newVFX.endPosition = VFXEndPosition;
                 break;
             
+            
             case "Player":
                 if (WallTimer.Instance.WallTimerCheck())
                 {
