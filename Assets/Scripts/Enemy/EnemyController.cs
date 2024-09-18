@@ -67,9 +67,10 @@ public class EnemyController : MonoBehaviour
 
     private void OnPlayerCrossing(Vector3 pastPosition)
     {
-        if(_isThinking) return;
+        // if(_isThinking) return;
         
         _targetBeforeCrossingPosition = pastPosition;
+        StopAllCoroutines();
         StartCoroutine(ToThinkingState());
     }
 
@@ -126,7 +127,6 @@ public class EnemyController : MonoBehaviour
 
     private void ExecuteStateAction()
     {
-        
         switch (_currentState)
         {
             case State.Move:

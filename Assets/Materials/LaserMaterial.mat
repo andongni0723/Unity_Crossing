@@ -62,9 +62,9 @@ Material:
     m_Colors:
     - _Color: {r: 4.0000005, g: 4.0000005, b: 4.0000005, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _MoveVector: {r: -5.27, g: 0, b: 0, a: 0}
+    - _MoveVector: {r: 3.5, g: 0, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Tilling: {r: 1.25, g: 0.5, b: 0, a: 0}
+    - _Tilling: {r: 0, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &446302934185538814
 MonoBehaviour:

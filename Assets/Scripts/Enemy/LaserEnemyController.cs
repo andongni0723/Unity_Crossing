@@ -28,11 +28,6 @@ public class LaserEnemyController : EnemyController
         attackRange = t;
     }
 
-    private void Update()
-    {
-        
-    }
-
     protected bool IsInCameraView(Vector3 worldPos)
     {
         Vector3 viewPos = mainCamera.WorldToViewportPoint(worldPos);
@@ -89,6 +84,10 @@ public class LaserEnemyController : EnemyController
     /// <para>If it is positive, it means the target is on the left. If it is negative, it means the target is on the right.</para>
     /// 如果為正 代表目標在左方， 如果為負 代表目標在右方。
     /// </returns>
+    ///
+    
+    // 用target - self 的方向和self的前方做外積並取Z值
+    // 如果為正 代表目標在左方， 如果為負 代表目標在右方。
     private float CheckTargetLeftOrRight()
     {
         float cross = Vector3.Cross(transform.right, _target.transform.position - transform.position).z;
