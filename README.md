@@ -1,42 +1,40 @@
-# Crossing Unity2D Top-Down Small Shoot Game
+# Crossing
 
-![Crossing-學習歴程.001](https://hackmd.io/_uploads/HyxSxoZ0d0.jpg)
-![Crossing-學習歴程.002](https://hackmd.io/_uploads/SJ8xjZAOC.jpg)
-![Crossing-學習歴程.003](https://hackmd.io/_uploads/S1LxsbRd0.jpg)
-![Crossing-學習歴程.004](https://hackmd.io/_uploads/HyPloWAdA.jpg)
-![Crossing-學習歴程.005](https://hackmd.io/_uploads/HygPxiZROR.jpg)
-![Crossing-學習歴程.006](https://hackmd.io/_uploads/rk8giWC_C.jpg)
-![Crossing-學習歴程.007](https://hackmd.io/_uploads/BkbUxoW0OC.jpg)
-![Crossing-學習歴程.008](https://hackmd.io/_uploads/rkBgo-CdA.jpg)
-![Crossing-學習歴程.009](https://hackmd.io/_uploads/Sk-SeiZAuA.jpg)
-![Crossing-學習歴程.010](https://hackmd.io/_uploads/S1ZHejZ0dR.jpg)
-![Crossing-學習歴程.011](https://hackmd.io/_uploads/H1ZHlo-CO0.jpg)
-![Crossing-學習歴程.012](https://hackmd.io/_uploads/H1BeibRd0.jpg)
-![Crossing-學習歴程.013](https://hackmd.io/_uploads/r1xHgi-0d0.jpg)
-![Crossing-學習歴程.014](https://hackmd.io/_uploads/ry8xs-0uR.jpg)
-![Crossing-學習歴程.015](https://hackmd.io/_uploads/B1-vejZ0dC.jpg)
-![Crossing-學習歴程.016](https://hackmd.io/_uploads/r1gUloWROA.jpg)
-![Crossing-學習歴程.017](https://hackmd.io/_uploads/Skl8esWA_0.jpg)
-![Crossing-學習歴程.018](https://hackmd.io/_uploads/SybSgsZR_A.jpg)
-![Crossing-學習歴程.019](https://hackmd.io/_uploads/B1x8es-AOC.jpg)
-![Crossing-學習歴程.020](https://hackmd.io/_uploads/SkxBlob0O0.jpg)
-![Crossing-學習歴程.021](https://hackmd.io/_uploads/S1SgjWC_0.jpg)
-![Crossing-學習歴程.022](https://hackmd.io/_uploads/r1WUxs-0uR.jpg)
-![Crossing-學習歴程.023](https://hackmd.io/_uploads/BkLxiWCdR.jpg)
-![Crossing-學習歴程.024](https://hackmd.io/_uploads/rJl8esZ0dR.jpg)
-![Crossing-學習歴程.025](https://hackmd.io/_uploads/Sk-BeibC_A.jpg)
-![Crossing-學習歴程.026](https://hackmd.io/_uploads/HyWUljZA_A.jpg)
-![Crossing-學習歴程.027](https://hackmd.io/_uploads/ryfHej-0uC.jpg)
-![Crossing-學習歴程.028](https://hackmd.io/_uploads/BJ8liWRd0.jpg)
-![Crossing-學習歴程.029](https://hackmd.io/_uploads/ryxUxjW0O0.jpg)
-![Crossing-學習歴程.030](https://hackmd.io/_uploads/H1Sgs-R_A.jpg)
-![Crossing-學習歴程.031](https://hackmd.io/_uploads/SyMSli-0OR.jpg)
-![Crossing-學習歴程.032](https://hackmd.io/_uploads/B1rgsWAdR.jpg)
-![Crossing-學習歴程.033](https://hackmd.io/_uploads/H1MwljWC_R.jpg)
-![Crossing-學習歴程.034](https://hackmd.io/_uploads/SkwgoZC_0.jpg)
-![Crossing-學習歴程.035](https://hackmd.io/_uploads/SJSgs-CuC.jpg)
-![Crossing-學習歴程.036](https://hackmd.io/_uploads/rylHxiZAOR.jpg)
-![Crossing-學習歴程.037](https://hackmd.io/_uploads/S1gSeibR_0.jpg)
+![crossing-github-readme-img](Assets/Crossing-GameAssets/Logo/crossing-github-readme-img.jpeg) 
+
+## 📄 Game Description
+> This project is a small shooting game developed by me using **Unity2022.3.10**. In the game, you control a small cube to shoot enemies. You will encounter basic cubes, dangerous walls, laser cubes, shield cubes, and a boss.
+> Your have a  special skill --- **Crossing**, which allows you to cross to the opposite side of the screen by touching the screen's edge.Use this skill along with your shooting abilities to score more points. Have Fun!
+
+ 
+# 📡 Tech Stack 
+- **Unity**: Game development platform.
+- **Unity URP**: The rendering pipeline in Unity.
+- **[DoTween](https://dotween.demigiant.com/)**: A plugin about animation engine for Unity
 
 
+
+# 🎮 How to Play
+1. Open the game.
+2. You can press the `TEACH` button to enter the tutorial scene or press the `CROSSING` button to enter easy mode.
+> The `HARD` button at the top right is for hard mode.
+
+3. Use the following controls:
+   - `WASD`: Move
+   - `Left Mouse Button`: Shoot
+   - Touch the screen edge to **Cross**.
+6. Defeat as many enemies as possible to score points.
+
+
+# Installation
+
+### Download the game 
+Go to the **Release** Page download the game.
+
+### Clone Repository
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/Unity_Crossing-2DTopDown.git
+   ```
+2. Open the project in **Unity (version 2022.3.10 or later)**.
 
