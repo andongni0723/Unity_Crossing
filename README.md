@@ -10,6 +10,7 @@
 # 📡 Tech Stack 
 - **Unity**: Game development platform.
 - **Unity URP**: The rendering pipeline in Unity.
+- **Unity Post-Processing**: To render scene with vfx, like Bloom, Grain, Chromatic Aberration, Lens Distortion and Vignette. 
 - **[DoTween](https://dotween.demigiant.com/)**: A plugin about animation engine for Unity
 
 
