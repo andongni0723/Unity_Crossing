@@ -15,8 +15,8 @@ public class GameManager : Singleton<GameManager>
     public bool isFinalBossAlive = false;
 
     public int finalBossAppearCount = 0;
-
-
+    
+    
     [Header("Components")] 
     public GameObject player;
     public TextMeshProUGUI scoreText;
@@ -30,6 +30,7 @@ public class GameManager : Singleton<GameManager>
     public override void Awake()
     {
         base.Awake();
+        Application.targetFrameRate = 300;
         player = GameObject.FindGameObjectWithTag("Player");
         AudioManager.Instance.PlayBGM(AudioManager.Instance.gameBGM);
         Debug.Log("GameManager Awake");
@@ -97,14 +98,14 @@ public class GameManager : Singleton<GameManager>
         if (MainGameManager.Instance.isHardMode)
         {
             bossEventTargetScore = currentScore + finalBossAppearCount * 10 + 50;
-            EnemySpawnManager.Instance.waitNextSpawnTime = 
-                Mathf.Max(EnemySpawnManager.Instance.waitNextSpawnTime - 0.5f, 0.1f);
+            EnemySpawnManager.Instance.spawnInterval = 
+                Mathf.Max(EnemySpawnManager.Instance.spawnInterval - 0.5f, 0.1f);
         }
         else
         {
             bossEventTargetScore = currentScore + finalBossAppearCount * 10 + 30;
-            EnemySpawnManager.Instance.waitNextSpawnTime = 
-                Mathf.Max(EnemySpawnManager.Instance.waitNextSpawnTime - 0.3f, 0.3f);
+            EnemySpawnManager.Instance.spawnInterval = 
+                Mathf.Max(EnemySpawnManager.Instance.spawnInterval - 0.3f, 0.3f);
         }
     }
 }

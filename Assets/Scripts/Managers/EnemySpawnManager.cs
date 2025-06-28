@@ -1,13 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public enum SpawnPositionType
 {
     Up, Down, Left, Right
+}
+
+public enum EnemyKind
+{
+    Common, Laser, Shield, Wall
 }
 
 [Serializable]
@@ -23,30 +30,45 @@ public class SpawnPosition
 [Serializable]
 public class EnemySpawn
 {
-    public string name;
-    public List<GameObject> kindOfEnemyList = new List<GameObject>();
-    public bool isRandomPositionSpawn = true;
-    public int waveMaxSpawnCount = 10;
+    public EnemyKind kind;
+    public List<GameObject> kindOfEnemyList = new();
+    public bool useRandomPos = true;
+    [Min(1)]public int waveMaxSpawnCount = 10;
     public int randomSpawnProbability;
+    [Min(0)]public int weight;
     [HideInInspector]public int randomSpawnMin;
     [HideInInspector]public int randomSpawnMax;
+
+    public GameObject RandomPick()
+    {
+        if(kindOfEnemyList == null || kindOfEnemyList.Count == 0) 
+            throw new ArgumentException("kindOfEnemyList cannot be null or empty");
+
+        return kindOfEnemyList[Random.Range(0, kindOfEnemyList.Count)];
+    }
 }
 
 public class EnemySpawnManager : Singleton<EnemySpawnManager>
 {
     [Header("Settings")] 
     public bool isTest = false;
-    public List<EnemySpawn> enemySpawnList = new List<EnemySpawn>();
+    public List<EnemySpawn> enemySpawnList = new();
     public GameObject finalBossPrefab;
-    private Dictionary<string, int> KindOfEnemySpawnCount = new Dictionary<string, int>();
-    public float waitNextSpawnTime = 1.5f;
-    public float waitNextWaveTime = 3;
+    public float spawnInterval = 1.5f;
+    public float waveInterval = 2f;
 
     [Space(15)] 
     public Vector3 finalBossGeneratePosition;
     
     [Space(15)]
-    public List<SpawnPosition> SpawnPositionsList = new List<SpawnPosition>();
+    public List<SpawnPosition> SpawnPositionsList = new();
+    
+    private readonly Dictionary<EnemyKind, int> WaveRemaining = new();
+    private readonly List<SpawnPositionType> LockedEdge = new();
+    private List<int> prefixWeight = new();
+    private WaitForSeconds waitSpawn;
+    private WaitForSeconds waitWave;
+
 
     public override void Awake()
     {
@@ -60,11 +82,12 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
 
         if (MainGameManager.Instance.isHardMode)
         {
-            waitNextSpawnTime = 0.5f;
-            waitNextWaveTime = 1;
+            spawnInterval = 0.5f;
+            waveInterval = 1;
         }
-
-        SetEnemyRandomSpawnRange();
+        waitSpawn = new WaitForSeconds(spawnInterval);
+        waitWave = new WaitForSeconds(waveInterval);
+        PrefixWeight();
         StartCoroutine(SpawnEnemy());
     }
 
@@ -94,30 +117,13 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
 
     #endregion
 
-    void SetEnemyRandomSpawnRange()
+    public void FinalBossGenerate()
     {
-        int currentProbabilityNum = 0;
-        foreach (var enemy in enemySpawnList)
-        {
-            enemy.randomSpawnMin = currentProbabilityNum;
-            enemy.randomSpawnMax = currentProbabilityNum + enemy.randomSpawnProbability;
-            currentProbabilityNum += enemy.randomSpawnProbability;
-
-        }
-
-        if (currentProbabilityNum != 100)
-        {
-            Debug.LogError("The Enemy Probability not not equal to 100%");
-        }
+        Instantiate(finalBossPrefab, finalBossGeneratePosition, Quaternion.Euler(0, 0, 90));
     }
 
     IEnumerator SpawnEnemy()
     {
-        KindOfEnemySpawnCount.Clear();
-        foreach (var kindEnemy in enemySpawnList)
-        {
-            KindOfEnemySpawnCount.Add(kindEnemy.name, kindEnemy.waveMaxSpawnCount);
-        }
         
         while (true)
         {
@@ -125,76 +131,104 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
             // 2. Choose the kindEnemyList
             // 3. Choose the Enemy
             
-            // Spawn Position
-            int spawnCount = Random.Range(1, 5);
-            int spawnPositionIndex = Random.Range(0, SpawnPositionsList.Count);
-            SpawnPosition currentSpawnPosition = SpawnPositionsList[spawnPositionIndex];
-            SpawnPositionType currentSpawnType = currentSpawnPosition.type;
-            //Debug.Log(currentSpawnPosition.name);
+            ResetWaveQuota();
+            int batchCount = Random.Range(1, 5);
             
-            // Reset Spawn Count
-            foreach (var kindEnemy in enemySpawnList)
+            for (int i = 0; i < batchCount; i++)
             {
-                KindOfEnemySpawnCount[kindEnemy.name] = kindEnemy.waveMaxSpawnCount;
-            }
-            
-            // Spawn Enemy
-            for (int i = 0; i < spawnCount; i++)
-            {
-                foreach (var kindEnemy in enemySpawnList)
+                var posInfo = RandomSpawnPosition();
+                var enemyInfo = WeightRandomPick(enemySpawnList, enemy => enemy.weight, prefixWeight);
+
+                if (WaveRemaining[enemyInfo.kind] > 0) WaveRemaining[enemyInfo.kind]--;
+                else continue;
+
+                if (enemyInfo.kind == EnemyKind.Wall)
                 {
-                    int spawnRangeNum = Random.Range(0, 100);
-
-                    if (spawnRangeNum >= kindEnemy.randomSpawnMin && spawnRangeNum <= kindEnemy.randomSpawnMax)
-                    {
-                        // the enemy spawn count to max in this wave
-                        if(KindOfEnemySpawnCount[kindEnemy.name] <= 0) 
-                            continue;
-                        
-                        
-                        // Enemy Spawn Event
-                        switch (kindEnemy.name)
-                        {
-                            case "dangerousWall":
-                                EventHandler.CallDangerousWallSpawn(currentSpawnType);
-                                yield return new WaitForSeconds(3);
-                                break;
-                        }
-                        
-                        
-                        // Spawn Enemy
-                        int spawnEnemyIndex = Random.Range(0, kindEnemy.kindOfEnemyList.Count);
-                        Vector3 spawnPosition = RandomSpawnPosition(
-                            kindEnemy.isRandomPositionSpawn,
-                            currentSpawnPosition.minSpawnRange.x,
-                            currentSpawnPosition.maxSpawnRange.x,
-                            currentSpawnPosition.minSpawnRange.y,
-                            currentSpawnPosition.maxSpawnRange.y);
-
-                        Instantiate(kindEnemy.kindOfEnemyList[spawnEnemyIndex], spawnPosition,
-                            currentSpawnPosition.spawnRotation);
-                        
-                        KindOfEnemySpawnCount[kindEnemy.name]--;
-                        
-                        
-                        yield return new WaitForSeconds(waitNextSpawnTime);
-                    }
+                    EventHandler.CallDangerousWallSpawn(posInfo.type);
+                    OnDangerousWallSpawned(posInfo.type);
+                    yield return new WaitForSeconds(3);
                 }
-            } 
-            yield return new WaitForSeconds(waitNextWaveTime);
+
+                SpawnEnemy(enemyInfo, posInfo);
+                yield return waitSpawn;
+            }
+            yield return waitWave;
         }
     }
 
-    private Vector3 RandomSpawnPosition(bool isRandomSpawn, float minX, float maxX, float minY, float maxY)
+    private void ResetWaveQuota()
     {
-        if (isRandomSpawn)
-            return new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY));
-        else
-            return new Vector3((minX + maxX) / 2, (minY + maxY) / 2);
+        WaveRemaining.Clear();
+        foreach (var e in enemySpawnList)
+            WaveRemaining[e.kind] = e.waveMaxSpawnCount;
+    }
+    
+    private void PrefixWeight()
+    {
+        prefixWeight.Clear();
+        int sum = 0;
+        foreach (var enemy in enemySpawnList)
+        {
+            sum += enemy.weight;
+            prefixWeight.Add(sum);
+        }
     }
 
-    public void FinalBossGenerate()
+    private static T WeightRandomPick<T>(List<T> list, Func<T, int> weightSelector, List<int> weightPrefix)
     {
-        Instantiate(finalBossPrefab, finalBossGeneratePosition, Quaternion.Euler(0, 0, 90));
+        if (list.Count == 0) throw new ArgumentException("List cannot be empty");
+        var sum = list.Sum(weightSelector);
+
+        var randomValue = Random.Range(0, sum);
+        for (int i = 0; i < weightPrefix.Count; i++)
+            if (randomValue < weightPrefix[i])
+                return list[i];
+        
+        return list[^1];// Impossible;
     }
+    
+    private SpawnPosition RandomSpawnPosition()
+    {
+        var list = SpawnPositionsList
+            .Where(dir => !LockedEdge.Contains(dir.type))
+            .ToList();
+
+        return list[Random.Range(0, list.Count)];
+    }
+
+    private void SpawnEnemy(EnemySpawn enemyData, SpawnPosition posInfo)
+    {
+        var prefab = enemyData.RandomPick();
+        var x = new Vector2(posInfo.minSpawnRange.x, posInfo.maxSpawnRange.x);
+        var y = new Vector2(posInfo.minSpawnRange.y, posInfo.maxSpawnRange.y);
+        var pos = enemyData.useRandomPos
+            ? new Vector3(Random.Range(x.x, x.y), Random.Range(y.x, y.y))
+            : new Vector3((x.x + x.y) / 2, (y.x + y.y) / 2);
+        
+        var enemy = Instantiate(prefab, pos, posInfo.spawnRotation) as GameObject;
+        
+        if(enemy.TryGetComponent<DangerousWallController>(out var wallController))
+            wallController.Initialize(Opposite(posInfo.type));
+    }
+
+    private void OnDangerousWallSpawned(SpawnPositionType from)
+    {
+        LockedEdge.Add(Opposite(from)); 
+        LockedEdge.Add(from);
+    }
+
+    public void OnDangerousWallArrived(SpawnPositionType edge)
+    {
+        LockedEdge.Remove(Opposite(edge));
+        LockedEdge.Remove(edge); 
+    }
+
+    private SpawnPositionType Opposite(SpawnPositionType t) => t switch
+    {
+        SpawnPositionType.Up => SpawnPositionType.Down,
+        SpawnPositionType.Down => SpawnPositionType.Up,
+        SpawnPositionType.Left => SpawnPositionType.Right,
+        SpawnPositionType.Right => SpawnPositionType.Left,
+        _ => t
+    };
 }

@@ -17,6 +17,11 @@ public class FinalLaserEnemyController : LaserEnemyController
         StartCoroutine(base.Start());
     }
 
+    private void OnEnable() => EventHandler.FinalBossDead += OnFinalBossDead;
+    private void OnDisable() => EventHandler.FinalBossDead -= OnFinalBossDead;
+
+    private void OnFinalBossDead() => Destroy(gameObject);
+
     private void OnDestroy()
     {
         EventHandler.CallFinalBossLaserEnemyDead();

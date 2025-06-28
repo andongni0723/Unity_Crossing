@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 1879887474486400610}
   m_Layer: 6
   m_Name: Final Boss Bullet
-  m_TagString: Untagged
+  m_TagString: FinalBossBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,6 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpriteRenderer: {fileID: 6693910091430279260}
   bulletVFXSpriteRenderer: {fileID: 8924988933760528969}
+  light2D: {fileID: 107480446413783818}
   bulletScaleBigTime: 0.5
   bulletVFXScaleBigTime: 1
   bulletScaleBig: {x: 1.5, y: 1.5, z: 1.5}

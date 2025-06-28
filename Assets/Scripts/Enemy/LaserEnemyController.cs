@@ -30,9 +30,10 @@ public class LaserEnemyController : EnemyController
 
     protected bool IsInCameraView(Vector3 worldPos)
     {
-        Vector3 viewPos = mainCamera.WorldToViewportPoint(worldPos);
+        var viewport = mainCamera.WorldToViewportPoint(worldPos);
 
-        return !(viewPos.x < 0) && !(viewPos.x > 1) && !(viewPos.y < 0) && !(viewPos.y > 1);
+        return viewport.x is >= 0f and <= 1f &&
+               viewport.y is >= 0f and <= 1f;
     }
 
     protected override void MoveAction()

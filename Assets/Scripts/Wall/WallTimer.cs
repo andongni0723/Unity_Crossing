@@ -5,7 +5,7 @@ using UnityEngine;
 public class WallTimer : Singleton<WallTimer>
 {
     public float wallTimer = 0;
-    public float wallTimerMax = 0.5f;
+    public float wallTimerMax = 0.2f;
 
     public void WallTimerStart() => wallTimer = wallTimerMax;
     public bool WallTimerCheck() => wallTimer <= 0;

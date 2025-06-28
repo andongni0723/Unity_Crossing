@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class FinalBossBullet : MonoBehaviour
 {
     [Header("Component")]
     public SpriteRenderer bulletSpriteRenderer;
     public SpriteRenderer bulletVFXSpriteRenderer;
+    public Light2D light2D;
     private new Collider2D collider;
 
     [Header("Setting")] 
@@ -19,6 +21,8 @@ public class FinalBossBullet : MonoBehaviour
     private void Awake()
     {
         collider = GetComponent<Collider2D>();
+        var bulletCount = GameObject.FindGameObjectsWithTag("FinalBossBullet").Length;
+        light2D.intensity = bulletCount <= 20 ? 7 : 2;
         BulletAnimation();
     }
 

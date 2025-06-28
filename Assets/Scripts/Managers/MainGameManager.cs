@@ -12,7 +12,7 @@ public class MainGameManager : Singleton<MainGameManager>
     public void Start()
     {
         // Game Scene
-        Application.targetFrameRate = 200;
+        Application.targetFrameRate = 300;
         LoadGameData();
     }
 

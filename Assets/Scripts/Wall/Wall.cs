@@ -11,6 +11,7 @@ public class Wall : MonoBehaviour
     [Header("Setting")] 
     public GameObject PlayerCrossingVFX; // Fire VFX
     public Vector3 VFXEndPosition;
+    public PlayerMoveDirection playerDirectionWhenCrossing = PlayerMoveDirection.None;
     public float shakeIntensity = 5;
     public float shakeDuration = 0.02f;
     
@@ -39,7 +40,8 @@ public class Wall : MonoBehaviour
             
             
             case "Player":
-                if (WallTimer.Instance.WallTimerCheck())
+                var playerDir = other.gameObject.GetComponent<PlayerController>().playerMoveDirection;
+                if (playerDir.HasFlag(playerDirectionWhenCrossing))
                 {
                     EventHandler.CallPlayerCrossing(other.transform.position);
                     
@@ -50,8 +52,6 @@ public class Wall : MonoBehaviour
                     other.transform.position = new Vector3(
                         other.transform.position.x * xCrossingInt,
                         other.transform.position.y * yCrossingInt); 
-                    
-                    WallTimer.Instance.WallTimerStart();
                 }
                 break;
         }

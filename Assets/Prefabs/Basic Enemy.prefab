@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 240967076278831685}
   - component: {fileID: 2841186248035268177}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9033972379184861319}
   - component: {fileID: 8072143597194250447}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3653521125525685043}
   - component: {fileID: 7347175838037110642}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1292204700899367780}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 4998698500961827705}
   - component: {fileID: 8107829436064256405}
   - component: {fileID: 1077098374169161047}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Move VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5123,7 +5123,7 @@ GameObject:
   - component: {fileID: 6278850497511985871}
   - component: {fileID: 3917942367979376743}
   - component: {fileID: 1555280619924547052}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Basic Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -5236,6 +5236,8 @@ MonoBehaviour:
   attackRange: 1.5
   thinkingTime: 1
   _currentState: 0
+  _target: {fileID: 0}
+  _isControllerEnabled: 1
   _attackTimerMax: 1
 --- !u!114 &1555280619924547052
 MonoBehaviour:
@@ -5266,7 +5268,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7459838148474512394}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}

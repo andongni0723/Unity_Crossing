@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2842365922391609101}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 2070907171736076644}
   - component: {fileID: 4531511780339971336}
   - component: {fileID: 8996783423659354181}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shield Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -157,6 +157,8 @@ MonoBehaviour:
   attackRange: 2
   thinkingTime: 2
   _currentState: 0
+  _target: {fileID: 0}
+  _isControllerEnabled: 1
   _attackTimerMax: 1
 --- !u!114 &8996783423659354181
 MonoBehaviour:
@@ -347,7 +349,7 @@ GameObject:
   - component: {fileID: 1051674561836765448}
   - component: {fileID: 3096724348690103153}
   - component: {fileID: 2183910038626225227}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Move VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5174,7 +5176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3041577293182577583}
   - component: {fileID: 6947532389934871720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5257,7 +5259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1460823083806149325}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shield Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
@@ -5292,7 +5294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1502853212451849164}
   - component: {fileID: 3745210425963850333}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5374,7 +5376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1520704615662954156}
   - component: {fileID: 7754305294124785934}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

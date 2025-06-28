@@ -343,6 +343,7 @@ MonoBehaviour:
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
   PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: -0.7, y: 0, z: 0}
+  playerDirectionWhenCrossing: 8
   shakeIntensity: 0.5
   shakeDuration: 0.05
   playerXCrossing: 1
@@ -748,6 +749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _worldMousePosition: {x: 0, y: 0}
   speed: 5
+  playerMoveDirection: 4
 --- !u!61 &378765917
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6376,6 +6378,7 @@ MonoBehaviour:
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
   PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: 0, y: 0.5, z: 0}
+  playerDirectionWhenCrossing: 2
   shakeIntensity: 0.5
   shakeDuration: 0.05
   playerXCrossing: 0
@@ -7710,41 +7713,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTest: 0
   enemySpawnList:
-  - name: commonEnemy
+  - kind: 0
     kindOfEnemyList:
     - {fileID: 5793317099701448458, guid: 0abf9776629154209a50332e20c7ea03, type: 3}
-    isRandomPositionSpawn: 1
+    useRandomPos: 1
     waveMaxSpawnCount: 10
     randomSpawnProbability: 60
+    weight: 12
     randomSpawnMin: 0
     randomSpawnMax: 60
-  - name: laserEnemy
+  - kind: 1
     kindOfEnemyList:
     - {fileID: 8979200009557448490, guid: 0ebbd40afcb9446e09b9ca2abbdb35a0, type: 3}
-    isRandomPositionSpawn: 1
+    useRandomPos: 1
     waveMaxSpawnCount: 1
     randomSpawnProbability: 10
+    weight: 2
     randomSpawnMin: 60
     randomSpawnMax: 70
-  - name: shieldEnemy
+  - kind: 2
     kindOfEnemyList:
     - {fileID: 2687990503563977714, guid: 10f977759b0e9452c9bf08a23b78001b, type: 3}
-    isRandomPositionSpawn: 1
+    useRandomPos: 1
     waveMaxSpawnCount: 1
     randomSpawnProbability: 15
+    weight: 3
     randomSpawnMin: 70
     randomSpawnMax: 75
-  - name: dangerousWall
+  - kind: 3
     kindOfEnemyList:
     - {fileID: 3145260856785420189, guid: 1063b8b7b7bdc485a9ba54282e503644, type: 3}
-    isRandomPositionSpawn: 0
+    useRandomPos: 0
     waveMaxSpawnCount: 1
     randomSpawnProbability: 15
+    weight: 3
     randomSpawnMin: 85
     randomSpawnMax: 100
   finalBossPrefab: {fileID: 888971455302846004, guid: 845b823e98cd340aab0a90b9aff2ebb8, type: 3}
-  waitNextSpawnTime: 1.5
-  waitNextWaveTime: 2
+  spawnInterval: 1.5
+  waveInterval: 2
   finalBossGeneratePosition: {x: 0, y: -2.8, z: 0}
   SpawnPositionsList:
   - name: Up
@@ -8282,6 +8289,7 @@ MonoBehaviour:
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
   PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: 0.7, y: 0, z: 0}
+  playerDirectionWhenCrossing: 4
   shakeIntensity: 0.5
   shakeDuration: 0.05
   playerXCrossing: 1
@@ -8509,6 +8517,7 @@ MonoBehaviour:
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
   PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: 0, y: -0.5, z: 0}
+  playerDirectionWhenCrossing: 1
   shakeIntensity: 0.5
   shakeDuration: 0.05
   playerXCrossing: 0
