@@ -19923,10 +19923,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ed56e34a2d248549870a8f42ce9659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolKey: 9
   speed: 0
   attackRange: 100
   thinkingTime: 0
   _currentState: 0
+  _target: {fileID: 0}
+  _isControllerEnabled: 1
   _attackTimerMax: 3
   attackRotateSpeed: 100
 --- !u!114 &1406334703221941342
@@ -19948,6 +19951,21 @@ MonoBehaviour:
   effectSpriteRenderer: {fileID: 4998427837095091740}
   status: 0
   destroyVFX: {fileID: 5073847065582896414, guid: 5c2193963b3914559bcea97614b7e775, type: 3}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6014553891994704155}
+        m_TargetAssemblyTypeName: FinalLaserEnemyController, Assembly-CSharp
+        m_MethodName: OnFinalBossDead
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   dieAddScore: 0
 --- !u!114 &5234701142937451962
 MonoBehaviour:
@@ -29881,6 +29899,9 @@ MonoBehaviour:
   effectSpriteRenderer: {fileID: 0}
   status: 0
   destroyVFX: {fileID: 0}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   dieAddScore: 0
 --- !u!114 &2102342980240008740
 MonoBehaviour:

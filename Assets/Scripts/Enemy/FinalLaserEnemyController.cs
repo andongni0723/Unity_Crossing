@@ -7,25 +7,30 @@ using Random = UnityEngine.Random;
 
 public class FinalLaserEnemyController : LaserEnemyController
 {
-    protected override IEnumerator Start()
+    protected override IEnumerator Initialize()
     {
+        Debug.Log("FinalLaser");
         transform.localScale = Vector3.zero;
         Sequence sequence = DOTween.Sequence();
         sequence.Append(transform.DOScale(Vector3.one, 0.5f));
 
         yield return sequence.WaitForCompletion();
-        StartCoroutine(base.Start());
     }
 
-    private void OnEnable() => EventHandler.FinalBossDead += OnFinalBossDead;
+    protected override void OnEnable()
+    {
+        StartCoroutine(Initialize());
+        EventHandler.FinalBossDead += OnFinalBossDead;
+        base.OnEnable();
+    }
+
     private void OnDisable() => EventHandler.FinalBossDead -= OnFinalBossDead;
 
-    private void OnFinalBossDead() => Destroy(gameObject);
-
-    private void OnDestroy()
+    public void OnFinalBossDead()
     {
         EventHandler.CallFinalBossLaserEnemyDead();
-    }
+        ReturnToPool();
+    } 
 
     protected override void AttackAction()
     {

@@ -19,16 +19,21 @@ public class LaserEnemyController : EnemyController
         mainCamera = Camera.main;
     }
 
-    protected new virtual IEnumerator Start()
+    protected virtual IEnumerator Initialize()
     {
-        base.Start();
-        float t = attackRange;
+        var t = attackRange;
         attackRange = 0;
         yield return new WaitForSeconds(1.5f);
         attackRange = t;
     }
 
-    protected bool IsInCameraView(Vector3 worldPos)
+    protected override void OnEnable()
+    {
+        StartCoroutine(Initialize());
+        base.OnEnable();
+    }
+
+    bool IsInCameraView(Vector3 worldPos)
     {
         var viewport = mainCamera.WorldToViewportPoint(worldPos);
 
@@ -44,9 +49,6 @@ public class LaserEnemyController : EnemyController
         }
         RotateAction();
     }
-
-    protected override void ThinkingAction()
-    { }
 
     protected override void AttackAction()
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : PoolableObject
 {
     private Rigidbody2D rb;
     [SerializeField]private int _collisionCount = 0;
@@ -29,16 +29,13 @@ public class Bullet : MonoBehaviour
         particleSystem = GetComponent<ParticleSystem>();
     }
 
-    private void Start()
+    public void Initialize()
     {
+        trailRenderer.Clear();
+        BecomeToPlayerBullet();
+        _collisionCount = 0;
         rb.velocity = transform.right * speed;
         _point = transform.position;
-    }
-
-    private void OnDestroy()
-    {
-        AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitSound);
-        Instantiate(DestroyVFXPrefab, transform.position, Quaternion.identity);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -57,12 +54,12 @@ public class Bullet : MonoBehaviour
                     EventHandler.CallAddScoreEvent(1); 
             }
             
-            Destroy(gameObject);
+            ReturnToPool();
         }
         else if (_collisionCount >= 2)
         {
             // Rebound again
-            Destroy(gameObject);
+            ReturnToPool();
         }
         else
         {
@@ -101,13 +98,30 @@ public class Bullet : MonoBehaviour
         var particleSystemMain = particleSystem.main;
         particleSystemMain.startColor = Color.magenta;
     }
+
+    private void BecomeToPlayerBullet()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Bullet");
+        spriteRenderer.color = Color.white;
+        trailRenderer.startColor = Color.white;
+        trailRenderer.endColor = Color.white;
+        var particleSystemMain = particleSystem.main;
+        particleSystemMain.startColor = Color.white; 
+    }
     
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.TryGetComponent(typeof(BaseHealth), out var health))
         {
             if ((health as BaseHealth).canDestroyBullet)
-                Destroy(gameObject);
+                ReturnToPool();
         }
+    }
+
+    public override void ReturnToPool()
+    {
+        AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.hitSound);
+        Instantiate(DestroyVFXPrefab, transform.position, Quaternion.identity);
+        base.ReturnToPool();
     }
 }

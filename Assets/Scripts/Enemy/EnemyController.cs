@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public enum State
 {
-    Move, Thinking ,Attack, Die
+    Move ,Attack, Die, Find
 }
-public class EnemyController : MonoBehaviour
+public class EnemyController : PoolableObject
 {
     //[Header("Components")] 
     private Rigidbody2D _rb;
@@ -23,10 +24,11 @@ public class EnemyController : MonoBehaviour
     [SerializeField]private State _currentState;
 
     [SerializeField]protected GameObject _target;
+    private Vector2 _targetPosition;
     private float _targetDistance;
-    private Vector3 _targetBeforeCrossingPosition;
+    // private Vector3 _targetBeforeCrossingPosition;
     
-    private bool _isThinking = false;
+    private bool _isThinking;
     [SerializeField]private bool _isControllerEnabled = true;
 
     protected virtual void Awake()
@@ -35,43 +37,32 @@ public class EnemyController : MonoBehaviour
         enemyHealth = GetComponent<EnemyHealth>();
     }
 
+    private void Initialize()
+    {
+        var _speed = speed;
+        _target = TrackManager.Instance.target;
+        speed = 0;
+        DOTween.To(() => speed, x => speed = x, _speed, 1); 
+    }
+
     protected virtual void Start()
     {
-        if(GameManager.Instance != null)
-            _target = GameManager.Instance.player;
-        
-        if(TeachManager.Instance != null)
-            _target = TeachManager.Instance.player;
+        _target = TrackManager.Instance.target;
     }
 
     #region Event
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
-        EventHandler.BossEventPrepare += OnBossEventPrepare; // Destroy self
-        EventHandler.PlayerCrossing += OnPlayerCrossing; // change state to Thinking
+        Initialize();
+        EventHandler.BossEventPrepare += ReturnToPool; // 
         EventHandler.PlayerDead += OnPlayerDead;
     }
     
     private void OnDisable()
     {
-        EventHandler.BossEventPrepare -= OnBossEventPrepare;
-        EventHandler.PlayerCrossing -= OnPlayerCrossing;
+        EventHandler.BossEventPrepare -= ReturnToPool;
         EventHandler.PlayerDead -= OnPlayerDead;
-    }
-
-    private void OnBossEventPrepare()
-    {
-        Destroy(gameObject);
-    }
-
-    private void OnPlayerCrossing(Vector3 pastPosition)
-    {
-        // if(_isThinking) return;
-        
-        _targetBeforeCrossingPosition = pastPosition;
-        StopAllCoroutines();
-        StartCoroutine(ToThinkingState());
     }
 
     private void OnPlayerDead()
@@ -95,34 +86,23 @@ public class EnemyController : MonoBehaviour
 
     private void DataUpdate()
     {
-        _targetDistance = _isThinking? 
-            Vector2.Distance(transform.position, _targetBeforeCrossingPosition) : 
-            Vector2.Distance(transform.position, _target.transform.position);
+        _targetPosition = TrackManager.Instance.targetPosition;
+        _targetDistance = Vector2.Distance(transform.position, _targetPosition);
     }
 
     private void CheckState()
     {   
-        if(_isThinking)
-            _currentState = State.Thinking;
-        
-        else if (_targetDistance <= attackRange)
+        if (!TrackManager.Instance.isFakeTargetPosition && _targetDistance <= attackRange)
             _currentState = State.Attack;
         
         else if(_targetDistance > attackRange)
             _currentState = State.Move; 
         
-        else if(enemyHealth.currentHealth <= 0)
+        else if (enemyHealth.currentHealth <= 0)
             _currentState = State.Die;
-        
-        else
-            throw new ArgumentOutOfRangeException();
-    }
 
-    IEnumerator ToThinkingState()
-    {
-        _isThinking = true;
-        yield return new WaitForSeconds(thinkingTime);
-        _isThinking = false;
+        else
+            _currentState = State.Find;
     }
 
     private void ExecuteStateAction()
@@ -137,23 +117,16 @@ public class EnemyController : MonoBehaviour
                 AttackAction();
                 break;
 
-            case State.Thinking:
-                ThinkingAction();
-                break;
-            
             case State.Die:
                 DieAction();
                 break;
-            
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
 
     protected virtual void MoveAction()
     {
-        float angle = Mathf.Atan2(_target.transform.position.y - transform.position.y, 
-            _target.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(_targetPosition.y - transform.position.y, 
+            _targetPosition.x - transform.position.x) * Mathf.Rad2Deg;
         
         transform.rotation = Quaternion.Euler(0, 0, angle);
         transform.position += transform.right * (speed * Time.deltaTime); 
@@ -167,25 +140,10 @@ public class EnemyController : MonoBehaviour
             AttackTimerStart();
         }
     }
-
-    protected virtual void ThinkingAction()
-    {
-        if(Vector2.Distance(_targetBeforeCrossingPosition, transform.position) < 0.3f) // if gone 
-        {
-            return;
-        }
-        
-        //Move to the position before player crossing
-        float angle = Mathf.Atan2(_targetBeforeCrossingPosition.y - transform.position.y, 
-            _targetBeforeCrossingPosition.x - transform.position.x) * Mathf.Rad2Deg;
-        
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-        transform.position += transform.right * (speed * Time.deltaTime);
-    }
     
     protected virtual void DieAction()
     {
-        Destroy(gameObject);
+        ReturnToPool();
     }
 
     #region AttackTimer

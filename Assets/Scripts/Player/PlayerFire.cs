@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerFire : MonoBehaviour
 {
     [Header("Component")]
-    public GameObject bulletPrefab;
     public GameObject FireVFXPrefab;
     public Transform firePoint;
     public Transform fireVFXPoint;
@@ -16,7 +15,8 @@ public class PlayerFire : MonoBehaviour
 
     public void Fire()
     {
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        var bullet = ObjectPoolManager.Instance.GetObject(PoolKey.PlayerBullet, firePoint.position, firePoint.rotation);
+        bullet.GetComponent<Bullet>().Initialize();
         Instantiate(FireVFXPrefab, fireVFXPoint.position, firePoint.rotation);
         CameraManager.Instance.CameraShake(shakeIntensity, shakeDuration);
         AudioManager.Instance.PlaySoundAudio(AudioManager.Instance.fireSound);

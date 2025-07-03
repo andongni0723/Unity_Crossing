@@ -31,15 +31,12 @@ public class SpawnPosition
 public class EnemySpawn
 {
     public EnemyKind kind;
-    public List<GameObject> kindOfEnemyList = new();
+    public List<PoolKey> kindOfEnemyList = new();
     public bool useRandomPos = true;
     [Min(1)]public int waveMaxSpawnCount = 10;
-    public int randomSpawnProbability;
     [Min(0)]public int weight;
-    [HideInInspector]public int randomSpawnMin;
-    [HideInInspector]public int randomSpawnMax;
 
-    public GameObject RandomPick()
+    public PoolKey RandomPick()
     {
         if(kindOfEnemyList == null || kindOfEnemyList.Count == 0) 
             throw new ArgumentException("kindOfEnemyList cannot be null or empty");
@@ -53,7 +50,6 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
     [Header("Settings")] 
     public bool isTest = false;
     public List<EnemySpawn> enemySpawnList = new();
-    public GameObject finalBossPrefab;
     public float spawnInterval = 1.5f;
     public float waveInterval = 2f;
 
@@ -108,18 +104,20 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
     private void OnBossEventPrepare()
     {
         StopAllCoroutines();
+        LockedEdge.Clear();
     }
 
     private void OnFinalBossDeadEventDone()
     {
         StartCoroutine(SpawnEnemy());
+        LockedEdge.Clear();
     }
 
     #endregion
 
     public void FinalBossGenerate()
     {
-        Instantiate(finalBossPrefab, finalBossGeneratePosition, Quaternion.Euler(0, 0, 90));
+        ObjectPoolManager.Instance.GetObject(PoolKey.FinalBoss, finalBossGeneratePosition, Quaternion.Euler(0, 0, 90));
     }
 
     IEnumerator SpawnEnemy()
@@ -193,22 +191,29 @@ public class EnemySpawnManager : Singleton<EnemySpawnManager>
             .Where(dir => !LockedEdge.Contains(dir.type))
             .ToList();
 
-        return list[Random.Range(0, list.Count)];
+        return list.Count == 0 ? SpawnPositionsList[0] : list[Random.Range(0, list.Count)];
     }
 
     private void SpawnEnemy(EnemySpawn enemyData, SpawnPosition posInfo)
     {
-        var prefab = enemyData.RandomPick();
+        var prefabPoolKey = enemyData.RandomPick();
         var x = new Vector2(posInfo.minSpawnRange.x, posInfo.maxSpawnRange.x);
         var y = new Vector2(posInfo.minSpawnRange.y, posInfo.maxSpawnRange.y);
         var pos = enemyData.useRandomPos
             ? new Vector3(Random.Range(x.x, x.y), Random.Range(y.x, y.y))
             : new Vector3((x.x + x.y) / 2, (y.x + y.y) / 2);
         
-        var enemy = Instantiate(prefab, pos, posInfo.spawnRotation) as GameObject;
+        var enemy = ObjectPoolManager.Instance.GetObject(prefabPoolKey, pos, posInfo.spawnRotation);
+
         
         if(enemy.TryGetComponent<DangerousWallController>(out var wallController))
             wallController.Initialize(Opposite(posInfo.type));
+        else
+        {
+            var pointer = ObjectPoolManager.Instance.GetObject(PoolKey.EnemyPointer).GetComponent<EnemyPointer>();
+            if (!pointer) return;
+            pointer.Initialize(enemy.transform);
+        }
     }
 
     private void OnDangerousWallSpawned(SpawnPositionType from)

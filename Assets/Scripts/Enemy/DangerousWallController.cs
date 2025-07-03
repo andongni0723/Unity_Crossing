@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DangerousWallController : MonoBehaviour
+public class DangerousWallController : PoolableObject
 {
     [Header("Settings")] 
     public SpawnPositionType dir;
@@ -31,7 +31,7 @@ public class DangerousWallController : MonoBehaviour
         if (Vector3.Distance(transform.position, arrivedPos) < 0.1f)
         {
             EnemySpawnManager.Instance.OnDangerousWallArrived(dir);
-            Destroy(gameObject);
+            ReturnToPool();
         }
     }
     

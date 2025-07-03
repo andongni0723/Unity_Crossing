@@ -343,6 +343,7 @@ MonoBehaviour:
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
   PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: -0.7, y: 0, z: 0}
+  playerDirectionWhenCrossing: 0
   shakeIntensity: 0.5
   shakeDuration: 0.05
   playerXCrossing: 1
@@ -1249,6 +1250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _worldMousePosition: {x: 0, y: 0}
   speed: 5
+  playerMoveDirection: 0
 --- !u!61 &378765917
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6947,6 +6949,7 @@ MonoBehaviour:
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
   PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: 0, y: 0.5, z: 0}
+  playerDirectionWhenCrossing: 0
   shakeIntensity: 0.5
   shakeDuration: 0.05
   playerXCrossing: 0
@@ -7832,6 +7835,57 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2654509649150189155, guid: b008cbe693e84457ca84130eb941ead6, type: 3}
   m_PrefabInstance: {fileID: 1026030395}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1042610452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1042610454}
+  - component: {fileID: 1042610453}
+  m_Layer: 0
+  m_Name: \\\\Object Pool Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1042610453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042610452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cccda90d3e34d4c4db3babfcd7e6e9c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolDetails_SO:
+  - {fileID: 11400000, guid: 1d473fe85663f446b89aa85f2b149c2d, type: 2}
+  - {fileID: 11400000, guid: 9e10792a0d69f4fcba2959c2d13eace7, type: 2}
+  - {fileID: 11400000, guid: edd49f9fbb5e84647b014c463972f11b, type: 2}
+  - {fileID: 11400000, guid: d4c07b21fed4d4a8abf3e6874e23d84e, type: 2}
+  - {fileID: 11400000, guid: 13e2c180d3b1b43b9a9eee0243c9d216, type: 2}
+  - {fileID: 11400000, guid: f583c52cb5bce4ce5be3a8b0fc270075, type: 2}
+--- !u!4 &1042610454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042610452}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1044842804
 GameObject:
   m_ObjectHideFlags: 0
@@ -8516,6 +8570,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246398162}
   m_CullTransparentMesh: 1
+--- !u!1 &1348238999
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1348239001}
+  - component: {fileID: 1348239000}
+  m_Layer: 0
+  m_Name: \\\\ Track Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1348239000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348238999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fdb5f4045464e44abb25eaed72c874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPosition: {x: 0, y: 0}
+  realTargetPosition: {x: 0, y: 0}
+  target: {fileID: 378765915}
+--- !u!4 &1348239001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348238999}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1353023642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8765,69 +8866,69 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1533809510}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1351944877cd943d4a4860068a2c2da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isTest: 1
   enemySpawnList:
-  - name: commonEnemy
-    kindOfEnemyList:
-    - {fileID: 5793317099701448458, guid: 0abf9776629154209a50332e20c7ea03, type: 3}
-    isRandomPositionSpawn: 1
+  - kind: 0
+    kindOfEnemyList: 01000000
+    useRandomPos: 1
     waveMaxSpawnCount: 10
     randomSpawnProbability: 60
+    weight: 12
     randomSpawnMin: 0
     randomSpawnMax: 60
-  - name: laserEnemy
-    kindOfEnemyList:
-    - {fileID: 8979200009557448490, guid: 0ebbd40afcb9446e09b9ca2abbdb35a0, type: 3}
-    isRandomPositionSpawn: 1
+  - kind: 1
+    kindOfEnemyList: 03000000
+    useRandomPos: 1
     waveMaxSpawnCount: 1
     randomSpawnProbability: 10
+    weight: 2
     randomSpawnMin: 60
     randomSpawnMax: 70
-  - name: shieldEnemy
-    kindOfEnemyList:
-    - {fileID: 2687990503563977714, guid: 10f977759b0e9452c9bf08a23b78001b, type: 3}
-    isRandomPositionSpawn: 1
+  - kind: 2
+    kindOfEnemyList: 02000000
+    useRandomPos: 1
     waveMaxSpawnCount: 1
     randomSpawnProbability: 15
+    weight: 3
     randomSpawnMin: 70
     randomSpawnMax: 75
-  - name: dangerousWall
-    kindOfEnemyList:
-    - {fileID: 3145260856785420189, guid: 1063b8b7b7bdc485a9ba54282e503644, type: 3}
-    isRandomPositionSpawn: 0
+  - kind: 3
+    kindOfEnemyList: 04000000
+    useRandomPos: 0
     waveMaxSpawnCount: 1
     randomSpawnProbability: 15
+    weight: 3
     randomSpawnMin: 85
     randomSpawnMax: 100
   finalBossPrefab: {fileID: 888971455302846004, guid: 845b823e98cd340aab0a90b9aff2ebb8, type: 3}
-  waitNextSpawnTime: 1.5
-  waitNextWaveTime: 2
+  spawnInterval: 1.5
+  waveInterval: 2
   finalBossGeneratePosition: {x: 0, y: -2.8, z: 0}
   SpawnPositionsList:
   - name: Up
     type: 0
-    minSpawnRange: {x: -10, y: 6}
-    maxSpawnRange: {x: 10, y: 6}
+    minSpawnRange: {x: -10, y: 8}
+    maxSpawnRange: {x: 10, y: 8}
     spawnRotation: {x: 0, y: 0, z: -0.70710677, w: 0.70710677}
   - name: Down
     type: 1
-    minSpawnRange: {x: -10, y: -6}
-    maxSpawnRange: {x: 10, y: -6}
+    minSpawnRange: {x: -10, y: -8}
+    maxSpawnRange: {x: 10, y: -8}
     spawnRotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
   - name: Left
     type: 2
-    minSpawnRange: {x: -10, y: -6}
-    maxSpawnRange: {x: -10, y: 6}
+    minSpawnRange: {x: -12, y: -6}
+    maxSpawnRange: {x: -12, y: 6}
     spawnRotation: {x: 0, y: 0, z: 0, w: 1}
   - name: RIght
     type: 3
-    minSpawnRange: {x: 10, y: -6}
-    maxSpawnRange: {x: 10, y: 6}
+    minSpawnRange: {x: 12, y: -6}
+    maxSpawnRange: {x: 12, y: 6}
     spawnRotation: {x: 0, y: 0, z: 1, w: -0.00000004371139}
 --- !u!4 &1533809512
 Transform:
@@ -9660,6 +9761,7 @@ MonoBehaviour:
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
   PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: 0.7, y: 0, z: 0}
+  playerDirectionWhenCrossing: 0
   shakeIntensity: 0.5
   shakeDuration: 0.05
   playerXCrossing: 1
@@ -9887,6 +9989,7 @@ MonoBehaviour:
   VFXPrefab: {fileID: 6080736225690294302, guid: efa6ad8ee30fe4beeb9ee9f38fe4b3cb, type: 3}
   PlayerCrossingVFX: {fileID: 4315038097607198970, guid: 523744e05a3bc488398d1db9da2a3135, type: 3}
   VFXEndPosition: {x: 0, y: -0.5, z: 0}
+  playerDirectionWhenCrossing: 0
   shakeIntensity: 0.5
   shakeDuration: 0.05
   playerXCrossing: 0
@@ -10204,6 +10307,8 @@ SceneRoots:
   - {fileID: 2036438780}
   - {fileID: 689035265}
   - {fileID: 1733476118}
+  - {fileID: 1348239001}
+  - {fileID: 1042610454}
   - {fileID: 111878833}
   - {fileID: 1533809512}
   - {fileID: 57567208}

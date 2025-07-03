@@ -39,25 +39,20 @@ public class FinalBossController : EnemyController
     private WaitForSeconds finalBulletShootTime = new WaitForSeconds(0.02f);
 
     [Space(15)] 
-    public GameObject finalBossLaserEnemyPrefab;
-    public Vector3 finalLaserEnemyPos1;
-    public Vector3 finalLaserEnemyPos2;
-    public Vector3 finalLaserEnemyPos3;
-    private int finalLaserEnemyDeadCount = 0;
+    public List<Vector3> finalLaserEnemyPosList = new();
     private bool isAllFinalLaserEnemyDead = false;
-
 
 
     protected void Awake()
     {
         base.Awake();
-        StartCoroutine(enemyHealth.GiveEffect(EffectStatus.Invincible, 5));
     }
 
     #region Event
 
     private void OnEnable()
     {
+        StartCoroutine(enemyHealth.GiveEffect(EffectStatus.Invincible, 5));
         EventHandler.BossEventPrepareDone += OnBossEventPrepareDone; // Check isPrepareDone
         EventHandler.FinalBossLaserEnemyDead += OnFinalBossLaserEnemyDead; // Check All FinalBossLaserEnemy is Dead
     }
@@ -70,6 +65,7 @@ public class FinalBossController : EnemyController
 
     private void OnFinalBossLaserEnemyDead()
     {
+        Debug.Log("FinalLaser dead");
         finalBulletShootCount++;
         enemyHealth.TakeRealDamage(3);
 
@@ -88,7 +84,6 @@ public class FinalBossController : EnemyController
     #endregion
 
     protected override void MoveAction() { }
-    protected override void ThinkingAction() { }
 
     protected override void AttackAction()
     {
@@ -272,11 +267,10 @@ public class FinalBossController : EnemyController
     IEnumerator FinalBossLaserEnemy()
     {
         isAttack = true;
-        Instantiate(finalBossLaserEnemyPrefab, finalLaserEnemyPos1, Quaternion.identity);
-        Instantiate(finalBossLaserEnemyPrefab, finalLaserEnemyPos2, Quaternion.identity);
-        Instantiate(finalBossLaserEnemyPrefab, finalLaserEnemyPos3, Quaternion.identity);
-
-        // StartCoroutine(enemyHealth.GiveEffect(EffectStatus.Invincible, 99999));
+        
+        foreach (var pos in finalLaserEnemyPosList)
+            ObjectPoolManager.Instance.GetObject(PoolKey.FinalLaserEnemy, pos);
+        
         enemyHealth.GivePermanentEffect(EffectStatus.Invincible);
         isAllFinalLaserEnemyDead = false;
 

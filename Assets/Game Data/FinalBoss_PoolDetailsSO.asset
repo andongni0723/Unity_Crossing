@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b41c1d27d97430cbd23407614a67fe, type: 3}
+  m_Name: FinalBoss_PoolDetailsSO
+  m_EditorClassIdentifier: 
+  poolKey: 8
+  prefab: {fileID: 888971455302846004, guid: 845b823e98cd340aab0a90b9aff2ebb8, type: 3}
+  defaultCapacity: 1
+  maxSize: 1

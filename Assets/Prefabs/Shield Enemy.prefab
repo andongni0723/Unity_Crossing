@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5965a53f27e2148e59627f81fd8547d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolKey: 2
   speed: 2
   attackRange: 2
   thinkingTime: 2

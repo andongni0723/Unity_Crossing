@@ -13,6 +13,7 @@ public class AudioManager : Singleton<AudioManager>
     public AudioSource VoiceAudioSource;
 
     [Header("Settings")] 
+    public float maxVolume = 1f;
     public AudioClip openingBGM;
     public AudioClip gameBGM;
     public AudioClip finalBossBGM;
@@ -28,14 +29,14 @@ public class AudioManager : Singleton<AudioManager>
     public void PlaySoundAudio(AudioClip audioClip)
     {
         soundAudioSource.clip = audioClip;
-        soundAudioSource.volume = 1;
+        soundAudioSource.volume = maxVolume;
         soundAudioSource.Play();
     }
 
     public void PlayVoiceAudio(AudioClip voiceClip)
     {
         VoiceAudioSource.clip = voiceClip;
-        VoiceAudioSource.volume = 1;
+        VoiceAudioSource.volume = maxVolume;
         VoiceAudioSource.Play();
     }
 
@@ -47,7 +48,7 @@ public class AudioManager : Singleton<AudioManager>
     public void PlayLaserSoundAudio(AudioClip audioClip)
     {
         laserSoundAudioSource.clip = audioClip;
-        laserSoundAudioSource.volume = 1;
+        laserSoundAudioSource.volume = maxVolume;
         laserSoundAudioSource.Play();
     }
     
@@ -61,7 +62,7 @@ public class AudioManager : Singleton<AudioManager>
         Debug.Log("Play BGM");
         yield return new WaitUntil(() => isBGMAudioFade == false); // Wait until BGM fade done
         bgmAudioSource.clip = audioClip;
-        bgmAudioSource.volume = 1;
+        bgmAudioSource.volume = maxVolume;
         bgmAudioSource.Play();
     }
 
@@ -80,7 +81,7 @@ public class AudioManager : Singleton<AudioManager>
         bgmFadeSequence.OnComplete(() =>
         {
             bgmAudioSource.Stop();
-            bgmAudioSource.volume = 1;
+            bgmAudioSource.volume = maxVolume;
             isBGMAudioFade = false;
         });
     }

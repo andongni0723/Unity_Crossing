@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="My Scripts" pattern="file:Assets/Scripts/*.cs" />
+</component>

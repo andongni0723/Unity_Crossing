@@ -4995,6 +4995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e83d0ef680b44e4bbfe1bf43454a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolKey: 8
   speed: 0
   attackRange: 100
   thinkingTime: 0
@@ -5012,6 +5013,10 @@ MonoBehaviour:
   skillBulletWarning: {fileID: 2217915958680930517, guid: 7c93e698381404584811f22465f29aaf, type: 3}
   startDoubleLaserRotateTime: 5
   finalBossLaserEnemyPrefab: {fileID: 6671298172615216603, guid: 3648074c4da5c40a192d6643f821f0a7, type: 3}
+  finalLaserEnemyPosList:
+  - {x: -5, y: -2, z: 0}
+  - {x: 5, y: -2, z: 0}
+  - {x: 0, y: 0, z: 0}
   finalLaserEnemyPos1: {x: -5, y: -2, z: 0}
   finalLaserEnemyPos2: {x: 5, y: -2, z: 0}
   finalLaserEnemyPos3: {x: 0, y: 0, z: 0}
