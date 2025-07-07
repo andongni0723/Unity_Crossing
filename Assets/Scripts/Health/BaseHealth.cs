@@ -23,11 +23,16 @@ public class BaseHealth : MonoBehaviour
     [Header("Setting")] 
     public EffectStatus status;
 
-    protected virtual void Awake()
+    protected virtual void OnEnable()
     {
         currentHealth = maxHealth;
     }
-    
+
+    protected virtual void OnDisable()
+    {
+        currentHealth = maxHealth;
+    }
+
     public virtual void TakeDamage(float damage)
     {
         switch (status)
@@ -89,8 +94,8 @@ public class BaseHealth : MonoBehaviour
     protected virtual void Die()
     {
         if(isDead) return;
-        
         isDead = true;
+        currentHealth = maxHealth;
         Destroy(gameObject);
     }
 }

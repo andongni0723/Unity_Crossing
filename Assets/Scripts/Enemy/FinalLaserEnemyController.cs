@@ -7,30 +7,39 @@ using Random = UnityEngine.Random;
 
 public class FinalLaserEnemyController : LaserEnemyController
 {
+    private bool _sendDeath;
+    
     protected override IEnumerator Initialize()
     {
-        Debug.Log("FinalLaser");
         transform.localScale = Vector3.zero;
         Sequence sequence = DOTween.Sequence();
         sequence.Append(transform.DOScale(Vector3.one, 0.5f));
-
         yield return sequence.WaitForCompletion();
     }
 
     protected override void OnEnable()
     {
+        EventHandler.FinalBossDead += CallBackToPool;
         StartCoroutine(Initialize());
-        EventHandler.FinalBossDead += OnFinalBossDead;
-        base.OnEnable();
     }
 
-    private void OnDisable() => EventHandler.FinalBossDead -= OnFinalBossDead;
-
-    public void OnFinalBossDead()
+    private void OnDisable()
     {
+        EventHandler.FinalBossDead -= CallBackToPool;
+        _sendDeath = false;
+    }
+
+    public void OnDeadEvent()
+    {
+        if (_sendDeath) return;
+        _sendDeath = true;
         EventHandler.CallFinalBossLaserEnemyDead();
-        ReturnToPool();
-    } 
+    }
+
+    private void CallBackToPool()
+    {
+        enemyHealth.DieNotEvent();
+    }
 
     protected override void AttackAction()
     {
@@ -42,10 +51,7 @@ public class FinalLaserEnemyController : LaserEnemyController
 
             transform.DORotate(new Vector3(0, 0, angle + Random.Range(-5f, 5f)), 0.5f);
         
-            // transform.rotation = Quaternion.Euler(0, 0, angle)
-            
             // Shoot
-            Debug.Log("Shoot");
             _laserWeapon.Shoot();
             AttackTimerStart();
         }

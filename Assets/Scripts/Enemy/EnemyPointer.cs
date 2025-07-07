@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class EnemyPointer : PoolableObject
@@ -12,14 +13,49 @@ public class EnemyPointer : PoolableObject
     [Min(0f)] public float margin = 0.2f;
     
     [Header("Debug")]
-    private Transform target;
+    [SerializeField] private Transform target;
     private float minX, maxX, minY, maxY;
     private bool started = false;
+    
+    [Header("VFX")]
+    public float popDuration   = 0.25f;      // 彈出時間
+    public float pulseScale    = 1.2f;       // 呼吸最大倍數
+    public float pulseDuration = 0.6f;       // 呼吸一來回時間
+    public float shakeAngle    = 8f;         // 抖動角度
+    public float shakeDuration = 0.3f;       // 抖動週期
+
+/* 私有 */
+    private Sequence _pulseSeq;
+    private Tween    _shakeTw;
+    private Vector3  _originScale;
 
     public void Initialize(Transform _target)
     {
+        transform.position = new Vector3(100, 100, 100);
         target = _target;
         started = true;
+        _originScale = transform.localScale;
+
+        //Bounce In
+        transform.localScale = Vector3.zero;
+        transform.DOScale(_originScale, popDuration)
+            .SetEase(Ease.OutBack);
+
+        // Breathing Zoom
+        _pulseSeq?.Kill();
+        _pulseSeq = DOTween.Sequence()
+            .Append(transform.DOScale(_originScale * pulseScale, pulseDuration / 2))
+            .Append(transform.DOScale(_originScale,pulseDuration / 2))
+            .SetLoops(-1);
+
+        // Dir Shake
+        _shakeTw?.Kill();
+        _shakeTw = transform.DOLocalRotate(
+                new Vector3(0, 0, shakeAngle),
+                shakeDuration/2)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetRelative()
+            .SetEase(Ease.InOutSine);
     }
 
     private void OnEnable()
@@ -83,6 +119,16 @@ public class EnemyPointer : PoolableObject
     {
         target = null;
         started = false;
-        ReturnToPool();
+
+        var fadeOut = DOTween.Sequence();
+        fadeOut.Append(transform.DOScale(0, popDuration));
+        fadeOut.OnComplete(() =>
+        {
+            _pulseSeq?.Kill();
+            _shakeTw?.Kill();
+            transform.localScale = _originScale;
+            transform.rotation   = Quaternion.identity;
+            ReturnToPool();
+        });
     }
 }

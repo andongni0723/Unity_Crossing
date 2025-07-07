@@ -8,23 +8,20 @@ public class PlayerHealth : BaseHealth
     [Header("Components")]
     public TextMeshProUGUI healthText;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        UpdateHealthText();
-    }
-
     #region Event
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         EventHandler.PlayerCrossing += OnPlayerCrossing; // Give invincible effect
         EventHandler.BossEventPrepare += OnBossEventPrepare; // Add 3 life
         EventHandler.FinalBossDead += OnFinalBossDead; // Set life to 3
+        UpdateHealthText();
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         EventHandler.PlayerCrossing -= OnPlayerCrossing;
         EventHandler.BossEventPrepare -= OnBossEventPrepare;
         EventHandler.FinalBossDead -= OnFinalBossDead;

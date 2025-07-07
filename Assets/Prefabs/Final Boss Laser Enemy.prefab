@@ -19956,7 +19956,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6014553891994704155}
         m_TargetAssemblyTypeName: FinalLaserEnemyController, Assembly-CSharp
-        m_MethodName: OnFinalBossDead
+        m_MethodName: OnDeadEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -57,6 +57,7 @@ public class EnemyController : PoolableObject
         Initialize();
         EventHandler.BossEventPrepare += ReturnToPool; // 
         EventHandler.PlayerDead += OnPlayerDead;
+        Debug.Log("On Enable " + gameObject.name);
     }
     
     private void OnDisable()

@@ -11,20 +11,24 @@ public class EnemyHealth : BaseHealth
     [Header("Settings")] 
     public UnityEvent OnDeath;
     public int dieAddScore = 1;
+
     
-    protected override void Awake()
+    protected virtual void Awake()
     {
-        base.Awake();
         _controller = GetComponent<EnemyController>();
+    }
+
+    public void DieNotEvent()
+    {
+        if(destroyVFX != null)
+            Instantiate(destroyVFX, transform.position, Quaternion.identity);
+        _controller.ReturnToPool(); 
     }
     
     protected override void Die()
     {
-        if(destroyVFX != null)
-            Instantiate(destroyVFX, transform.position, Quaternion.identity);
-        
-        EventHandler.CallAddScoreEvent(dieAddScore); 
+        EventHandler.CallAddScoreEvent(dieAddScore);
         OnDeath?.Invoke();
-        _controller.ReturnToPool();
+        DieNotEvent();
     }
 }

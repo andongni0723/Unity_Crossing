@@ -48,10 +48,17 @@ public class FinalBossController : EnemyController
         base.Awake();
     }
 
+    private void Initialize()
+    {
+        finalBulletShootCount = 0;
+        isAllFinalLaserEnemyDead = false;
+    }
+
     #region Event
 
     private void OnEnable()
     {
+        Initialize();
         StartCoroutine(enemyHealth.GiveEffect(EffectStatus.Invincible, 5));
         EventHandler.BossEventPrepareDone += OnBossEventPrepareDone; // Check isPrepareDone
         EventHandler.FinalBossLaserEnemyDead += OnFinalBossLaserEnemyDead; // Check All FinalBossLaserEnemy is Dead
@@ -274,9 +281,7 @@ public class FinalBossController : EnemyController
         enemyHealth.GivePermanentEffect(EffectStatus.Invincible);
         isAllFinalLaserEnemyDead = false;
 
-        Debug.Log("Before");
         yield return new WaitUntil(() => isAllFinalLaserEnemyDead);
-        Debug.Log("After");
         
         enemyHealth.ClearEffect();
         

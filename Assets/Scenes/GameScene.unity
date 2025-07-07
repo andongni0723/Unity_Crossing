@@ -7816,35 +7816,22 @@ MonoBehaviour:
     kindOfEnemyList: 01000000
     useRandomPos: 1
     waveMaxSpawnCount: 10
-    randomSpawnProbability: 60
     weight: 12
-    randomSpawnMin: 0
-    randomSpawnMax: 60
   - kind: 1
     kindOfEnemyList: 03000000
     useRandomPos: 1
     waveMaxSpawnCount: 1
-    randomSpawnProbability: 10
     weight: 2
-    randomSpawnMin: 60
-    randomSpawnMax: 70
   - kind: 2
     kindOfEnemyList: 02000000
     useRandomPos: 1
     waveMaxSpawnCount: 1
-    randomSpawnProbability: 15
     weight: 3
-    randomSpawnMin: 70
-    randomSpawnMax: 75
   - kind: 3
     kindOfEnemyList: 04000000
     useRandomPos: 0
     waveMaxSpawnCount: 1
-    randomSpawnProbability: 15
     weight: 3
-    randomSpawnMin: 85
-    randomSpawnMax: 100
-  finalBossPrefab: {fileID: 888971455302846004, guid: 845b823e98cd340aab0a90b9aff2ebb8, type: 3}
   spawnInterval: 1.5
   waveInterval: 2
   finalBossGeneratePosition: {x: 0, y: -2.8, z: 0}

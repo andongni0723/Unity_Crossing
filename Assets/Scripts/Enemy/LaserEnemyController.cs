@@ -43,6 +43,12 @@ public class LaserEnemyController : EnemyController
 
     protected override void MoveAction()
     {
+        if (!IsInCameraView(transform.position))
+        {
+            ReturnToPool();
+            return;
+        }
+        
         if (!_laserWeapon.isPlay)
         {
             transform.position += transform.right * (speed * Time.deltaTime);  
@@ -58,7 +64,7 @@ public class LaserEnemyController : EnemyController
          {
              if (!IsInCameraView(transform.position))
              {
-                 Destroy(gameObject);
+                 ReturnToPool();
                  return;
              }
              

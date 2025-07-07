@@ -18,6 +18,9 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
     [Header("Settings")]
     public List<PoolDetailsSO> poolDetails_SO = new();
+    
+    private readonly HashSet<GameObject> inPool = new();
+    private readonly HashSet<GameObject> active = new();
 
     public override void Awake()
     {
@@ -64,6 +67,12 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         var obj = pool.Get();
         obj.transform.position = position;
         obj.transform.rotation = rotation;
+        
+        active.Add(obj);
+        
+        if(inPool.Contains(obj))
+            inPool.Remove(obj);
+        
         return obj;
     }
 
@@ -75,6 +84,15 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             Debug.LogError($"Pool with key {key} does not exist.");
             return;
         }
+
+        if (inPool.Contains(obj))
+        {
+            Debug.LogWarning($"Pool with key {key} already exists.");
+            return;
+        }
+        
         pool.Release(obj);
+        active.Remove(obj);
+        inPool.Add(obj);
     }
 }

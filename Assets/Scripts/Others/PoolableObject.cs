@@ -6,6 +6,7 @@ public abstract class PoolableObject : MonoBehaviour
 
     public virtual void ReturnToPool()
     {
+        Debug.Log("Back " + gameObject.name);
         ObjectPoolManager.Instance.ReleaseObject(poolKey, gameObject);
     }
 }

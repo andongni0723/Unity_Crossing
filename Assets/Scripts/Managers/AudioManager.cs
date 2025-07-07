@@ -59,7 +59,6 @@ public class AudioManager : Singleton<AudioManager>
     
     IEnumerator PlayBGMCoroutine(AudioClip audioClip)
     {
-        Debug.Log("Play BGM");
         yield return new WaitUntil(() => isBGMAudioFade == false); // Wait until BGM fade done
         bgmAudioSource.clip = audioClip;
         bgmAudioSource.volume = maxVolume;
@@ -68,7 +67,6 @@ public class AudioManager : Singleton<AudioManager>
 
     public void StopBGM()
     {
-        Debug.Log("Stop BGM");
         bgmAudioSource.Stop();
     }
 
