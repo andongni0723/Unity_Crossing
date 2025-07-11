@@ -73,6 +73,11 @@ public class MenuManager : MonoBehaviour
         CheckBoxOpen();
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
     public void CheckBoxYes()
     {
         startButton.interactable = false;

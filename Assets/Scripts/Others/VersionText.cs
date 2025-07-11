@@ -18,13 +18,13 @@ public class VersionText : MonoBehaviour
 
         if (Application.platform == RuntimePlatform.Android)
             versionText.text += "Android";
-        else if (Application.platform == RuntimePlatform.WindowsEditor)
+        else if (Application.platform == RuntimePlatform.WindowsPlayer)
             versionText.text += "Windows";
         else if (Application.platform == RuntimePlatform.IPhonePlayer)
             versionText.text += "iOS";
         else if (Application.platform == RuntimePlatform.WebGLPlayer)
             versionText.text += "WebGL";
-        else if (Application.platform == RuntimePlatform.OSXEditor)
+        else if (Application.platform == RuntimePlatform.OSXPlayer)
             versionText.text += "MacOS";
         else if (Application.platform == RuntimePlatform.LinuxPlayer)
             versionText.text += "Linux";

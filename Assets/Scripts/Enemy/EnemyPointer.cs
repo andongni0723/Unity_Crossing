@@ -18,23 +18,21 @@ public class EnemyPointer : PoolableObject
     private bool started = false;
     
     [Header("VFX")]
-    public float popDuration   = 0.25f;      // 彈出時間
-    public float pulseScale    = 1.2f;       // 呼吸最大倍數
-    public float pulseDuration = 0.6f;       // 呼吸一來回時間
-    public float shakeAngle    = 8f;         // 抖動角度
-    public float shakeDuration = 0.3f;       // 抖動週期
+    public float popDuration   = 0.25f;
+    public float pulseScale    = 1.2f;
+    public float pulseDuration = 0.6f;
+    public float shakeAngle    = 8f;
+    public float shakeDuration = 0.3f;
 
-/* 私有 */
     private Sequence _pulseSeq;
     private Tween    _shakeTw;
     private Vector3  _originScale;
-
+    
     public void Initialize(Transform _target)
     {
         transform.position = new Vector3(100, 100, 100);
         target = _target;
         started = true;
-        _originScale = transform.localScale;
 
         //Bounce In
         transform.localScale = Vector3.zero;
@@ -44,7 +42,7 @@ public class EnemyPointer : PoolableObject
         // Breathing Zoom
         _pulseSeq?.Kill();
         _pulseSeq = DOTween.Sequence()
-            .Append(transform.DOScale(_originScale * pulseScale, pulseDuration / 2))
+            .Append(transform.DOScale(_originScale * pulseScale, pulseDuration / 2).From(_originScale))
             .Append(transform.DOScale(_originScale,pulseDuration / 2))
             .SetLoops(-1);
 
@@ -71,6 +69,7 @@ public class EnemyPointer : PoolableObject
 
     private void Awake()
     {
+        _originScale = transform.localScale;
         minX = boundaryStart.x;
         minY = boundaryStart.y;
         maxX = boundaryEnd.x;
@@ -80,7 +79,7 @@ public class EnemyPointer : PoolableObject
     public void Update()
     {
         if(!started) return;
-        if (target == null)
+        if (target ==null || !target.gameObject.activeSelf)
         {
             CallBackPool();
             return;

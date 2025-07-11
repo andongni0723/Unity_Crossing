@@ -93,7 +93,7 @@ public class EnemyController : PoolableObject
 
     private void CheckState()
     {   
-        if (!TrackManager.Instance.isFakeTargetPosition && _targetDistance <= attackRange)
+        if (!TrackManager.Instance.isFakeTargetPosition && _targetDistance <= attackRange && OtherAttackCheck())
             _currentState = State.Attack;
         
         else if(_targetDistance > attackRange)
@@ -105,6 +105,8 @@ public class EnemyController : PoolableObject
         else
             _currentState = State.Find;
     }
+
+    protected virtual bool OtherAttackCheck() => true;
 
     private void ExecuteStateAction()
     {

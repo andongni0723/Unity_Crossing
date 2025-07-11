@@ -180,7 +180,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab757208e30e4b319647ea057ad5d12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  poolKey: 0
   boundaryStart: {x: -9, y: -5}
   boundaryEnd: {x: 9, y: 5}
   margin: 1
+  target: {fileID: 0}
+  popDuration: 0.25
+  pulseScale: 1.5
+  pulseDuration: 0.6
+  shakeAngle: 8
+  shakeDuration: 0.3

@@ -54,7 +54,7 @@ public class TrackManager : Singleton<TrackManager>
         if (!isFakeTargetPosition)
             StartCoroutine(UpdateTargetPosition()); 
     }
-
+    
     private IEnumerator UpdateTargetPosition()
     {
         isFakeTargetPosition = true;
@@ -68,5 +68,11 @@ public class TrackManager : Singleton<TrackManager>
 
         targetPosition = realTargetPosition;
         isFakeTargetPosition = false;
+    }
+
+
+    public Vector2 GetRandomPosition()
+    {
+        return new Vector2(Random.Range(-8f, 8f),  Random.Range(-4f, 4f));
     }
 }

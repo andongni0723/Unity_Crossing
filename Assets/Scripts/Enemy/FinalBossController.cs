@@ -51,12 +51,19 @@ public class FinalBossController : EnemyController
     private void Initialize()
     {
         finalBulletShootCount = 0;
+        attackSkillOrder++;
+        attackSkillOrder = Mathf.Clamp(attackSkillOrder,0, 3);
         isAllFinalLaserEnemyDead = false;
+        isAttack = false;
+        forwardLaser.LaserWeaponSpriteObject.SetActive(false);
+        forwardLaser.LaserWeapon.laserObject.SetActive(false);
+        backLaser.LaserWeaponSpriteObject.SetActive(false);
+        backLaser.LaserWeapon.laserObject.SetActive(false);
     }
 
     #region Event
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
         Initialize();
         StartCoroutine(enemyHealth.GiveEffect(EffectStatus.Invincible, 5));
@@ -68,6 +75,8 @@ public class FinalBossController : EnemyController
     {
         EventHandler.BossEventPrepareDone -= OnBossEventPrepareDone;
         EventHandler.FinalBossLaserEnemyDead -= OnFinalBossLaserEnemyDead;
+        StopAllCoroutines();
+        isPrepareDone = false;
     }
 
     private void OnFinalBossLaserEnemyDead()

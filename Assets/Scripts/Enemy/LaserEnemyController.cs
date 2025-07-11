@@ -12,6 +12,8 @@ public class LaserEnemyController : EnemyController
     [Header("Settings")]
     public float attackRotateSpeed = 1;
 
+    private Vector2 _randomPos;
+
     protected override void Awake()
     {
         base.Awake();
@@ -22,9 +24,11 @@ public class LaserEnemyController : EnemyController
     protected virtual IEnumerator Initialize()
     {
         var t = attackRange;
+        _laserWeapon.isPlay = false;
         attackRange = 0;
         yield return new WaitForSeconds(1.5f);
         attackRange = t;
+        _randomPos = TrackManager.Instance.GetRandomPosition();
     }
 
     protected override void OnEnable()
@@ -43,34 +47,34 @@ public class LaserEnemyController : EnemyController
 
     protected override void MoveAction()
     {
-        if (!IsInCameraView(transform.position))
-        {
-            ReturnToPool();
-            return;
-        }
-        
         if (!_laserWeapon.isPlay)
         {
-            transform.position += transform.right * (speed * Time.deltaTime);  
+            var angle = Mathf.Atan2(_randomPos.y - transform.position.y,
+                _randomPos.x - transform.position.x) * Mathf.Rad2Deg;
+
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+            transform.position += transform.right * (speed * Time.deltaTime);
+
+            if (Vector2.Distance(transform.position, _randomPos) < 0.2f)
+                _randomPos = TrackManager.Instance.GetRandomPosition();
         }
-        RotateAction();
+        else
+            RotateAction();
+    }
+
+    protected override bool OtherAttackCheck()
+    {
+        return IsInCameraView(transform.position);
     }
 
     protected override void AttackAction()
     {
         RotateAction();
-        
-         if (AttackTimerCheck())
-         {
-             if (!IsInCameraView(transform.position))
-             {
-                 ReturnToPool();
-                 return;
-             }
+
+        if (!AttackTimerCheck()) return;
              
-             _laserWeapon.Shoot();
-             AttackTimerStart();
-         }
+        _laserWeapon.Shoot();
+        AttackTimerStart();
     }
     
     private void RotateAction()

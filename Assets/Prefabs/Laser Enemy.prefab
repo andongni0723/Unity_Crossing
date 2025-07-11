@@ -9808,6 +9808,9 @@ MonoBehaviour:
   effectSpriteRenderer: {fileID: 0}
   status: 0
   destroyVFX: {fileID: 0}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   dieAddScore: 0
 --- !u!114 &7128804849887769422
 MonoBehaviour:
@@ -29964,7 +29967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolKey: 3
   speed: 3
-  attackRange: 7
+  attackRange: 12
   thinkingTime: 0
   _currentState: 0
   _target: {fileID: 0}
@@ -29990,6 +29993,9 @@ MonoBehaviour:
   effectSpriteRenderer: {fileID: 4122940687463172386}
   status: 0
   destroyVFX: {fileID: 894037829428864505, guid: 035940719b9fd4b049e62ed074cef6b7, type: 3}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   dieAddScore: 5
 --- !u!114 &8076526233532247674
 MonoBehaviour:
